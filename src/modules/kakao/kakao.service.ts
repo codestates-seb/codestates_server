@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { KAKAO_CONFIG } from './constants';
 import type { KakaoConfig } from './type';
-import qs from 'query-string';
+import qs from 'querystring';
 import axios from 'axios';
 import { KakaoCallbackDTO } from './dto';
 

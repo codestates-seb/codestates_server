@@ -1,8 +1,9 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Response } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import type { Response as ResponseType } from 'express';
 import { RequestApi, ResponseApi } from 'kyoongdev-nestjs';
 import { AuthService } from './auth.service';
-import { LoginDTO, RegisterDTO, TokenDTO } from './dto';
+import { LoginDTO, RegisterDTO, SocialDTO, TokenDTO } from './dto';
 
 @ApiTags('로그인/회원가입')
 @Controller('auth')
@@ -39,5 +40,32 @@ export class AuthController {
   )
   async register(@Body() props: RegisterDTO) {
     return this.authService.register(props);
+  }
+
+  @Get('kakao')
+  @RequestApi({})
+  @ResponseApi({})
+  async kakaoLogin(@Response() res: ResponseType) {
+    res.redirect(this.authService.kakaoLogin());
+  }
+
+  @Get('kakao/callback')
+  @RequestApi({})
+  @ResponseApi({})
+  async kakaoLoginCallback(@Query('code') code: string, @Response() res: ResponseType) {
+    res.redirect(await this.authService.kakaoLoginCallback(code));
+  }
+
+  @Post('kakao/user')
+  @RequestApi({
+    body: {
+      type: SocialDTO,
+    },
+  })
+  @ResponseApi({
+    type: TokenDTO,
+  })
+  async kakaoUser(@Body() props: SocialDTO) {
+    return this.authService.kakaoUser(props);
   }
 }
