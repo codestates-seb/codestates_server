@@ -45,8 +45,8 @@ export class AuthController {
   @Get('kakao')
   @RequestApi({})
   @ResponseApi({})
-  async kakaoLogin(@Response() res: ResponseType) {
-    res.redirect(this.authService.kakaoLogin());
+  async kakaoLogin() {
+    return { url: this.authService.kakaoLogin() };
   }
 
   @Get('kakao/callback')

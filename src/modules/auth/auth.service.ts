@@ -107,7 +107,6 @@ export class AuthService {
       const newUser = await this.database.user.create({
         data: {
           email: props.email,
-          password: await bcrypt.hash(props.password, Number(this.configService.get('PASSWORD_SALT'))),
           name: props.name,
           socialId: `${kakaoUser.id}`,
         },
