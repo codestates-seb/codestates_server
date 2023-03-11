@@ -42,30 +42,16 @@ export class AuthController {
     return this.authService.register(props);
   }
 
-  @Get('kakao')
-  @RequestApi({})
-  @ResponseApi({})
-  async kakaoLogin() {
-    return { url: this.authService.kakaoLogin() };
-  }
-
-  @Get('kakao/callback')
-  @RequestApi({})
-  @ResponseApi({})
-  async kakaoLoginCallback(@Query('code') code: string, @Response() res: ResponseType) {
-    res.redirect(await this.authService.kakaoLoginCallback(code));
-  }
-
-  @Post('kakao/user')
+  @Post('/refresh')
   @RequestApi({
     body: {
-      type: SocialDTO,
+      type: TokenDTO,
     },
   })
   @ResponseApi({
     type: TokenDTO,
   })
-  async kakaoUser(@Body() props: SocialDTO) {
-    return this.authService.kakaoUser(props);
+  async refresh(@Body() body: TokenDTO) {
+    return await this.authService.refresh(body);
   }
 }

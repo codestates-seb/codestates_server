@@ -27,27 +27,23 @@ export class JwtAuthGuard implements CanActivate {
     const splittedHeader = authorization.split(' ');
     if (splittedHeader.length !== 2 && splittedHeader[0] !== 'Bearer') throw new UnauthorizedException();
 
-    try {
-      const decoded = this.jwt.verifyJwt<JwtUser>(splittedHeader[1]);
+    const decoded = this.jwt.verifyJwt<JwtUser>(splittedHeader[1]);
 
-      if (decoded instanceof JsonWebTokenError) throw new UnauthorizedException('TOKEN_EXPIRED');
+    if (decoded instanceof JsonWebTokenError) throw new UnauthorizedException('TOKEN_EXPIRED');
 
-      if (decoded.userType === Role.USER) {
-        const isExist = await this.database.user.findUnique({
-          where: {
-            id: decoded.id,
-          },
-        });
+    if (decoded.userType === Role.USER) {
+      const isExist = await this.database.user.findUnique({
+        where: {
+          id: decoded.id,
+        },
+      });
 
-        if (!isExist) throw new ForbiddenException('권한이 없습니다.');
+      if (!isExist) throw new ForbiddenException('권한이 없습니다.');
 
-        req.user = {
-          ...isExist,
-          userType: Role.USER,
-        };
-      }
-    } catch (e) {
-      throw e;
+      req.user = {
+        ...isExist,
+        userType: Role.USER,
+      };
     }
 
     return true;
