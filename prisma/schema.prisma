@@ -67,6 +67,10 @@ model MovieScore{
 
 model MovieReview{ 
   id  String @id @default(uuid())
+  
+  content String @db.LongText
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   movieId String
   movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
