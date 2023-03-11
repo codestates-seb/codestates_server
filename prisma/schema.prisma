@@ -21,6 +21,7 @@ model User{
   comments MovieComment[]
   bookmarks MovieBookmark[]
   likes MovieLike[]
+  scores MovieScore[]
 }
 
 model MovieLike{
@@ -49,9 +50,19 @@ model Movie{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  MovieComment MovieComment[]
-  MovieBookmark MovieBookmark[]
-  MovieLike MovieLike[]
+  comment MovieComment[]
+  bookmark MovieBookmark[]
+  movielike MovieLike[]
+  movieScore MovieScore[]
+}
+
+model MovieScore{
+  id        String      @id @default(uuid())
+  score     Int
+  movieId String
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade) 
 }
 
 model MovieComment{ 
@@ -61,5 +72,4 @@ model MovieComment{
   movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-
 }
