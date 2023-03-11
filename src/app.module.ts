@@ -1,16 +1,12 @@
-import { ClassProvider, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-import MODULES from 'modules';
 import { ConfigModule } from '@nestjs/config';
-import { Interceptors } from 'utils';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import MODULES from 'modules';
+import { Filters, Interceptors } from 'utils';
 
-const InterceptorProvider: ClassProvider<any>[] = Interceptors.map((interceptor) => ({
-  provide: APP_INTERCEPTOR,
-  useClass: interceptor,
-}));
+const providers = [...Interceptors, ...Filters];
 
 @Module({
   imports: [
@@ -20,6 +16,6 @@ const InterceptorProvider: ClassProvider<any>[] = Interceptors.map((interceptor)
     ...MODULES,
   ],
   controllers: [AppController],
-  providers: [AppService, ...InterceptorProvider],
+  providers: [AppService, ...providers],
 })
 export class AppModule {}
