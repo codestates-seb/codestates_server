@@ -16,7 +16,7 @@ export class AuthService {
     private readonly configService: ConfigService
   ) {}
 
-  async login(props: LoginDTO) {
+  async login(props: LoginDTO, role: keyof typeof Role) {
     const user = await this.database.user.findFirst({
       where: {
         email: props.email,
@@ -28,10 +28,10 @@ export class AuthService {
     const isMatch = await bcrypt.compare(props.password, user.password);
     if (!isMatch) throw new BadRequestException('비밀번호가 일치하지 않습니다.');
 
-    return this.createToken(user.id, Role.USER);
+    return this.createToken(user.id, role);
   }
 
-  async register(props: RegisterDTO) {
+  async register(props: RegisterDTO, role: keyof typeof Role) {
     const isExist = await this.database.user.findFirst({
       where: {
         email: props.email,
@@ -47,7 +47,7 @@ export class AuthService {
       },
     });
 
-    return this.createToken(user.id, Role.USER);
+    return this.createToken(user.id, role);
   }
 
   async refresh(props: TokenDTO): Promise<TokenDTO> {

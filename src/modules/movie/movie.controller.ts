@@ -1,8 +1,9 @@
-import { Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Param, Patch, Post, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import axios from 'axios';
 import { EmptyResponseDTO } from 'common';
-import { RequestApi, ResponseApi } from 'kyoongdev-nestjs';
+import { Auth, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
+import { JwtAuthGuard, Role, RoleInterceptorAPI } from 'utils';
 import { MovieService } from './movie.service';
 
 @ApiTags('영화')
@@ -40,7 +41,7 @@ export class MovieController {
     // }
   }
 
-  @Get(':id')
+  @Get(':id/detail')
   @RequestApi({
     params: {
       name: 'id',
@@ -52,6 +53,8 @@ export class MovieController {
   async getMovie(@Param('id') id: string) {}
 
   @Patch(':id')
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
   @RequestApi({
     params: {
       name: 'id',
@@ -68,6 +71,8 @@ export class MovieController {
   async updateMovie(@Param('id') id: string) {}
 
   @Delete(':id')
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
   @RequestApi({
     params: {
       name: 'id',

@@ -1,8 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { User } from '@prisma/client';
 import { EmptyResponseDTO, ResponseWithIdDTO } from 'common';
-import { Paging, PagingDTO, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
-import { ResponseWithIdInterceptor } from 'utils';
+import { Auth, Paging, PagingDTO, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
+import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptorAPI } from 'utils';
 
 import { CreateUserDTO, UpdateUserDTO, UserDTO } from './dto';
 import { UserService } from './user.service';
@@ -12,7 +13,29 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get(':id')
+  @Get('me')
+  @ApiOperation({
+    summary: '[서비스] 나의 정보 불러오기',
+    description: '나의 정보를 불러옵니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER))
+  @RequestApi({})
+  @ResponseApi({
+    type: UserDTO,
+  })
+  async findMe(@ReqUser() user: User) {
+    const me = await this.userService.findUser(user.id);
+    return new UserDTO(me);
+  }
+
+  @Get(':id/detail')
+  @ApiOperation({
+    summary: '[CMS] 유저 자세히 불러오기',
+    description: '유저의 자세한 정보를 불러옵니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
   @RequestApi({
     params: {
       name: 'id',
@@ -29,6 +52,12 @@ export class UserController {
   }
 
   @Get()
+  @ApiOperation({
+    summary: '[CMS] 유저 목록 불러오기',
+    description: '유저의 목록 정보를 불러옵니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
   @RequestApi({
     query: {
       type: PagingDTO,
@@ -43,7 +72,12 @@ export class UserController {
   }
 
   @Post()
-  @UseInterceptors(ResponseWithIdInterceptor)
+  @ApiOperation({
+    summary: '[CMS] 유저 생성하기',
+    description: '유저를 생성합니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(ResponseWithIdInterceptor, RoleInterceptorAPI(Role.ADMIN))
   @RequestApi({
     body: {
       type: CreateUserDTO,
@@ -60,6 +94,12 @@ export class UserController {
   }
 
   @Patch(':id')
+  @ApiOperation({
+    summary: '[CMS] 유저 수정하기',
+    description: '유저를 수정합니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
   @RequestApi({
     params: {
       name: 'id',
@@ -81,6 +121,12 @@ export class UserController {
   }
 
   @Delete(':id')
+  @ApiOperation({
+    summary: '[CMS] 유저 삭제하기',
+    description: '유저를 삭제합니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
   @RequestApi({
     params: {
       name: 'id',

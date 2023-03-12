@@ -55,6 +55,18 @@ export class BookmarkService {
     await this.userService.findUser(userId);
     await this.movieService.findMovie(movieId);
 
+    const isExist = await this.database.movieBookmark.findUnique({
+      where: {
+        movieId_userId: {
+          movieId,
+          userId,
+        },
+      },
+    });
+    if (isExist) {
+      return;
+    }
+
     await this.database.movieBookmark.create({
       data: {
         movie: {
