@@ -31,20 +31,18 @@ export class JwtAuthGuard implements CanActivate {
 
     if (decoded instanceof JsonWebTokenError) throw new UnauthorizedException('TOKEN_EXPIRED');
 
-    if (decoded.userType === Role.USER) {
-      const isExist = await this.database.user.findUnique({
-        where: {
-          id: decoded.id,
-        },
-      });
+    const isExist = await this.database.user.findUnique({
+      where: {
+        id: decoded.id,
+      },
+    });
 
-      if (!isExist) throw new ForbiddenException('권한이 없습니다.');
+    if (!isExist) throw new ForbiddenException('권한이 없습니다.');
 
-      req.user = {
-        ...isExist,
-        userType: Role.USER,
-      };
-    }
+    req.user = {
+      ...isExist,
+      userType: decoded.userType,
+    };
 
     return true;
   }
