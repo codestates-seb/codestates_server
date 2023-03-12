@@ -1,4 +1,5 @@
 import { Body, Controller, Delete, Param, Patch, Post, UseInterceptors } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 import { ResponseWithIdDTO } from 'common';
 import { Auth, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
@@ -6,6 +7,7 @@ import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptor
 import { CreateOrUpdateReviewDTO } from './dto';
 import { ReviewService } from './review.service';
 
+@ApiTags('리뷰')
 @Controller('reviews')
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}

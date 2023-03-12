@@ -26,7 +26,7 @@ export class ReviewService {
 
   async createReview(movieId: string, userId: string, props: CreateOrUpdateReviewDTO) {
     const user = this.userService.findUser(userId);
-    const movie = this.movieService.getMovie(movieId);
+    const movie = this.movieService.findMovie(movieId);
 
     const review = await this.database.movieReview.create({
       data: {

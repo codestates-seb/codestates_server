@@ -5,9 +5,9 @@ import { PrismaService } from 'database/prisma.service';
 export class MovieService {
   constructor(private readonly database: PrismaService) {}
 
-  async getMovie(id: string) {}
+  async findMovie(id: string) {}
 
-  async getMovies() {}
+  async findMovies() {}
 
   async createMovieLike() {}
 
