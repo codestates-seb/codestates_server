@@ -1,0 +1,105 @@
+{
+  "Query": "",
+  "KMAQuery": "극 영화 극영화",
+  "TotalCount": 476,
+  "Data": [
+    {
+      "CollName": "kmdb_new2",
+      "TotalCount": 476,
+      "Count": 1,
+      "Result": [
+        {
+          "DOCID": "K24426",
+          "movieId": "K",
+          "movieSeq": "24426",
+          "title": "아이윌 송",
+          "titleEng": "I Will, Song (Aiwil song)",
+          "titleOrg": "",
+          "titleEtc": "아이윌송^아이윌 송^아이윌, 송, 아이 윌 송, 아이 윌, 송, 아이윌,송, IWill Song^I Will, Song (Aiwil song)",
+          "prodYear": "2021",
+          "directors": {
+            "director": [{ "directorNm": "이상훈", "directorEnNm": "LeeSang-hun", "directorId": "00048691" }]
+          },
+          "actors": {
+            "actor": [{ "actorNm": "함은정", "actorEnNm": "HamEunjeong", "actorId": "00018984" }]
+          },
+          "nation": "대한민국",
+          "company": "(주)오예스",
+          "plots": {
+            "plot": [
+              {
+                "plotLang": "한국어",
+                "plotText": "더이상 노래를 할 수 없게 된 무명가수 ‘물결’은 주체할 수 없는 슬픔을 안고 무작정 안동으로 떠난다.여행지에서 우연히 ‘물결’을 만난 영화감독 ‘바람’은 어째선지 그녀가 못내 신경이 쓰여 자꾸만 주위를맴돈다.그렇게, 소중한꿈만 좇아 바쁘게만 달려온 이들은 어느덧 서로의 상처와 아픔을 공유하며 마음을 열기 시작하는데…꿈을 포기하는 순간 모든 것을 잃을까그 어떤 용기도 낼 수 없었던 두 청춘은 다시 찬란한 희망의멜로디를 만들어 갈 수있을까?♬"
+              }
+            ]
+          },
+          "runtime": "99",
+          "rating": "12세관람가",
+          "genre": "드라마",
+          "kmdbUrl": "https://www.kmdb.or.kr/db/kor/detail/movie/K/24426",
+          "type": "극영화",
+          "use": "극장용",
+          "episodes": "",
+          "ratedYn": "Y",
+          "repRatDate": "20210531",
+          "repRlsDate": "20210701",
+          "ratings": {
+            "rating": [
+              {
+                "ratingMain": "Y",
+                "ratingDate": "20210531",
+                "ratingNo": "2021-MF01421",
+                "ratingGrade": "12세관람가",
+                "releaseDate": "20210701",
+                "runtime": "99"
+              }
+            ]
+          },
+          "keywords": "",
+          "posters": "http://file.koreafilm.or.kr/thm/02/99/17/30/tn_DPK017120.jpg|http://file.koreafilm.or.kr/thm/02/99/17/32/tn_DPK017221.jpg|http://file.koreafilm.or.kr/thm/02/99/17/30/tn_DPK017112.jpg",
+          "stlls": "http://file.koreafilm.or.kr/thm/01/copy/00/56/66/tn_DST718840.jpg|http://file.koreafilm.or.kr/thm/01/copy/00/56/66/tn_DST718841.jpg|http://file.koreafilm.or.kr/thm/01/copy/00/56/66/tn_DST718842.jpg|http://file.koreafilm.or.kr/thm/01/copy/00/56/66/tn_DST718843.jpg|http://file.koreafilm.or.kr/thm/01/copy/00/56/66/tn_DST718844.jpg|http://file.koreafilm.or.kr/thm/01/copy/00/56/66/tn_DST718845.jpg|http://file.koreafilm.or.kr/thm/01/copy/00/56/66/tn_DST718846.jpg|http://file.koreafilm.or.kr/thm/01/copy/00/57/07/tn_DST722951.jpg|http://file.koreafilm.or.kr/thm/01/copy/00/57/07/tn_DST722952.jpg",
+          "staffs": {
+            "staff": [
+              {
+                "staffNm": "이상훈",
+                "staffEnNm": "LeeSang-hun",
+                "staffRoleGroup": "감독",
+                "staffRole": "",
+                "staffEtc": "",
+                "staffId": "00048691"
+              }
+            ]
+          },
+          "vods": {
+            "vod": [
+              {
+                "vodClass": "엔딩크레딧(엔딩크레딧)",
+                "vodUrl": "https://www.kmdb.or.kr/db/kor/detail/movie/K/24426/own/videoData"
+              }
+            ]
+          },
+          "openThtr": "",
+          "stat": [
+            { "screenArea": "", "screenCnt": "", "salesAcc": "", "audiAcc": "", "statSouce": "", "statDate": "" }
+          ],
+          "screenArea": "",
+          "screenCnt": "",
+          "salesAcc": "",
+          "audiAcc": "",
+          "statSouce": "",
+          "statDate": "",
+          "themeSong": "",
+          "soundtrack": "괜찮지않아 - 작사 : 이상훈, 작곡 : 이기준/최수안/허유라, 편곡 : 이기준/최수안/허유라 레인보우 - 작사 : 이상훈, 작곡 : 이기준/최수안/허유라, 편곡 : 한조/최수안 토닥토닥 - 작사 : 이상훈, 작곡 :이기준, 편곡 : 이기준/최수안/허유라 버킷리스트 - 작사 : 김구현, 작곡 : 최지영/김구현, 기타 : YOUNG 후회 - 작사 : 이상훈, 작곡 : 허유라/이기준, 편곡 : 허유라/김재호/이기준 I will -작사 : 이상훈, 작곡 : 이기준/최수안/허유라, 편곡 : 이기준 봄여름가을겨울해 - 작사 : 이상훈, 작곡 : 허유라/이기준, 편곡 : 허유라/이기준/한조, 코러스 :공루아",
+          "fLocation": "구담정사,경상북도콘텐츠진흥원,안동역,천년숲,안동 민속촌,권정생생가,안동 월영교,하회마을 부용대,예끼마을,안동 물포럼센터,인피니티사운드,태화지성약국,경대이비인후과의원,길풍,충북식당,아이엠미디어,델라까사옥동,1001안경콘택트 안동점,IK화실,수정발레무용학원,영덕 해파랑공원,영덕 풍력발전단지공원,iMe KOREA",
+          "Awards1": "",
+          "Awards2": "",
+          "regDate": "20210524",
+          "modDate": "20211021",
+          "Codes": { "Code": [{ "CodeNm": "FIMS", "CodeNo": "20218194" }] },
+          "CommCodes": { "CommCode": [{ "CodeNm": "FIMS", "CodeNo": "20218194" }] },
+          "ALIAS": "srcKmdb2"
+        }
+      ]
+    }
+  ]
+}

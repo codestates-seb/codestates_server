@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 import { LoginDTO, RegisterDTO, TokenDTO } from './dto';
 
 @ApiTags('로그인/회원가입')
-@Controller('auth')
+@Controller(['auth'])
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

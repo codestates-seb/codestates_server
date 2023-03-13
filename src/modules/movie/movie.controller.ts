@@ -2,6 +2,7 @@ import { Controller, Delete, Get, Param, Patch, Post, UseInterceptors } from '@n
 import { ApiTags } from '@nestjs/swagger';
 import axios from 'axios';
 import { EmptyResponseDTO } from 'common';
+import { PrismaService } from 'database/prisma.service';
 import { Auth, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
 import { JwtAuthGuard, Role, RoleInterceptorAPI } from 'utils';
 import { MovieService } from './movie.service';
@@ -9,36 +10,29 @@ import { MovieService } from './movie.service';
 @ApiTags('영화')
 @Controller('movies')
 export class MovieController {
-  constructor(private readonly movieService: MovieService) {}
+  constructor(private readonly movieService: MovieService, private readonly databse: PrismaService) {}
 
   @Get()
   @RequestApi({})
   @ResponseApi({})
   async getMovies() {
-    // try {
-    //   const movie = await axios.get(
-    //     'http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=91522fb10ea3b97e2973ac804fb108f0&curPage=1&itemPerPage=100&openStartDt=2020'
-    //   );
-    //   const movies = await Promise.all(
-    //     movie.data.movieListResult.movieList.map(async (movie: any) => {
-    //       await sleep(5000);
-    //       const result = await axios.get('https://openapi.naver.com/v1/search/movie.json', {
-    //         headers: {
-    //           'X-Naver-Client-Id': 'zOl6tkBs9aeGBtsHWerO',
-    //           'X-Naver-Client-Secret': 'sQtyDjkScH',
-    //         },
-    //         params: {
-    //           query: movie.movieNm,
-    //         },
-    //       });
-    //       await sleep(5000);
-    //       return result.data;
-    //     })
-    //   );
-    //   return movies;
-    // } catch (err) {
-    //   console.log(err);
-    // }
+    try {
+      const movie = await axios.get('http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp', {
+        params: {
+          ServiceKey: '8Z3T9WBWD7IMW1MW3HG9',
+          listCount: 500,
+          startCount: 0,
+          collection: 'kmdb_new',
+          detail: 'Y',
+          sort: 'prodYear',
+        },
+      });
+
+      return movie.data;
+      //   return movies;
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   @Get(':id/detail')

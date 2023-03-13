@@ -47,6 +47,10 @@ model Movie{
   postImage String
   plot     String  @db.LongText
   realesedAt  String
+  rating String
+  genre  String
+  runtime String
+  company String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -55,6 +59,39 @@ model Movie{
   bookmarks MovieBookmark[]
   movielikes MovieLike[]
   movieScores MovieScore[]
+  movieStaffs MovieStaff[]
+  movieActors MovieActor[]
+}
+
+model MovieStaff{
+
+  movieId String
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  staffId String
+  staff Staff @relation(fields: [staffId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@id([movieId, staffId])
+}
+
+model MovieActor{
+  movieId String
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  actorId String
+  actor Actor @relation(fields: [actorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@id([movieId, actorId])
+}
+
+model Staff {
+  id       String      @id @default(uuid())
+  name     String
+  role    String
+  movieStaffs MovieStaff[]
+
+}
+
+model Actor{
+  id       String      @id @default(uuid())
+  name     String
+  movieActors MovieActor[]
 }
 
 model MovieScore{
