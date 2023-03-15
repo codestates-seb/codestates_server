@@ -1,11 +1,11 @@
-import { Controller, Delete, Get, Param, Patch, Query, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 import { EmptyResponseDTO } from 'common';
 import { Auth, Paging, PagingDTO, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
 import { JwtAuthGuard, ReqUser, Role, RoleInterceptorAPI } from 'utils';
 import { JwtNullableAuthGuard } from 'utils/guards/jwt-nullable.guard';
-import { MovieDTO } from './dto';
+import { MovieDTO, UpdateMovieDTO } from './dto';
 import { FindMovieByCategoryQuery, FindMovieByGenreQuery, FindMovieQuery } from './dto/query';
 import { MovieService } from './movie.service';
 
@@ -139,6 +139,9 @@ export class MovieController {
       type: 'string',
       required: true,
     },
+    body: {
+      type: UpdateMovieDTO,
+    },
   })
   @ResponseApi(
     {
@@ -146,7 +149,9 @@ export class MovieController {
     },
     204
   )
-  async updateMovie(@Param('id') id: string) {}
+  async updateMovie(@Param('id') id: string, @Body() body: UpdateMovieDTO) {
+    await this.movieService.updateMovie(id, body);
+  }
 
   @Delete(':id')
   @Auth(JwtAuthGuard)
@@ -161,5 +166,35 @@ export class MovieController {
   @ResponseApi({ type: EmptyResponseDTO }, 204)
   async deleteMovie(@Param('id') id: string) {
     await this.deleteMovie(id);
+  }
+
+  @Post(':id/like')
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER))
+  @RequestApi({
+    params: {
+      name: 'id',
+      type: 'string',
+      required: true,
+    },
+  })
+  @ResponseApi({ type: EmptyResponseDTO }, 201)
+  async createMovieLike(@Param('id') id: string, @ReqUser() user: User) {
+    await this.movieService.createMovieLike(id, user.id);
+  }
+
+  @Delete(':id/like')
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER))
+  @RequestApi({
+    params: {
+      name: 'id',
+      type: 'string',
+      required: true,
+    },
+  })
+  @ResponseApi({ type: EmptyResponseDTO }, 204)
+  async deleteMovieLike(@Param('id') id: string, @ReqUser() user: User) {
+    await this.movieService.deleteMovieLike(id, user.id);
   }
 }
