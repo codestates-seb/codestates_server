@@ -1,11 +1,11 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
-import { EmptyResponseDTO } from 'common';
+import { EmptyResponseDTO, ResponseWithIdDTO } from 'common';
 import { Auth, Paging, PagingDTO, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
-import { JwtAuthGuard, ReqUser, Role, RoleInterceptorAPI } from 'utils';
+import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptorAPI } from 'utils';
 import { JwtNullableAuthGuard } from 'utils/guards/jwt-nullable.guard';
-import { MovieDTO, UpdateMovieDTO } from './dto';
+import { CategoryDTO, CreateCategoryDTO, MovieDTO, UpdateMovieDTO } from './dto';
 import { FindMovieByCategoryQuery, FindMovieByGenreQuery, FindMovieQuery } from './dto/query';
 import { MovieService } from './movie.service';
 
@@ -130,6 +130,18 @@ export class MovieController {
     return await this.movieService.findMovie(id, user?.id);
   }
 
+  @Get('/categories')
+  @Auth(JwtNullableAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER, true))
+  @RequestApi({})
+  @ResponseApi({
+    type: CategoryDTO,
+    isArray: true,
+  })
+  async getCategories() {
+    return await this.movieService.findCategories();
+  }
+
   @Patch(':id')
   @Auth(JwtAuthGuard)
   @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
@@ -196,5 +208,33 @@ export class MovieController {
   @ResponseApi({ type: EmptyResponseDTO }, 204)
   async deleteMovieLike(@Param('id') id: string, @ReqUser() user: User) {
     await this.movieService.deleteMovieLike(id, user.id);
+  }
+
+  @Post('category')
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.ADMIN), ResponseWithIdInterceptor)
+  @RequestApi({
+    body: {
+      type: CreateCategoryDTO,
+    },
+  })
+  @ResponseApi({ type: ResponseWithIdDTO }, 201)
+  async createCategory(@Body() body: CreateCategoryDTO) {
+    return await this.movieService.createCategory(body);
+  }
+
+  @Delete('category/:id')
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
+  @RequestApi({
+    params: {
+      name: 'id',
+      type: 'string',
+      required: true,
+    },
+  })
+  @ResponseApi({ type: ResponseWithIdDTO }, 201)
+  async deleteCategory(@Param('id') id: string) {
+    return await this.movieService.deleteCategory(id);
   }
 }
