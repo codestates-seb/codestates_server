@@ -8,7 +8,7 @@ export interface MovieDTOProps extends Partial<Movie> {
   movieGenres: GenreDTOProps[];
   movieActors: ActorDTOProps[];
   movieStaffs: StaffDTOProps[];
-  movieLike: MovieLike[];
+  movieLikes: MovieLike[];
   movieScores: Partial<MovieScore>[];
 }
 
@@ -57,7 +57,7 @@ export class MovieDTO {
     this.releasedAt = props.releasedAt;
     this.runtime = props.runtime;
     this.company = props.company;
-    this.isLiked = userId ? props.movieLike.some((like) => like.userId === userId) : false;
+    this.isLiked = userId ? props.movieLikes.some((like) => like.userId === userId) : false;
     this.averageScore =
       props.movieScores.reduce<number>((acc, next) => (acc += next.score || 0), 0) / props.movieScores.length;
     this.genres = props.movieGenres.map((genre) => new GenreDTO(genre));

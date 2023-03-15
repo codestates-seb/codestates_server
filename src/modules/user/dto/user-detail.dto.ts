@@ -11,9 +11,6 @@ export class UserDetailDTO {
   @Property({ apiProperty: { type: 'string', nullable: true } })
   password?: string;
 
-  @Property({ apiProperty: { type: 'string', nullable: true } })
-  socialId?: string;
-
   @Property({ apiProperty: { type: 'string', format: 'date-time', nullable: true } })
   createdAt?: Date;
 
@@ -23,7 +20,6 @@ export class UserDetailDTO {
   constructor(props: Partial<User>) {
     this.id = props.id;
     this.name = props.name;
-    this.socialId = props.socialId;
     this.password = props.password;
     this.createdAt = props.createdAt;
     this.updatedAt = props.updatedAt;

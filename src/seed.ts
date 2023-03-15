@@ -57,7 +57,6 @@ const database = new PrismaClient();
           data: {
             title: item.title,
             company: item.company,
-            genre: item.genre,
             rating: item.rating,
             plot: item.plots.plot.filter((p) => p.plotLang === '한국어')[0]?.plotText || '',
             postImage: item.posters.split('|')[0] || '',

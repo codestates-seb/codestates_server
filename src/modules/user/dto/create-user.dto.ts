@@ -16,9 +16,6 @@ export class CreateUserDTO {
   @Property({ apiProperty: { type: 'string', nullable: true, description: '이름' } })
   name?: string;
 
-  @Property({ apiProperty: { type: 'string', nullable: true, description: '소셜 id' } })
-  socialId?: string;
-
   constructor(props?: Props) {
     if (props) {
       this.email = props.email;

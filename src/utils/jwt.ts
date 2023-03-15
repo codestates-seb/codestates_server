@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import type { SignOptions, VerifyOptions } from 'jsonwebtoken';
-import jwt from 'jsonwebtoken';
+import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 
 @Injectable()
 export class Jsonwebtoken {
@@ -15,7 +15,7 @@ export class Jsonwebtoken {
 
       return jwt.sign(value, this.configService.get<string>('JWT_KEY') as string, options ?? {});
     } catch (error) {
-      return error;
+      return new JsonWebTokenError('sign Failed');
     }
   }
 
@@ -23,7 +23,7 @@ export class Jsonwebtoken {
     try {
       return jwt.verify(token, this.configService.get<string>('JWT_KEY') as string, options ?? {}) as T;
     } catch (error) {
-      return error;
+      return new JsonWebTokenError('sign Failed');
     }
   }
 }
