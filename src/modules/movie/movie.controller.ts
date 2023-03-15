@@ -17,6 +17,16 @@ export class MovieController {
   @ResponseApi({})
   async getMovies() {}
 
+  @Get('genre')
+  @RequestApi({})
+  @ResponseApi({})
+  async getMoviesByGenre() {}
+
+  @Get('top')
+  @RequestApi({})
+  @ResponseApi({})
+  async getMoviesByTop() {}
+
   @Get(':id/detail')
   @RequestApi({
     params: {
