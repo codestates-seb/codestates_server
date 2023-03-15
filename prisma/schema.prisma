@@ -40,15 +40,27 @@ model MovieBookmark{
   user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   @@id([movieId, userId])
 }
+model Genre {
+  id        String      @id @default(uuid())
+  name      String
+  movieGenres MovieGenre[]
+}
+
+model MovieGenre {
+  movieId String
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  genreId String
+  genre Genre @relation(fields: [genreId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@id([movieId, genreId])
+}
 
 model Movie{
   id        String      @id @default(uuid())
   title     String
   postImage String
   plot     String  @db.LongText
-  realesedAt  String
+  releasedAt  String
   rating String
-  genre  String
   runtime String
   company String
 
@@ -61,6 +73,7 @@ model Movie{
   movieScores MovieScore[]
   movieStaffs MovieStaff[]
   movieActors MovieActor[]
+  movieGenres MovieGenre[]
 }
 
 model MovieStaff{

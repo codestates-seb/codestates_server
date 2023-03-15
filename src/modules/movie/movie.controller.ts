@@ -10,30 +10,12 @@ import { MovieService } from './movie.service';
 @ApiTags('영화')
 @Controller('movies')
 export class MovieController {
-  constructor(private readonly movieService: MovieService, private readonly databse: PrismaService) {}
+  constructor(private readonly movieService: MovieService) {}
 
   @Get()
   @RequestApi({})
   @ResponseApi({})
-  async getMovies() {
-    try {
-      const movie = await axios.get('http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp', {
-        params: {
-          ServiceKey: '8Z3T9WBWD7IMW1MW3HG9',
-          listCount: 500,
-          startCount: 0,
-          collection: 'kmdb_new',
-          detail: 'Y',
-          sort: 'prodYear',
-        },
-      });
-
-      return movie.data;
-      //   return movies;
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  async getMovies() {}
 
   @Get(':id/detail')
   @RequestApi({
