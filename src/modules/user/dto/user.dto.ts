@@ -4,8 +4,14 @@ export class UserDTO {
   @Property({ apiProperty: { type: 'string' } })
   id: string;
 
-  @Property({ apiProperty: { type: 'string' } })
-  name: string;
+  @Property({ apiProperty: { type: 'string', nullable: true } })
+  name?: string;
+
+  @Property({ apiProperty: { type: 'string', nullable: true } })
+  birth?: string;
+
+  @Property({ apiProperty: { type: 'string', nullable: true } })
+  nickname?: string;
 
   @Property({ apiProperty: { type: 'string' } })
   email: string;
