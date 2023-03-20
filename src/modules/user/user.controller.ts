@@ -5,7 +5,7 @@ import { EmptyResponseDTO, ResponseWithIdDTO } from 'common';
 import { Auth, Paging, PagingDTO, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
 import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptorAPI } from 'utils';
 
-import { CreateUserDTO, UpdateUserDTO, UserDTO } from './dto';
+import { CreateUserDTO, UpdateUserDTO, UserDTO, UserInfoDTO } from './dto';
 import { UserService } from './user.service';
 
 @ApiTags('유저')
@@ -27,6 +27,42 @@ export class UserController {
   async findMe(@ReqUser() user: User) {
     const me = await this.userService.findUser(user.id);
     return new UserDTO(me);
+  }
+
+  @Get('me/info')
+  @ApiOperation({
+    summary: '[서비스] 나의 추가 정보 불러오기 [좋아요/리뷰 개수/별점]',
+    description: '나의 추가 정보를 불러옵니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER))
+  @RequestApi({})
+  @ResponseApi({
+    type: UserInfoDTO,
+  })
+  async getMyInfo(@ReqUser() user: User) {
+    return await this.userService.getUserInfo(user.id);
+  }
+
+  @Get(':userId/info')
+  @ApiOperation({
+    summary: '[서비스] 유저 추가 정보 불러오기 [좋아요/리뷰 개수/별점]',
+    description: '유저 추가 정보를 불러옵니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER))
+  @RequestApi({
+    params: {
+      name: 'userId',
+      type: 'string',
+      required: true,
+    },
+  })
+  @ResponseApi({
+    type: UserInfoDTO,
+  })
+  async getUserInfo(@Param('userId') userId: string) {
+    return await this.userService.findUser(userId);
   }
 
   @Get(':id/detail')

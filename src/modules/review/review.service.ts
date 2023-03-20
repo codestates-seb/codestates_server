@@ -3,6 +3,7 @@ import { PrismaService } from 'database/prisma.service';
 import { MovieService } from 'modules/movie/movie.service';
 import { UserService } from 'modules/user/user.service';
 import { CreateReviewDTO, ReviewDTOProps, ReviewDto, UpdateReviewDTO } from './dto';
+import { UserReviewInfoDTO } from './dto/user-review-info.dto';
 
 @Injectable()
 export class ReviewService {
@@ -25,6 +26,21 @@ export class ReviewService {
     if (!review) throw new NotFoundException('리뷰가 존재하지 않습니다.');
 
     return new ReviewDto(review);
+  }
+
+  async getUserReviewInfo(userId: string) {
+    const reviews = await this.database.movieReview.findMany({
+      where: {
+        userId,
+      },
+    });
+
+    const score = reviews.reduce((acc, cur) => acc + cur.score, 0);
+
+    return new UserReviewInfoDTO({
+      averageScore: score / reviews.length,
+      reviewCount: reviews.length,
+    });
   }
 
   async createReview(movieId: string, userId: string, props: CreateReviewDTO) {

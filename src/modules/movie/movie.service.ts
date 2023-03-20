@@ -85,6 +85,16 @@ export class MovieService {
     );
   }
 
+  async getUserLikeCount(userId: string) {
+    const count = await this.database.movieLike.count({
+      where: {
+        userId,
+      },
+    });
+
+    return count;
+  }
+
   async createMovieLike(userId: string, movieId: string) {
     const movieLike = await this.database.movieLike.findUnique({
       where: {

@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'database/prisma.service';
 import { PaginationDTO, PagingDTO } from 'kyoongdev-nestjs';
-import { CreateUserDTO, UpdateUserDTO, UserDetailDTO, UserDTO } from './dto';
+import { MovieService } from 'modules/movie/movie.service';
+import { ReviewService } from 'modules/review/review.service';
+import { CreateUserDTO, UpdateUserDTO, UserDetailDTO, UserDTO, UserInfoDTO } from './dto';
 import { UserException } from './user.exception';
 
 @Injectable()
@@ -11,8 +13,25 @@ export class UserService {
   constructor(
     private readonly database: PrismaService,
     private readonly exception: UserException,
-    private readonly config: ConfigService
+    private readonly config: ConfigService,
+    @Inject(forwardRef(() => ReviewService))
+    private readonly reviewService: ReviewService,
+    @Inject(forwardRef(() => MovieService))
+    private readonly movieService: MovieService
   ) {}
+
+  async getUserInfo(userId: string) {
+    await this.findUser(userId);
+
+    const reviewInfo = await this.reviewService.getUserReviewInfo(userId);
+    const likeCount = await this.movieService.getUserLikeCount(userId);
+
+    return new UserInfoDTO({
+      averageScore: reviewInfo.averageScore,
+      reviewCount: reviewInfo.reviewCount,
+      likeCount,
+    });
+  }
 
   async findUsers(paging: PagingDTO, args = {} as Prisma.UserFindManyArgs) {
     const { take, skip } = paging.getSkipTake();
