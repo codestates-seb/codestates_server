@@ -1,2 +1,3 @@
 export * from './review.dto';
-export * from './create-or-update-review.dto';
+export * from './create-review.dto';
+export * from './update-review.dto';

@@ -147,6 +147,7 @@ model MovieScore{
 model MovieReview{ 
   id  String @id @default(uuid())
 
+  score Int
   content String @db.LongText
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

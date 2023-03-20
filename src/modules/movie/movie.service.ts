@@ -29,7 +29,7 @@ export class MovieService {
             staff: true,
           },
         },
-        movieScores: true,
+        reviews: true,
         movieLikes: true,
       },
     });
@@ -71,7 +71,7 @@ export class MovieService {
             staff: true,
           },
         },
-        movieScores: true,
+        reviews: true,
         movieLikes: true,
       },
       orderBy: {

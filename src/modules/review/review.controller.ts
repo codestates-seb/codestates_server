@@ -4,7 +4,7 @@ import { User } from '@prisma/client';
 import { ResponseWithIdDTO } from 'common';
 import { Auth, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
 import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptorAPI } from 'utils';
-import { CreateOrUpdateReviewDTO } from './dto';
+import { CreateReviewDTO, UpdateReviewDTO } from './dto';
 import { ReviewService } from './review.service';
 
 @ApiTags('리뷰')
@@ -28,7 +28,7 @@ export class ReviewController {
       description: '영화의 id',
     },
     body: {
-      type: CreateOrUpdateReviewDTO,
+      type: CreateReviewDTO,
     },
   })
   @ResponseApi(
@@ -37,7 +37,7 @@ export class ReviewController {
     },
     201
   )
-  async createReview(@Param('movieId') movieId: string, @ReqUser() user: User, @Body() body: CreateOrUpdateReviewDTO) {
+  async createReview(@Param('movieId') movieId: string, @ReqUser() user: User, @Body() body: CreateReviewDTO) {
     return await this.reviewService.createReview(movieId, user.id, body);
   }
 
@@ -57,7 +57,7 @@ export class ReviewController {
       description: '리뷰의 id',
     },
     body: {
-      type: CreateOrUpdateReviewDTO,
+      type: UpdateReviewDTO,
     },
   })
   @ResponseApi(
@@ -66,7 +66,7 @@ export class ReviewController {
     },
     204
   )
-  async updateReview(@Param('id') id: string, @ReqUser() user: User, @Body() body: CreateOrUpdateReviewDTO) {
+  async updateReview(@Param('id') id: string, @ReqUser() user: User, @Body() body: UpdateReviewDTO) {
     await this.reviewService.updateReview(id, user.id, body);
   }
 

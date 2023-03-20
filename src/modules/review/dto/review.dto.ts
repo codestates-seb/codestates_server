@@ -12,6 +12,9 @@ export class ReviewDto {
   @Property({ apiProperty: { type: 'string' } })
   content: string;
 
+  @Property({ apiProperty: { type: 'number' } })
+  score: number;
+
   @Property({ apiProperty: { type: 'string', format: 'date-time' } })
   createdAt: Date;
 
@@ -24,6 +27,7 @@ export class ReviewDto {
   constructor(props: ReviewDTOProps) {
     this.id = props.id;
     this.content = props.content;
+    this.score = props.score;
     this.createdAt = props.createdAt;
     this.updatedAt = props.updatedAt;
     this.user = new UserDTO(props.user);

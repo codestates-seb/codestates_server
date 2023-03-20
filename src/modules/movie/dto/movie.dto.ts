@@ -1,4 +1,4 @@
-import { Movie, MovieLike, MovieScore } from '@prisma/client';
+import { Movie, MovieLike, MovieReview, MovieScore } from '@prisma/client';
 import { Property } from 'kyoongdev-nestjs';
 import { ActorDTO, ActorDTOProps } from './actor.dto';
 import { GenreDTO, GenreDTOProps } from './genre.dto';
@@ -9,7 +9,7 @@ export interface MovieDTOProps extends Partial<Movie> {
   movieActors: ActorDTOProps[];
   movieStaffs: StaffDTOProps[];
   movieLikes: MovieLike[];
-  movieScores: Partial<MovieScore>[];
+  reviews: Partial<MovieReview>[];
 }
 
 export class MovieDTO {
@@ -58,8 +58,7 @@ export class MovieDTO {
     this.runtime = props.runtime;
     this.company = props.company;
     this.isLiked = userId ? props.movieLikes.some((like) => like.userId === userId) : false;
-    this.averageScore =
-      props.movieScores.reduce<number>((acc, next) => (acc += next.score || 0), 0) / props.movieScores.length;
+    this.averageScore = props.reviews.reduce<number>((acc, next) => (acc += next.score || 0), 0) / props.reviews.length;
     this.genres = props.movieGenres.map((genre) => new GenreDTO(genre));
     this.actors = props.movieActors.map((actor) => new ActorDTO(actor));
     this.staffs = props.movieStaffs.map((staff) => new StaffDTO(staff));

@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/commo
 import { PrismaService } from 'database/prisma.service';
 import { MovieService } from 'modules/movie/movie.service';
 import { UserService } from 'modules/user/user.service';
-import { CreateOrUpdateReviewDTO } from './dto';
+import { CreateReviewDTO, ReviewDTOProps, ReviewDto, UpdateReviewDTO } from './dto';
 
 @Injectable()
 export class ReviewService {
@@ -17,20 +17,24 @@ export class ReviewService {
       where: {
         id,
       },
+      include: {
+        user: true,
+      },
     });
 
     if (!review) throw new NotFoundException('리뷰가 존재하지 않습니다.');
 
-    return review;
+    return new ReviewDto(review);
   }
 
-  async createReview(movieId: string, userId: string, props: CreateOrUpdateReviewDTO) {
-    const user = this.userService.findUser(userId);
-    const movie = this.movieService.findMovie(movieId);
+  async createReview(movieId: string, userId: string, props: CreateReviewDTO) {
+    this.userService.findUser(userId);
+    this.movieService.findMovie(movieId);
 
     const review = await this.database.movieReview.create({
       data: {
         content: props.content,
+        score: props.score,
         movie: {
           connect: {
             id: movieId,
@@ -46,10 +50,10 @@ export class ReviewService {
     return review.id;
   }
 
-  async updateReview(id: string, userId: string, props: CreateOrUpdateReviewDTO) {
+  async updateReview(id: string, userId: string, props: UpdateReviewDTO) {
     const review = await this.findReview(id);
 
-    if (review.userId !== userId) throw new ForbiddenException('리뷰를 수정할 권한이 없습니다.');
+    if (review.user.id !== userId) throw new ForbiddenException('리뷰를 수정할 권한이 없습니다.');
 
     await this.database.movieReview.update({
       where: {
@@ -57,6 +61,7 @@ export class ReviewService {
       },
       data: {
         content: props.content,
+        score: props.score,
       },
     });
   }
@@ -64,7 +69,7 @@ export class ReviewService {
   async deleteReview(id: string, userId: string) {
     const review = await this.findReview(id);
 
-    if (review.userId !== userId) throw new ForbiddenException('리뷰를 삭제할 권한이 없습니다.');
+    if (review.user.id !== userId) throw new ForbiddenException('리뷰를 삭제할 권한이 없습니다.');
 
     await this.database.movieReview.delete({
       where: {

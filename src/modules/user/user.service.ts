@@ -49,6 +49,7 @@ export class UserService {
   async createUser(props: CreateUserDTO) {
     const user = await this.database.user.create({
       data: {
+        ...props,
         email: props.email,
         name: props.name,
         password: await props.hashPassword(Number(this.config.get('PASSWORD_SALT'))),
