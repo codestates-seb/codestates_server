@@ -14,19 +14,36 @@ export class ReviewService {
     private readonly movieService: MovieService
   ) {}
 
-  async findReview(id: string) {
+  async findReview(id: string, userId?: string) {
     const review = await this.database.movieReview.findUnique({
       where: {
         id,
       },
       include: {
         user: true,
+        reviewComments: {
+          include: {
+            user: true,
+          },
+        },
       },
     });
 
     if (!review) throw new NotFoundException('리뷰가 존재하지 않습니다.');
 
-    return new ReviewDto(review);
+    const likeCount = await this.getReviewLikeCount(id);
+    const hateCount = await this.getReviewHateCount(id);
+
+    const { reviewComments, ...rest } = review;
+
+    return new ReviewDto({
+      ...rest,
+      comments: reviewComments,
+      likeCount,
+      hateCount,
+      isLiked: userId ? await this.findReviewLike(id, userId) : false,
+      isHated: userId ? await this.findReviewHate(id, userId) : false,
+    });
   }
 
   async getUserReviewInfo(userId: string) {
@@ -173,5 +190,127 @@ export class ReviewService {
         id: commentId,
       },
     });
+  }
+
+  async findReviewLike(reviewId: string, userId: string) {
+    const like = await this.database.reviewLike.findUnique({
+      where: {
+        reviewId_userId: {
+          reviewId,
+          userId,
+        },
+      },
+    });
+
+    return like ? true : false;
+  }
+
+  async createReviewLike(reviewId: string, userId: string) {
+    await this.findReview(reviewId);
+    this.userService.findUser(userId);
+
+    const isExist = await this.findReviewLike(reviewId, userId);
+    if (!isExist)
+      await this.database.reviewLike.create({
+        data: {
+          review: {
+            connect: {
+              id: reviewId,
+            },
+          },
+          user: {
+            connect: {
+              id: userId,
+            },
+          },
+        },
+      });
+  }
+
+  async deleteReviewLike(reviewId: string, userId: string) {
+    await this.findReview(reviewId);
+    this.userService.findUser(userId);
+
+    const isExist = await this.findReviewLike(reviewId, userId);
+    if (isExist)
+      await this.database.reviewLike.delete({
+        where: {
+          reviewId_userId: {
+            reviewId,
+            userId,
+          },
+        },
+      });
+  }
+
+  async getReviewLikeCount(reviewId: string) {
+    const likes = await this.database.reviewLike.count({
+      where: {
+        reviewId,
+      },
+    });
+
+    return likes;
+  }
+
+  async findReviewHate(reviewId: string, userId: string) {
+    const hate = await this.database.reviewHate.findUnique({
+      where: {
+        reviewId_userId: {
+          reviewId,
+          userId,
+        },
+      },
+    });
+
+    return hate ? true : false;
+  }
+
+  async createReviewHate(reviewId: string, userId: string) {
+    await this.findReview(reviewId);
+    this.userService.findUser(userId);
+
+    const isExist = await this.findReviewHate(reviewId, userId);
+    if (!isExist)
+      await this.database.reviewHate.create({
+        data: {
+          review: {
+            connect: {
+              id: reviewId,
+            },
+          },
+          user: {
+            connect: {
+              id: userId,
+            },
+          },
+        },
+      });
+  }
+
+  async deleteReviewHate(reviewId: string, userId: string) {
+    await this.findReview(reviewId);
+    this.userService.findUser(userId);
+
+    const isExist = await this.findReviewHate(reviewId, userId);
+    if (isExist)
+      await this.database.reviewHate.delete({
+        where: {
+          reviewId_userId: {
+            reviewId,
+            userId,
+          },
+        },
+      });
+  }
+
+  async getReviewHateCount(reviewId: string) {
+    const hates = await this.database.reviewHate.count({
+      where: {
+        reviewId,
+      },
+    });
+
+    return hates;
   }
 }

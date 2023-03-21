@@ -1,7 +1,7 @@
 import { ReviewComment, User } from '@prisma/client';
 import { Property } from 'kyoongdev-nestjs';
 import { UserDTO } from 'modules/user/dto';
-interface ReviewCommentDTOProps extends Partial<ReviewComment> {
+export interface ReviewCommentDTOProps extends Partial<ReviewComment> {
   user: Partial<User>;
 }
 
@@ -21,7 +21,7 @@ export class ReviewCommentDTO {
   @Property({ apiProperty: { type: UserDTO } })
   user: UserDTO;
 
-  constructor(props: ReviewCommentDTO) {
+  constructor(props: ReviewCommentDTOProps) {
     this.id = props.id;
     this.content = props.content;
     this.createdAt = props.createdAt;

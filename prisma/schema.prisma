@@ -28,6 +28,8 @@ model User{
   scores MovieScore[]
   reports ReviewReport[]
   reviewComment ReviewComment[]
+  reviewLikes ReviewLike[]
+  reviewHates ReviewHate[]
 }
 
 model MovieLike{
@@ -36,6 +38,23 @@ model MovieLike{
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   @@id([movieId, userId])
+}
+
+model ReviewLike{
+  reviewId String
+  review MovieReview @relation(fields: [reviewId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@id([reviewId, userId])
+}
+
+
+model ReviewHate{
+  reviewId String
+  review MovieReview @relation(fields: [reviewId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@id([reviewId, userId])
 }
 
 model MovieBookmark{
@@ -162,6 +181,8 @@ model MovieReview{
 
   reviewReports ReviewReport[]
   reviewComments ReviewComment[]
+  reviewLikes ReviewLike[]
+  reviewHates ReviewHate[]
 }
 
 model ReviewComment {

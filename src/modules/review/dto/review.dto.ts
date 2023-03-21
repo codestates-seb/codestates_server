@@ -1,9 +1,15 @@
 import { MovieReview, User } from '@prisma/client';
 import { Property } from 'kyoongdev-nestjs';
 import { UserDTO } from 'modules/user/dto';
+import { ReviewCommentDTO, ReviewCommentDTOProps } from './review-comment.dto';
 
 export interface ReviewDTOProps extends Partial<MovieReview> {
   user: Partial<User>;
+  comments: ReviewCommentDTOProps[];
+  likeCount: number;
+  hateCount: number;
+  isLiked?: boolean;
+  isHated?: boolean;
 }
 export class ReviewDto {
   @Property({ apiProperty: { type: 'string' } })
@@ -24,6 +30,21 @@ export class ReviewDto {
   @Property({ apiProperty: { type: UserDTO } })
   user: UserDTO;
 
+  @Property({ apiProperty: { type: ReviewCommentDTO, isArray: true } })
+  comments: ReviewCommentDTO[];
+
+  @Property({ apiProperty: { type: 'number' } })
+  likeCount: number;
+
+  @Property({ apiProperty: { type: 'number' } })
+  hateCount: number;
+
+  @Property({ apiProperty: { type: 'boolean' } })
+  isLiked?: boolean;
+
+  @Property({ apiProperty: { type: 'boolean' } })
+  isHated?: boolean;
+
   constructor(props: ReviewDTOProps) {
     this.id = props.id;
     this.content = props.content;
@@ -31,5 +52,10 @@ export class ReviewDto {
     this.createdAt = props.createdAt;
     this.updatedAt = props.updatedAt;
     this.user = new UserDTO(props.user);
+    this.comments = props.comments.map((comment) => new ReviewCommentDTO(comment));
+    this.likeCount = props.likeCount;
+    this.hateCount = props.hateCount;
+    this.isLiked = props.isLiked;
+    this.isHated = props.isHated;
   }
 }

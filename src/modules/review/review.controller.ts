@@ -179,4 +179,103 @@ export class ReviewController {
   async deleteReviewComment(@Param('id') id: string, @ReqUser() user: User) {
     await this.reviewService.deleteReviewComment(id, user.id);
   }
+
+  @Post(':id/like')
+  @ApiOperation({
+    summary: '[서비스] 리뷰 좋아요',
+    description: '리뷰에 좋아요를 누릅니다. 유저만 사용할 수 있습니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER))
+  @RequestApi({
+    params: {
+      name: 'id',
+      type: 'string',
+      required: true,
+      description: '리뷰의 id',
+    },
+  })
+  @ResponseApi(
+    {
+      type: EmptyResponseDTO,
+    },
+    204
+  )
+  async createReviewLike(@Param('id') id: string, @ReqUser() user: User) {
+    await this.reviewService.createReviewLike(id, user.id);
+  }
+  @Delete(':id/like')
+  @ApiOperation({
+    summary: '[서비스] 리뷰 좋아요 삭제',
+    description: '리뷰에 좋아요 삭제를 누릅니다. 유저만 사용할 수 있습니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER))
+  @RequestApi({
+    params: {
+      name: 'id',
+      type: 'string',
+      required: true,
+      description: '리뷰의 id',
+    },
+  })
+  @ResponseApi(
+    {
+      type: EmptyResponseDTO,
+    },
+    204
+  )
+  async deleteReviewLike(@Param('id') id: string, @ReqUser() user: User) {
+    await this.reviewService.deleteReviewLike(id, user.id);
+  }
+
+  @Post(':id/hate')
+  @ApiOperation({
+    summary: '[서비스] 리뷰 싫어요',
+    description: '리뷰에 싫어요를 누릅니다. 유저만 사용할 수 있습니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER))
+  @RequestApi({
+    params: {
+      name: 'id',
+      type: 'string',
+      required: true,
+      description: '리뷰의 id',
+    },
+  })
+  @ResponseApi(
+    {
+      type: EmptyResponseDTO,
+    },
+    204
+  )
+  async createReviewHate(@Param('id') id: string, @ReqUser() user: User) {
+    await this.reviewService.createReviewHate(id, user.id);
+  }
+
+  @Delete(':id/hate')
+  @ApiOperation({
+    summary: '[서비스] 리뷰 싫어요 삭제',
+    description: '리뷰에 싫어요 삭제를 누릅니다. 유저만 사용할 수 있습니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER))
+  @RequestApi({
+    params: {
+      name: 'id',
+      type: 'string',
+      required: true,
+      description: '리뷰의 id',
+    },
+  })
+  @ResponseApi(
+    {
+      type: EmptyResponseDTO,
+    },
+    204
+  )
+  async deleteReviewHate(@Param('id') id: string, @ReqUser() user: User) {
+    await this.reviewService.deleteReviewHate(id, user.id);
+  }
 }
