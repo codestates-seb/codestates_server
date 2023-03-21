@@ -1,16 +1,64 @@
-import { Body, Controller, Delete, Param, Patch, Post, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 import { EmptyResponseDTO, ResponseWithIdDTO } from 'common';
 import { Auth, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
-import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptorAPI } from 'utils';
-import { CreateReviewCommentDTO, CreateReviewDTO, UpdateReviewDTO } from './dto';
+import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptorAPI, DataInterceptor } from 'utils';
+import { CreateReviewCommentDTO, CreateReviewDTO, ReviewDto, ReviewsDto, UpdateReviewDTO } from './dto';
 import { ReviewService } from './review.service';
 
 @ApiTags('리뷰')
 @Controller('reviews')
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
+
+  @Get(':movieId')
+  @ApiOperation({
+    summary: '[서비스] 영화 리뷰 목록 조회',
+    description: '영화의 리뷰 목록을 조회합니다. 유저가 사용할 경우, 유저의 리뷰 정보를 함께 반환합니다.',
+  })
+  @RequestApi({
+    params: {
+      name: 'movieId',
+      type: 'string',
+      required: true,
+      description: '영화의 id',
+    },
+  })
+  @ResponseApi(
+    {
+      type: ReviewDto,
+      isArray: true,
+    },
+    200
+  )
+  async getReviews(@Param('movieId') movieId: string, @ReqUser() user?: User) {
+    return await this.reviewService.findReviews(movieId, user?.id);
+  }
+
+  @Get(':id/detail')
+  @ApiOperation({
+    summary: '[서비스] 영화 리뷰 상세 조회',
+    description: '영화의 리뷰를 상세 조회합니다. 유저가 사용할 경우, 유저의 리뷰 정보를 함께 반환합니다.',
+  })
+  @UseInterceptors(DataInterceptor)
+  @RequestApi({
+    params: {
+      name: 'id',
+      type: 'string',
+      required: true,
+      description: '영화의 id',
+    },
+  })
+  @ResponseApi(
+    {
+      type: ReviewDto,
+    },
+    200
+  )
+  async getReview(@Param('id') id: string, @ReqUser() user?: User) {
+    return await this.reviewService.findReview(id, user?.id);
+  }
 
   @Post(':movieId')
   @ApiOperation({

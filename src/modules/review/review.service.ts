@@ -46,6 +46,44 @@ export class ReviewService {
     });
   }
 
+  async findReviews(movieId: string, userId?: string) {
+    await this.movieService.findMovie(movieId);
+
+    const reviews = await this.database.movieReview.findMany({
+      where: {
+        movieId,
+      },
+      include: {
+        user: true,
+        reviewComments: {
+          include: {
+            user: true,
+          },
+        },
+      },
+    });
+
+    const reviewDtos = await Promise.all(
+      reviews.map(async (review) => {
+        const likeCount = await this.getReviewLikeCount(review.id);
+        const hateCount = await this.getReviewHateCount(review.id);
+
+        const { reviewComments, ...rest } = review;
+
+        return new ReviewDto({
+          ...rest,
+          comments: reviewComments,
+          likeCount,
+          hateCount,
+          isLiked: userId ? await this.findReviewLike(review.id, userId) : false,
+          isHated: userId ? await this.findReviewHate(review.id, userId) : false,
+        });
+      })
+    );
+
+    return reviewDtos;
+  }
+
   async getUserReviewInfo(userId: string) {
     const reviews = await this.database.movieReview.findMany({
       where: {
