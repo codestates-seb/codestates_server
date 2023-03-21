@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/commo
 import { PrismaService } from 'database/prisma.service';
 import { MovieService } from 'modules/movie/movie.service';
 import { UserService } from 'modules/user/user.service';
-import { CreateReviewDTO, ReviewDTOProps, ReviewDto, UpdateReviewDTO } from './dto';
+import { CreateReviewDTO, ReviewDTOProps, ReviewDto, UpdateReviewDTO, CreateReviewCommentDTO } from './dto';
 import { ReviewCommentDTO } from './dto/review-comment.dto';
 import { UserReviewInfoDTO } from './dto/user-review-info.dto';
 
@@ -95,6 +95,21 @@ export class ReviewService {
     });
   }
 
+  async findReviewComment(commentId: string) {
+    const comment = await this.database.reviewComment.findUnique({
+      where: {
+        id: commentId,
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    if (!comment) throw new NotFoundException('댓글이 존재하지 않습니다.');
+
+    return new ReviewCommentDTO(comment);
+  }
+
   async findReviewComments(reviewId: string) {
     await this.findReview(reviewId);
 
@@ -108,5 +123,55 @@ export class ReviewService {
     });
 
     return comments.map((comment) => new ReviewCommentDTO(comment));
+  }
+
+  async createReviewComment(reviewId: string, userId: string, props: CreateReviewCommentDTO) {
+    await this.findReview(reviewId);
+    this.userService.findUser(userId);
+
+    const comment = await this.database.reviewComment.create({
+      data: {
+        content: props.content,
+        review: {
+          connect: {
+            id: reviewId,
+          },
+        },
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    });
+
+    return comment.id;
+  }
+
+  async updateReviewComment(commentId: string, userId: string, props: CreateReviewCommentDTO) {
+    const comment = await this.findReviewComment(commentId);
+
+    if (comment.user.id !== userId) throw new ForbiddenException('댓글을 수정할 권한이 없습니다.');
+
+    await this.database.reviewComment.update({
+      where: {
+        id: commentId,
+      },
+      data: {
+        content: props.content,
+      },
+    });
+  }
+
+  async deleteReviewComment(commentId: string, userId: string) {
+    const comment = await this.findReviewComment(commentId);
+
+    if (comment.user.id !== userId) throw new ForbiddenException('댓글을 삭제할 권한이 없습니다.');
+
+    await this.database.reviewComment.delete({
+      where: {
+        id: commentId,
+      },
+    });
   }
 }
