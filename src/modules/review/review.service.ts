@@ -3,6 +3,7 @@ import { PrismaService } from 'database/prisma.service';
 import { MovieService } from 'modules/movie/movie.service';
 import { UserService } from 'modules/user/user.service';
 import { CreateReviewDTO, ReviewDTOProps, ReviewDto, UpdateReviewDTO } from './dto';
+import { ReviewCommentDTO } from './dto/review-comment.dto';
 import { UserReviewInfoDTO } from './dto/user-review-info.dto';
 
 @Injectable()
@@ -92,5 +93,20 @@ export class ReviewService {
         id,
       },
     });
+  }
+
+  async findReviewComments(reviewId: string) {
+    await this.findReview(reviewId);
+
+    const comments = await this.database.reviewComment.findMany({
+      where: {
+        reviewId,
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    return comments.map((comment) => new ReviewCommentDTO(comment));
   }
 }

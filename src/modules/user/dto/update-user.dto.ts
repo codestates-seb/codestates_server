@@ -6,6 +6,8 @@ interface Props {
   password: string;
   birth?: string;
   nickname?: string;
+  description?: string;
+  profileImage?: string;
 }
 
 export class UpdateUserDTO {
@@ -24,6 +26,12 @@ export class UpdateUserDTO {
   @Property({ apiProperty: { type: 'string', nullable: true } })
   nickname?: string;
 
+  @Property({ apiProperty: { type: 'string', nullable: true } })
+  description?: string;
+
+  @Property({ apiProperty: { type: 'string', nullable: true } })
+  profileImage?: string;
+
   constructor(props?: Props) {
     if (props) {
       this.password = props.password;
@@ -31,6 +39,8 @@ export class UpdateUserDTO {
       this.birth = props.birth;
       this.nickname = props.nickname;
       this.email = props.email;
+      this.description = props.description;
+      this.profileImage = props.profileImage;
     }
   }
 
