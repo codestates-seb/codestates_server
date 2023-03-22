@@ -1,12 +1,17 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'database/prisma.service';
 import { PaginationDTO, PagingDTO } from 'kyoongdev-nestjs';
+import { UserService } from 'modules/user/user.service';
 import { CategoryDTO, MovieDTO, UpdateMovieDTO, CreateCategoryDTO } from './dto';
 
 @Injectable()
 export class MovieService {
-  constructor(private readonly database: PrismaService) {}
+  constructor(
+    private readonly database: PrismaService,
+    @Inject(forwardRef(() => UserService))
+    private readonly userService: UserService
+  ) {}
 
   async findMovie(id: string, userId?: string) {
     const movie = await this.database.movie.findUnique({
@@ -95,7 +100,10 @@ export class MovieService {
     return count;
   }
 
-  async createMovieLike(userId: string, movieId: string) {
+  async createMovieLike(movieId: string, userId: string) {
+    await this.findMovie(movieId);
+    await this.userService.findUser(userId);
+
     const movieLike = await this.database.movieLike.findUnique({
       where: {
         movieId_userId: {
@@ -105,19 +113,27 @@ export class MovieService {
       },
     });
 
-    if (!movieLike) {
-      throw new NotFoundException('이미 좋아요를 누른 영화입니다.');
+    if (movieLike) {
+      throw new ConflictException('이미 좋아요를 누른 영화입니다.');
     }
-
+    console.log({ movieLike });
     await this.database.movieLike.create({
       data: {
-        movieId,
-        userId,
+        movie: {
+          connect: {
+            id: movieId,
+          },
+        },
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
       },
     });
   }
 
-  async deleteMovieLike(userId: string, movieId: string) {
+  async deleteMovieLike(movieId: string, userId: string) {
     const movieLike = await this.database.movieLike.findUnique({
       where: {
         movieId_userId: {
@@ -128,7 +144,7 @@ export class MovieService {
     });
 
     if (!movieLike) {
-      throw new NotFoundException('좋아요를 누르지 않은 영화입니다.');
+      throw new ConflictException('좋아요를 누르지 않은 영화입니다.');
     }
 
     await this.database.movieLike.delete({

@@ -94,12 +94,13 @@ model MovieCategory {
 
 model ReviewReport {
   id       String      @id @default(uuid())
-  constent String
+  contents String
   reason   String
   type ReportType @default(PENDING)
+  processedAt DateTime?
 
-  reivewId String
-  review MovieReview @relation(fields: [reivewId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  reviewId String
+  review MovieReview @relation(fields: [reviewId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }

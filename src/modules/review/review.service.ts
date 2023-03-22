@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'database/prisma.service';
 import { MovieService } from 'modules/movie/movie.service';
 import { UserService } from 'modules/user/user.service';
@@ -24,6 +24,9 @@ export class ReviewService {
         reviewComments: {
           include: {
             user: true,
+          },
+          orderBy: {
+            createdAt: 'desc',
           },
         },
       },
@@ -59,7 +62,13 @@ export class ReviewService {
           include: {
             user: true,
           },
+          orderBy: {
+            createdAt: 'desc',
+          },
         },
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
 
@@ -248,21 +257,25 @@ export class ReviewService {
     this.userService.findUser(userId);
 
     const isExist = await this.findReviewLike(reviewId, userId);
-    if (!isExist)
-      await this.database.reviewLike.create({
-        data: {
-          review: {
-            connect: {
-              id: reviewId,
-            },
-          },
-          user: {
-            connect: {
-              id: userId,
-            },
+
+    if (isExist) {
+      throw new ConflictException('이미 좋아요를 눌렀습니다.');
+    }
+
+    await this.database.reviewLike.create({
+      data: {
+        review: {
+          connect: {
+            id: reviewId,
           },
         },
-      });
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    });
   }
 
   async deleteReviewLike(reviewId: string, userId: string) {
@@ -270,15 +283,19 @@ export class ReviewService {
     this.userService.findUser(userId);
 
     const isExist = await this.findReviewLike(reviewId, userId);
-    if (isExist)
-      await this.database.reviewLike.delete({
-        where: {
-          reviewId_userId: {
-            reviewId,
-            userId,
-          },
+
+    if (!isExist) {
+      throw new ConflictException('좋아요를 누르지 않았습니다.');
+    }
+
+    await this.database.reviewLike.delete({
+      where: {
+        reviewId_userId: {
+          reviewId,
+          userId,
         },
-      });
+      },
+    });
   }
 
   async getReviewLikeCount(reviewId: string) {
@@ -309,21 +326,25 @@ export class ReviewService {
     this.userService.findUser(userId);
 
     const isExist = await this.findReviewHate(reviewId, userId);
-    if (!isExist)
-      await this.database.reviewHate.create({
-        data: {
-          review: {
-            connect: {
-              id: reviewId,
-            },
-          },
-          user: {
-            connect: {
-              id: userId,
-            },
+
+    if (isExist) {
+      throw new ConflictException('이미 싫어요를 눌렀습니다.');
+    }
+
+    await this.database.reviewHate.create({
+      data: {
+        review: {
+          connect: {
+            id: reviewId,
           },
         },
-      });
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    });
   }
 
   async deleteReviewHate(reviewId: string, userId: string) {
@@ -331,15 +352,19 @@ export class ReviewService {
     this.userService.findUser(userId);
 
     const isExist = await this.findReviewHate(reviewId, userId);
-    if (isExist)
-      await this.database.reviewHate.delete({
-        where: {
-          reviewId_userId: {
-            reviewId,
-            userId,
-          },
+
+    if (!isExist) {
+      throw new ConflictException('싫어요를 누르지 않았습니다.');
+    }
+
+    await this.database.reviewHate.delete({
+      where: {
+        reviewId_userId: {
+          reviewId,
+          userId,
         },
-      });
+      },
+    });
   }
 
   async getReviewHateCount(reviewId: string) {
