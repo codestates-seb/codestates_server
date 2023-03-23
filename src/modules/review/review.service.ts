@@ -2,7 +2,14 @@ import { ConflictException, ForbiddenException, Injectable, NotFoundException } 
 import { PrismaService } from 'database/prisma.service';
 import { MovieService } from 'modules/movie/movie.service';
 import { UserService } from 'modules/user/user.service';
-import { CreateReviewDTO, ReviewDTOProps, ReviewDto, UpdateReviewDTO, CreateReviewCommentDTO } from './dto';
+import {
+  CreateReviewDTO,
+  ReviewDTOProps,
+  ReviewDto,
+  UpdateReviewDTO,
+  CreateReviewCommentDTO,
+  ReviewCountDTO,
+} from './dto';
 import { ReviewCommentDTO } from './dto/review-comment.dto';
 import { UserReviewInfoDTO } from './dto/user-review-info.dto';
 
@@ -13,6 +20,11 @@ export class ReviewService {
     private readonly userService: UserService,
     private readonly movieService: MovieService
   ) {}
+
+  async getReviewCount() {
+    const count = await this.database.movieReview.count();
+    return new ReviewCountDTO(count);
+  }
 
   async findReview(id: string, userId?: string) {
     const review = await this.database.movieReview.findUnique({

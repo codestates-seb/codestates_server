@@ -5,13 +5,28 @@ import { EmptyResponseDTO, ResponseWithIdDTO } from 'common';
 import { Auth, Paging, PagingDTO, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
 import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptorAPI } from 'utils';
 
-import { CreateUserDTO, UpdateUserDTO, UserDTO, UserInfoDTO } from './dto';
+import { CreateUserDTO, UpdateUserDTO, UserCountDTO, UserDTO, UserInfoDTO } from './dto';
 import { UserService } from './user.service';
 
 @ApiTags('유저')
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
+  @Get('count')
+  @ApiOperation({
+    summary: '[CMS] 전체 이용자 수 구하기 ',
+    description: '전체 이용자 수를 구합니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER, true))
+  @RequestApi({})
+  @ResponseApi({
+    type: UserCountDTO,
+  })
+  async getUserCount() {
+    return await this.userService.getUserTotalCount();
+  }
 
   @Get('me')
   @ApiOperation({

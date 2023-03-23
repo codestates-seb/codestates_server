@@ -6,6 +6,7 @@ import { Auth, Paging, PagingDTO, RequestApi, ResponseApi } from 'kyoongdev-nest
 import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptorAPI } from 'utils';
 import { JwtNullableAuthGuard } from 'utils/guards/jwt-nullable.guard';
 import { CategoryDTO, CreateCategoryDTO, MovieDTO, UpdateMovieDTO } from './dto';
+import { MovieCountDTO } from './dto/movie-count.dto';
 import { FindMovieByCategoryQuery, FindMovieByGenreQuery, FindMovieQuery } from './dto/query';
 import { MovieService } from './movie.service';
 
@@ -36,6 +37,17 @@ export class MovieController {
       },
       user?.id
     );
+  }
+
+  @Get('count')
+  @Auth(JwtNullableAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER, true))
+  @RequestApi({})
+  @ResponseApi({
+    type: MovieCountDTO,
+  })
+  async getMovieCount() {
+    return await this.movieService.getMovieTotalCount();
   }
 
   @Get('genre')

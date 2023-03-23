@@ -4,6 +4,7 @@ import { PrismaService } from 'database/prisma.service';
 import { PaginationDTO, PagingDTO } from 'kyoongdev-nestjs';
 import { UserService } from 'modules/user/user.service';
 import { CategoryDTO, MovieDTO, UpdateMovieDTO, CreateCategoryDTO } from './dto';
+import { MovieCountDTO } from './dto/movie-count.dto';
 
 @Injectable()
 export class MovieService {
@@ -12,6 +13,11 @@ export class MovieService {
     @Inject(forwardRef(() => UserService))
     private readonly userService: UserService
   ) {}
+
+  async getMovieTotalCount() {
+    const count = await this.database.movie.count();
+    return new MovieCountDTO(count);
+  }
 
   async findMovie(id: string, userId?: string) {
     const movie = await this.database.movie.findUnique({

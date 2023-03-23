@@ -4,7 +4,7 @@ import { User } from '@prisma/client';
 import { EmptyResponseDTO, ResponseWithIdDTO } from 'common';
 import { Auth, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
 import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptorAPI, DataInterceptor } from 'utils';
-import { CreateReviewCommentDTO, CreateReviewDTO, ReviewDto, ReviewsDto, UpdateReviewDTO } from './dto';
+import { CreateReviewCommentDTO, CreateReviewDTO, ReviewCountDTO, ReviewDto, ReviewsDto, UpdateReviewDTO } from './dto';
 import { ReviewService } from './review.service';
 
 @ApiTags('리뷰')
@@ -12,7 +12,25 @@ import { ReviewService } from './review.service';
 export class ReviewController {
   constructor(private readonly reviewService: ReviewService) {}
 
-  @Get(':movieId')
+  @Get('count')
+  @ApiOperation({
+    summary: '[CMS] 영화 리뷰 수 구하기',
+    description: '영화의 리뷰 수를 구합니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER, true))
+  @RequestApi({})
+  @ResponseApi(
+    {
+      type: ReviewCountDTO,
+    },
+    200
+  )
+  async getReviewCount() {
+    return await this.reviewService.getReviewCount();
+  }
+
+  @Get('movie:movieId')
   @ApiOperation({
     summary: '[서비스] 영화 리뷰 목록 조회',
     description: '영화의 리뷰 목록을 조회합니다. 유저가 사용할 경우, 유저의 리뷰 정보를 함께 반환합니다.',

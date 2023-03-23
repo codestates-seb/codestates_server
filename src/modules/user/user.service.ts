@@ -5,7 +5,7 @@ import { PrismaService } from 'database/prisma.service';
 import { PaginationDTO, PagingDTO } from 'kyoongdev-nestjs';
 import { MovieService } from 'modules/movie/movie.service';
 import { ReviewService } from 'modules/review/review.service';
-import { CreateUserDTO, UpdateUserDTO, UserDetailDTO, UserDTO, UserInfoDTO } from './dto';
+import { CreateUserDTO, UpdateUserDTO, UserCountDTO, UserDetailDTO, UserDTO, UserInfoDTO } from './dto';
 import { UserException } from './user.exception';
 
 @Injectable()
@@ -19,6 +19,11 @@ export class UserService {
     @Inject(forwardRef(() => MovieService))
     private readonly movieService: MovieService
   ) {}
+
+  async getUserTotalCount() {
+    const count = await this.database.user.count();
+    return new UserCountDTO(count);
+  }
 
   async getUserInfo(userId: string) {
     await this.findUser(userId);

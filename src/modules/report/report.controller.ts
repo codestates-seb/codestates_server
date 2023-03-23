@@ -4,7 +4,7 @@ import { User } from '@prisma/client';
 import { Auth, Paging, PagingDTO, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
 import { JwtAuthGuard, ReqUser, Role, RoleInterceptorAPI } from 'utils';
 import { FindReportsQuery } from './dto/query/find-reports.query';
-import { ReportsDTO, UpdateReviewReportDTO, ReportDTO } from './dto';
+import { ReportsDTO, UpdateReviewReportDTO, ReportDTO, AdminUpdateReviewReportDTO } from './dto';
 import { ReportService } from './report.service';
 import { EmptyResponseDTO } from 'common';
 
@@ -117,7 +117,8 @@ export class ReportController {
   @Patch(':id/admin')
   @ApiOperation({
     summary: '[CMS] 신고 수정',
-    description: '신고를 수정합니다. 관리자만 사용 가능합니다.',
+    description:
+      '신고를 수정합니다. 관리자만 사용 가능합니다.<br/> 무시 - type : "IGNORE"<br/>탈퇴 - type : "USER_DELETE" (실제 탈퇴는 이루어지지 않습니다.',
   })
   @Auth(JwtAuthGuard)
   @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
@@ -129,7 +130,7 @@ export class ReportController {
       description: 'report id',
     },
     body: {
-      type: UpdateReviewReportDTO,
+      type: AdminUpdateReviewReportDTO,
     },
   })
   @ResponseApi(
@@ -138,8 +139,8 @@ export class ReportController {
     },
     204
   )
-  async adminUpdateReport(@Param('id') id: string, @Body() body: UpdateReviewReportDTO) {
-    await this.reportService.updateReport(id, body);
+  async adminUpdateReport(@Param('id') id: string, @Body() body: AdminUpdateReviewReportDTO) {
+    await this.reportService.adminUpdateReport(id, body);
   }
 
   @Delete(':id')
