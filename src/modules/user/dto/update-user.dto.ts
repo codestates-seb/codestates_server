@@ -1,3 +1,4 @@
+import { UserGender } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { Property } from 'kyoongdev-nestjs';
 interface Props {
@@ -8,6 +9,7 @@ interface Props {
   nickname?: string;
   description?: string;
   profileImage?: string;
+  gender?: UserGender;
 }
 
 export class UpdateUserDTO {
@@ -32,6 +34,9 @@ export class UpdateUserDTO {
   @Property({ apiProperty: { type: 'string', nullable: true } })
   profileImage?: string;
 
+  @Property({ apiProperty: { type: 'string', nullable: true, enum: UserGender, example: Object.keys(UserGender) } })
+  gender: UserGender;
+
   constructor(props?: Props) {
     if (props) {
       this.password = props.password;
@@ -41,6 +46,7 @@ export class UpdateUserDTO {
       this.email = props.email;
       this.description = props.description;
       this.profileImage = props.profileImage;
+      this.gender = props.gender;
     }
   }
 

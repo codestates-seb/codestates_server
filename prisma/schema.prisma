@@ -16,6 +16,7 @@ model User{
   birth     String?
   nickname  String?
   password  String?
+  gender UserGender? 
   description  String? @db.LongText
   profileImage String? 
   userType  UserType? @default(USER)
@@ -209,4 +210,9 @@ enum ReportType{
   PENDING
   IGNORE
   USER_DELETE
+}
+
+enum UserGender{
+  MALE
+  FEMALE
 }
