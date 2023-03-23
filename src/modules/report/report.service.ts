@@ -100,12 +100,19 @@ export class ReportService {
       },
       data: {
         ...props,
+        ...(props.type && {
+          processedAt: new Date(),
+        }),
       },
     });
   }
 
-  async deleteReport(id: string) {
-    this.findReport(id);
+  async deleteReport(id: string, userId?: string) {
+    const report = await this.findReport(id);
+
+    if (userId && !report.checkUserId(userId)) {
+      throw new NotFoundException('신고를 삭제할 권한이 없습니다.');
+    }
 
     await this.database.reviewReport.delete({
       where: {
