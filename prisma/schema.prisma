@@ -31,6 +31,8 @@ model User{
   reviewComment ReviewComment[]
   reviewLikes ReviewLike[]
   reviewHates ReviewHate[]
+  faqs FAQ[]
+  faqComments FAQComment[]
 }
 
 model MovieLike{
@@ -214,6 +216,30 @@ model ReviewComment {
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
+}
+
+model FAQ{
+  id String @id @default(uuid())
+  title String
+  content String @db.LongText
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  faqComments FAQComment[]
+}
+
+model FAQComment{
+  id String @id @default(uuid())
+  content String @db.LongText
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  faqId String
+  faq FAQ @relation(fields: [faqId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 enum UserType{
