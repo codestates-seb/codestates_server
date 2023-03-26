@@ -118,16 +118,12 @@ export class UserController {
   async findUsers(@Paging() paging: PagingDTO, @Query() query: FindUsersQuery) {
     return await this.userService.findUsers(paging, {
       where: {
-        ...(query.name && {
-          name: {
-            contains: query.name,
-          },
-        }),
-        ...(query.nickname && {
-          nickname: {
-            contains: query.nickname,
-          },
-        }),
+        nickname: {
+          contains: query.nickname,
+        },
+        name: {
+          contains: query.name,
+        },
       },
     });
   }

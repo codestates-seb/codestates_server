@@ -28,6 +28,22 @@ export class ReviewService {
     return new ReviewCountDTO(count);
   }
 
+  async getReviewAdditionInfo(reviewId: string, userId?: string) {
+    const likeCount = await this.getReviewLikeCount(reviewId);
+    const hateCount = await this.getReviewHateCount(reviewId);
+    const enjoyPoints = await this.getReviewEnjoyPoints(reviewId);
+    const tensions = await this.getReviewTenstions(reviewId);
+
+    return {
+      likeCount,
+      hateCount,
+      isLiked: userId ? await this.findReviewLike(reviewId, userId) : false,
+      isHated: userId ? await this.findReviewHate(reviewId, userId) : false,
+      enjoyPoints,
+      tensions,
+    };
+  }
+
   async findReview(id: string, userId?: string) {
     const review = await this.database.movieReview.findUnique({
       where: {
@@ -48,20 +64,16 @@ export class ReviewService {
 
     if (!review) throw new NotFoundException('리뷰가 존재하지 않습니다.');
 
-    const likeCount = await this.getReviewLikeCount(id);
-    const hateCount = await this.getReviewHateCount(id);
-
+    const addition = await this.getReviewAdditionInfo(review.id, userId);
     const { reviewComments, ...rest } = review;
 
     return new ReviewDto({
       ...rest,
       comments: reviewComments,
-      likeCount,
-      hateCount,
-      isLiked: userId ? await this.findReviewLike(id, userId) : false,
-      isHated: userId ? await this.findReviewHate(id, userId) : false,
+      ...addition,
     });
   }
+
   async findReviews(paging: PagingDTO, args = {} as Prisma.MovieReviewFindManyArgs) {
     const { skip, take } = paging.getSkipTake();
     const count = await this.database.movieReview.count({
@@ -91,18 +103,14 @@ export class ReviewService {
 
     const reviewDTOs = await Promise.all(
       reviews.map(async (review) => {
-        const likeCount = await this.getReviewLikeCount(review.id);
-        const hateCount = await this.getReviewHateCount(review.id);
+        const addition = await this.getReviewAdditionInfo(review.id);
 
         const { reviewComments, ...rest } = review;
 
         return new ReviewDto({
           ...rest,
           comments: reviewComments,
-          likeCount,
-          hateCount,
-          isLiked: false,
-          isHated: false,
+          ...addition,
         });
       })
     );
@@ -135,18 +143,13 @@ export class ReviewService {
 
     const reviewDtos = await Promise.all(
       reviews.map(async (review) => {
-        const likeCount = await this.getReviewLikeCount(review.id);
-        const hateCount = await this.getReviewHateCount(review.id);
-
+        const addition = await this.getReviewAdditionInfo(review.id, userId);
         const { reviewComments, ...rest } = review;
 
         return new ReviewDto({
           ...rest,
           comments: reviewComments,
-          likeCount,
-          hateCount,
-          isLiked: userId ? await this.findReviewLike(review.id, userId) : false,
-          isHated: userId ? await this.findReviewHate(review.id, userId) : false,
+          ...addition,
         });
       })
     );
@@ -169,6 +172,26 @@ export class ReviewService {
     });
   }
 
+  async getReviewTenstions(reviewId: string) {
+    const tensions = await this.database.reviewTension.findMany({
+      where: {
+        reviewId,
+      },
+    });
+
+    return tensions.map((tension) => tension.name);
+  }
+
+  async getReviewEnjoyPoints(reviewId: string) {
+    const enjoyPoints = await this.database.reviewEnjoyPoint.findMany({
+      where: {
+        reviewId,
+      },
+    });
+
+    return enjoyPoints.map((enjoyPoint) => enjoyPoint.name);
+  }
+
   async createReview(movieId: string, userId: string, props: CreateReviewDTO) {
     this.userService.findUser(userId);
     this.movieService.findMovie(movieId);
@@ -189,6 +212,40 @@ export class ReviewService {
         },
       },
     });
+
+    if (props.enjoyPoints) {
+      await Promise.all(
+        props.enjoyPoints.map(async (point) => {
+          await this.database.reviewEnjoyPoint.create({
+            data: {
+              review: {
+                connect: {
+                  id: review.id,
+                },
+              },
+              name: point,
+            },
+          });
+        })
+      );
+    }
+    if (props.tensions) {
+      await Promise.all(
+        props.tensions.map(async (tension) => {
+          await this.database.reviewTension.create({
+            data: {
+              review: {
+                connect: {
+                  id: review.id,
+                },
+              },
+              name: tension,
+            },
+          });
+        })
+      );
+    }
+
     return review.id;
   }
 

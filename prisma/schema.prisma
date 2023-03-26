@@ -161,7 +161,7 @@ model Actor{
 
 model MovieScore{
   id        String      @id @default(uuid())
-  score     Int
+  score     Float
   movieId String
   movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String
@@ -171,7 +171,7 @@ model MovieScore{
 model MovieReview{ 
   id  String @id @default(uuid())
 
-  score Int
+  score Float
   content String @db.LongText
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -185,6 +185,21 @@ model MovieReview{
   reviewComments ReviewComment[]
   reviewLikes ReviewLike[]
   reviewHates ReviewHate[]
+  reviewTensions ReviewTension[]
+  reviewEnjoyPoints ReviewEnjoyPoint[]
+}
+
+model ReviewEnjoyPoint{
+  id String @id @default(uuid())
+  name String
+  reviewId String
+  review MovieReview @relation(fields: [reviewId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+model ReviewTension{
+  id String @id @default(uuid())
+  name String
+  reviewId String
+  review MovieReview @relation(fields: [reviewId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model ReviewComment {

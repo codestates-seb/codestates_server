@@ -28,13 +28,11 @@ export class ReportController {
   async getReports(@Query() query: FindReportsQuery, @Paging() paging: PagingDTO) {
     return this.reportService.findReports(paging, {
       where: {
-        ...(query.username && {
-          user: {
-            name: {
-              contains: query.username,
-            },
+        user: {
+          name: {
+            contains: query.username,
           },
-        }),
+        },
       },
     });
   }

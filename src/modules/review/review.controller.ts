@@ -50,16 +50,12 @@ export class ReviewController {
     return await this.reviewService.findReviews(paging, {
       where: {
         user: {
-          ...(query.name && {
-            name: {
-              contains: query.name,
-            },
-          }),
-          ...(query.nickname && {
-            nickname: {
-              contains: query.nickname,
-            },
-          }),
+          name: {
+            contains: query.name,
+          },
+          nickname: {
+            contains: query.nickname,
+          },
         },
       },
     });

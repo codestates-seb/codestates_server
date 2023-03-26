@@ -10,6 +10,8 @@ export interface ReviewDTOProps extends Partial<MovieReview> {
   hateCount: number;
   isLiked?: boolean;
   isHated?: boolean;
+  tensions: string[];
+  enjoyPoints: string[];
 }
 export class ReviewDto {
   @Property({ apiProperty: { type: 'string' } })
@@ -45,6 +47,12 @@ export class ReviewDto {
   @Property({ apiProperty: { type: 'boolean' } })
   isHated?: boolean;
 
+  @Property({ apiProperty: { type: 'string', isArray: true } })
+  enjoyPoints?: string[];
+
+  @Property({ apiProperty: { type: 'string', isArray: true } })
+  tensions?: string[];
+
   constructor(props: ReviewDTOProps) {
     this.id = props.id;
     this.content = props.content;
@@ -57,5 +65,7 @@ export class ReviewDto {
     this.hateCount = props.hateCount;
     this.isLiked = props.isLiked;
     this.isHated = props.isHated;
+    this.enjoyPoints = props.enjoyPoints;
+    this.tensions = props.tensions;
   }
 }
