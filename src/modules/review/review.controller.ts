@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 import { EmptyResponseDTO, ResponseWithIdDTO } from 'common';
-import { Auth, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
+import { Auth, Paging, PagingDTO, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
 import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptorAPI, DataInterceptor } from 'utils';
 import { CreateReviewCommentDTO, CreateReviewDTO, ReviewCountDTO, ReviewDto, ReviewsDto, UpdateReviewDTO } from './dto';
+import { FindReviewsQuery } from './dto/query';
 import { ReviewService } from './review.service';
 
 @ApiTags('리뷰')
@@ -30,6 +31,40 @@ export class ReviewController {
     return await this.reviewService.getReviewCount();
   }
 
+  @Get('')
+  @ApiOperation({
+    summary: '[CMS] 리뷰 목록 조회',
+    description: '리뷰 목록을 조회합니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
+  @RequestApi({})
+  @ResponseApi(
+    {
+      type: ReviewDto,
+      isArray: true,
+    },
+    200
+  )
+  async getReviews(@Paging() paging: PagingDTO, @Query() query: FindReviewsQuery) {
+    return await this.reviewService.findReviews(paging, {
+      where: {
+        user: {
+          ...(query.name && {
+            name: {
+              contains: query.name,
+            },
+          }),
+          ...(query.nickname && {
+            nickname: {
+              contains: query.nickname,
+            },
+          }),
+        },
+      },
+    });
+  }
+
   @Get('movie/:movieId')
   @ApiOperation({
     summary: '[서비스] 영화 리뷰 목록 조회',
@@ -50,8 +85,8 @@ export class ReviewController {
     },
     200
   )
-  async getReviews(@Param('movieId') movieId: string, @ReqUser() user?: User) {
-    return await this.reviewService.findReviews(movieId, user?.id);
+  async getReviewsByMovieId(@Param('movieId') movieId: string, @ReqUser() user?: User) {
+    return await this.reviewService.findReviewsByMovieId(movieId, user?.id);
   }
 
   @Get(':id/detail')

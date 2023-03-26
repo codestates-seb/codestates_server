@@ -1,5 +1,7 @@
 import { ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'database/prisma.service';
+import { PaginationDTO, PagingDTO } from 'kyoongdev-nestjs';
 import { MovieService } from 'modules/movie/movie.service';
 import { UserService } from 'modules/user/user.service';
 import {
@@ -60,8 +62,55 @@ export class ReviewService {
       isHated: userId ? await this.findReviewHate(id, userId) : false,
     });
   }
+  async findReviews(paging: PagingDTO, args = {} as Prisma.MovieReviewFindManyArgs) {
+    const { skip, take } = paging.getSkipTake();
+    const count = await this.database.movieReview.count({
+      where: args.where,
+    });
+    const reviews = await this.database.movieReview.findMany({
+      where: {
+        ...args.where,
+      },
+      include: {
+        user: true,
+        reviewComments: {
+          include: {
+            user: true,
+          },
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      skip,
+      take,
+    });
 
-  async findReviews(movieId: string, userId?: string) {
+    const reviewDTOs = await Promise.all(
+      reviews.map(async (review) => {
+        const likeCount = await this.getReviewLikeCount(review.id);
+        const hateCount = await this.getReviewHateCount(review.id);
+
+        const { reviewComments, ...rest } = review;
+
+        return new ReviewDto({
+          ...rest,
+          comments: reviewComments,
+          likeCount,
+          hateCount,
+          isLiked: false,
+          isHated: false,
+        });
+      })
+    );
+
+    return new PaginationDTO(reviewDTOs, { count, paging });
+  }
+
+  async findReviewsByMovieId(movieId: string, userId?: string) {
     await this.movieService.findMovie(movieId);
 
     const reviews = await this.database.movieReview.findMany({

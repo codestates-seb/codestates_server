@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 import { EmptyResponseDTO, ResponseWithIdDTO } from 'common';
@@ -6,6 +6,7 @@ import { Auth, Paging, PagingDTO, RequestApi, ResponseApi } from 'kyoongdev-nest
 import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptorAPI } from 'utils';
 
 import { CreateUserDTO, UpdateUserDTO, UserCountDTO, UserDTO, UserInfoDTO } from './dto';
+import { FindUsersQuery } from './dto/query';
 import { UserService } from './user.service';
 
 @ApiTags('유저')
@@ -109,17 +110,26 @@ export class UserController {
   })
   @Auth(JwtAuthGuard)
   @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
-  @RequestApi({
-    query: {
-      type: PagingDTO,
-    },
-  })
+  @RequestApi({})
   @ResponseApi({
     type: UserDTO,
     isPaging: true,
   })
-  async findUsers(@Paging() paging: PagingDTO) {
-    return await this.userService.findUsers(paging);
+  async findUsers(@Paging() paging: PagingDTO, @Query() query: FindUsersQuery) {
+    return await this.userService.findUsers(paging, {
+      where: {
+        ...(query.name && {
+          name: {
+            contains: query.name,
+          },
+        }),
+        ...(query.nickname && {
+          nickname: {
+            contains: query.nickname,
+          },
+        }),
+      },
+    });
   }
 
   @Post()
