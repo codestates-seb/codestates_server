@@ -1,7 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'database/prisma.service';
+import { PaginationDTO, PagingDTO } from 'kyoongdev-nestjs';
 import { MovieService } from 'modules/movie/movie.service';
 import { UserService } from 'modules/user/user.service';
+import { BookmarkDTO } from './dto';
 
 @Injectable()
 export class BookmarkService {
@@ -23,7 +26,27 @@ export class BookmarkService {
         },
       },
       include: {
-        movie: true,
+        movie: {
+          include: {
+            movieActors: {
+              include: {
+                actor: true,
+              },
+            },
+            movieGenres: {
+              include: {
+                genre: true,
+              },
+            },
+            movieStaffs: {
+              include: {
+                staff: true,
+              },
+            },
+            reviews: true,
+            movieLikes: true,
+          },
+        },
         user: true,
       },
     });
@@ -31,10 +54,62 @@ export class BookmarkService {
       throw new NotFoundException('북마크가 존재하지 않습니다.');
     }
 
-    return bookmark;
+    return new BookmarkDTO(bookmark);
   }
 
-  async findBookmarks(userId: string) {
+  async findBookmarkByUserIdWithPaging(
+    paging: PagingDTO,
+    userId: string,
+    args = {} as Prisma.MovieBookmarkFindManyArgs
+  ) {
+    await this.userService.findUser(userId);
+    const { skip, take } = paging.getSkipTake();
+    const count = await this.database.movieBookmark.count({
+      where: {
+        userId,
+        ...args.where,
+      },
+    });
+    const bookmarks = await this.database.movieBookmark.findMany({
+      skip,
+      take,
+      where: {
+        userId,
+        ...args.where,
+      },
+      include: {
+        movie: {
+          include: {
+            movieActors: {
+              include: {
+                actor: true,
+              },
+            },
+            movieGenres: {
+              include: {
+                genre: true,
+              },
+            },
+            movieStaffs: {
+              include: {
+                staff: true,
+              },
+            },
+            reviews: true,
+            movieLikes: true,
+          },
+        },
+        user: true,
+      },
+    });
+
+    return new PaginationDTO<BookmarkDTO>(
+      bookmarks.map((bookmark) => new BookmarkDTO(bookmark)),
+      { count, paging }
+    );
+  }
+
+  async findBookmarksByUserId(userId: string) {
     await this.userService.findUser(userId);
 
     const bookmarks = await this.database.movieBookmark.findMany({
@@ -42,13 +117,32 @@ export class BookmarkService {
         userId,
       },
       include: {
-        movie: true,
+        movie: {
+          include: {
+            movieActors: {
+              include: {
+                actor: true,
+              },
+            },
+            movieGenres: {
+              include: {
+                genre: true,
+              },
+            },
+            movieStaffs: {
+              include: {
+                staff: true,
+              },
+            },
+            reviews: true,
+            movieLikes: true,
+          },
+        },
         user: true,
       },
     });
 
-    //TODO: 영화 DTO
-    return bookmarks;
+    return bookmarks.map((bookmark) => new BookmarkDTO(bookmark));
   }
 
   async createBookmark(userId: string, movieId: string) {
