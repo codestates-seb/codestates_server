@@ -52,7 +52,7 @@ export class MovieDTO {
   staffs: StaffDTO[];
 
   @Property({ apiProperty: { type: CategoryDTO, isArray: true } })
-  categorires: CategoryDTO[];
+  categories: CategoryDTO[];
 
   constructor(props: MovieDTOProps, userId?: string) {
     this.id = props.id;
@@ -67,6 +67,6 @@ export class MovieDTO {
     this.genres = props.movieGenres.map((genre) => new GenreDTO(genre));
     this.actors = props.movieActors.map((actor) => new ActorDTO(actor));
     this.staffs = props.movieStaffs.map((staff) => new StaffDTO(staff));
-    this.categorires = props.movieCategories.map((category) => new CategoryDTO(category));
+    this.categories = props.movieCategories.map((category) => new CategoryDTO(category));
   }
 }

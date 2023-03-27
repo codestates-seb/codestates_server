@@ -1,9 +1,9 @@
-import { User } from '@prisma/client';
+import { MovieBookmark, User } from '@prisma/client';
 import { Property } from 'kyoongdev-nestjs';
 import { MovieDTOProps, MovieDTO } from 'modules/movie/dto';
 import { UserDTO } from 'modules/user/dto';
 
-interface BookmarkDTOProps {
+export interface BookmarkDTOProps extends MovieBookmark {
   user: Partial<User>;
   movie: MovieDTOProps;
 }

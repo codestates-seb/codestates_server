@@ -3,8 +3,9 @@ import { Prisma } from '@prisma/client';
 import { PrismaService } from 'database/prisma.service';
 import { PaginationDTO, PagingDTO } from 'kyoongdev-nestjs';
 import { UserService } from 'modules/user/user.service';
-import { CategoryDTO, MovieDTO, UpdateMovieDTO, CreateCategoryDTO } from './dto';
+import { CategoryDTO, MovieDTO, UpdateMovieDTO, CreateCategoryDTO, MovieDTOProps } from './dto';
 import { MovieCountDTO } from './dto/movie-count.dto';
+import { movieIncludeOption } from './query';
 
 @Injectable()
 export class MovieService {
@@ -20,41 +21,33 @@ export class MovieService {
   }
 
   async findMovie(id: string, userId?: string) {
-    const movie = await this.database.movie.findUnique({
+    const movie = (await this.database.movie.findUnique({
       where: {
         id,
       },
-      include: {
-        movieActors: {
-          include: {
-            actor: true,
-          },
-        },
-        movieGenres: {
-          include: {
-            genre: true,
-          },
-        },
-        movieStaffs: {
-          include: {
-            staff: true,
-          },
-        },
-        movieCategories: {
-          include: {
-            category: true,
-          },
-        },
-        reviews: true,
-        movieLikes: true,
-      },
-    });
+      include: movieIncludeOption,
+    })) as MovieDTOProps | undefined | null;
 
     if (!movie) {
       throw new NotFoundException('영화를 찾을 수 없습니다.');
     }
 
     return new MovieDTO(movie, userId);
+  }
+
+  async findMoviesByGenre(genreIds: string[]) {
+    const movies = (await this.database.movie.findMany({
+      where: {
+        movieGenres: {
+          some: {
+            OR: genreIds.map((id) => ({ genreId: id })),
+          },
+        },
+      },
+      include: movieIncludeOption,
+    })) as MovieDTOProps[];
+
+    return movies.map((movie) => new MovieDTO(movie));
   }
 
   async findMovies(paging: PagingDTO, args = {} as Prisma.MovieFindManyArgs, userId?: string) {
@@ -64,41 +57,17 @@ export class MovieService {
         ...args.where,
       },
     });
-    const rows = await this.database.movie.findMany({
+    const rows = (await this.database.movie.findMany({
       skip,
       take,
       where: {
         ...args.where,
       },
-
-      include: {
-        movieActors: {
-          include: {
-            actor: true,
-          },
-        },
-        movieGenres: {
-          include: {
-            genre: true,
-          },
-        },
-        movieStaffs: {
-          include: {
-            staff: true,
-          },
-        },
-        movieCategories: {
-          include: {
-            category: true,
-          },
-        },
-        reviews: true,
-        movieLikes: true,
-      },
+      include: movieIncludeOption,
       orderBy: {
         ...args.orderBy,
       },
-    });
+    })) as MovieDTOProps[];
 
     return new PaginationDTO<MovieDTO>(
       rows.map((row) => new MovieDTO(row, userId)),
@@ -132,7 +101,7 @@ export class MovieService {
     if (movieLike) {
       throw new ConflictException('이미 좋아요를 누른 영화입니다.');
     }
-    console.log({ movieLike });
+
     await this.database.movieLike.create({
       data: {
         movie: {

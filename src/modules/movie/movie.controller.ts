@@ -114,6 +114,29 @@ export class MovieController {
     );
   }
 
+  @Get(':id/related')
+  @ApiOperation({
+    summary: '[서비스] 연관된 영화 불러오기 ',
+    description: '연관된 영화를 불러옵니다. 로그인 없이 사용 가능합니다.',
+  })
+  @Auth(JwtNullableAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER, true))
+  @RequestApi({
+    params: {
+      name: 'id',
+      type: 'string',
+      required: true,
+    },
+  })
+  @ResponseApi({
+    type: MovieDTO,
+    isArray: true,
+  })
+  async getRelatedMovies(@Param('id') id: string) {
+    const movie = await this.movieService.findMovie(id);
+    return await this.movieService.findMoviesByGenre(movie.genres.map((genre) => genre.id));
+  }
+
   @Get('category')
   @ApiOperation({
     summary: '[서비스] 영화 장르별로  불러오기 ',
