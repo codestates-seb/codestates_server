@@ -75,6 +75,20 @@ export class MovieService {
     );
   }
 
+  async findMoviesWithNoPaging(args = {} as Prisma.MovieFindManyArgs, userId?: string) {
+    const rows = (await this.database.movie.findMany({
+      where: {
+        ...args.where,
+      },
+      include: movieIncludeOption,
+      orderBy: {
+        ...args.orderBy,
+      },
+    })) as MovieDTOProps[];
+
+    return rows.map((row) => new MovieDTO(row, userId));
+  }
+
   async getUserLikeCount(userId: string) {
     const count = await this.database.movieLike.count({
       where: {

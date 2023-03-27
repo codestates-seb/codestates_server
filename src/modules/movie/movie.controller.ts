@@ -46,7 +46,7 @@ export class MovieController {
   @Get('count')
   @ApiOperation({
     summary: '[서비스 / CMS] 영화 전체 수 불러오기 ',
-    description: '영화 전체 수를. 로그인 없이 사용 가능합니다.',
+    description: '영화 전체 수를 불러옵니다. 로그인 없이 사용 가능합니다.',
   })
   @Auth(JwtNullableAuthGuard)
   @UseInterceptors(RoleInterceptorAPI(Role.USER, true))
@@ -56,6 +56,33 @@ export class MovieController {
   })
   async getMovieCount() {
     return await this.movieService.getMovieTotalCount();
+  }
+
+  @Get('me/like')
+  @ApiOperation({
+    summary: '[서비스] 내가 좋아요 한 영화 불러오기 ',
+    description: '내가 좋아요한 영화를 불러옵니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER))
+  @RequestApi({})
+  @ResponseApi({
+    type: MovieDTO,
+    isPaging: true,
+  })
+  async getMyMovieLikes(@ReqUser() user: User) {
+    return await this.movieService.findMoviesWithNoPaging(
+      {
+        where: {
+          movieLikes: {
+            some: {
+              userId: user.id,
+            },
+          },
+        },
+      },
+      user.id
+    );
   }
 
   @Get('genre')
