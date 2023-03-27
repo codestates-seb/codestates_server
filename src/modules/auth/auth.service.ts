@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 import { Jsonwebtoken, Role } from 'utils';
 import bcrypt from 'bcrypt';
 import { LoginDTO, RegisterDTO, TokenDTO } from './dto';
-import { KakaoService } from 'modules/kakao/kakao.service';
+
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
