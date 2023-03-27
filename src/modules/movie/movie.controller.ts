@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 import { EmptyResponseDTO, ResponseWithIdDTO } from 'common';
 import { Auth, Paging, PagingDTO, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
@@ -16,6 +16,10 @@ export class MovieController {
   constructor(private readonly movieService: MovieService) {}
 
   @Get()
+  @ApiOperation({
+    summary: '[서비스 / CMS] 영화 목록 불러오기 ',
+    description: '영화 목록을 불러옵니다. 로그인 없이 사용 가능합니다.',
+  })
   @Auth(JwtNullableAuthGuard)
   @UseInterceptors(RoleInterceptorAPI(Role.USER, true))
   @RequestApi({})
@@ -40,6 +44,10 @@ export class MovieController {
   }
 
   @Get('count')
+  @ApiOperation({
+    summary: '[서비스 / CMS] 영화 전체 수 불러오기 ',
+    description: '영화 전체 수를. 로그인 없이 사용 가능합니다.',
+  })
   @Auth(JwtNullableAuthGuard)
   @UseInterceptors(RoleInterceptorAPI(Role.USER, true))
   @RequestApi({})
@@ -51,6 +59,10 @@ export class MovieController {
   }
 
   @Get('genre')
+  @ApiOperation({
+    summary: '[서비스 / CMS] 영화 장르별로  불러오기 ',
+    description: '영화를 장르별로 불러옵니다. 로그인 없이 사용 가능합니다.',
+  })
   @Auth(JwtNullableAuthGuard)
   @UseInterceptors(RoleInterceptorAPI(Role.USER, true))
   @RequestApi({})
@@ -77,6 +89,10 @@ export class MovieController {
   }
 
   @Get('top')
+  @ApiOperation({
+    summary: '[서비스] top10 영화 불러오기 ',
+    description: 'top10 영화를 불러옵니다. 로그인 없이 사용 가능합니다.',
+  })
   @Auth(JwtNullableAuthGuard)
   @UseInterceptors(RoleInterceptorAPI(Role.USER, true))
   @RequestApi({})
@@ -99,6 +115,10 @@ export class MovieController {
   }
 
   @Get('category')
+  @ApiOperation({
+    summary: '[서비스] 영화 장르별로  불러오기 ',
+    description: '영화를 장르별로 불러옵니다. 로그인 없이 사용 가능합니다.',
+  })
   @Auth(JwtNullableAuthGuard)
   @UseInterceptors(RoleInterceptorAPI(Role.USER, true))
   @RequestApi({})
@@ -126,6 +146,10 @@ export class MovieController {
   }
 
   @Get(':id/detail')
+  @ApiOperation({
+    summary: '[서비스 / CMS] 영화 자세히 불러오기 ',
+    description: '영화를 자세히 불러옵니다. 로그인 없이 사용 가능합니다.',
+  })
   @Auth(JwtNullableAuthGuard)
   @UseInterceptors(RoleInterceptorAPI(Role.USER, true))
   @RequestApi({
@@ -143,6 +167,10 @@ export class MovieController {
   }
 
   @Get('/categories')
+  @ApiOperation({
+    summary: '[서비스 / CMS] 영화 카테고리 불러오기 ',
+    description: '영화의 카테고리를 불러옵니다. 로그인 없이 사용 가능합니다.',
+  })
   @Auth(JwtNullableAuthGuard)
   @UseInterceptors(RoleInterceptorAPI(Role.USER, true))
   @RequestApi({})
@@ -155,6 +183,10 @@ export class MovieController {
   }
 
   @Patch(':id')
+  @ApiOperation({
+    summary: '[CMS] 영화 수정하기',
+    description: '영화를 수정합니다. 관리자만 사용 가능합니다.',
+  })
   @Auth(JwtAuthGuard)
   @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
   @RequestApi({
@@ -178,6 +210,10 @@ export class MovieController {
   }
 
   @Delete(':id')
+  @ApiOperation({
+    summary: '[CMS] 영화 삭제하기',
+    description: '영화를 삭제합니다. 관리자만 사용 가능합니다.',
+  })
   @Auth(JwtAuthGuard)
   @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
   @RequestApi({
@@ -193,6 +229,10 @@ export class MovieController {
   }
 
   @Post(':id/like')
+  @ApiOperation({
+    summary: '[서비스] 영화 좋아요 생성',
+    description: '영화 좋아요를 생성합니다. 유저만 사용 가능합니다.',
+  })
   @Auth(JwtAuthGuard)
   @UseInterceptors(RoleInterceptorAPI(Role.USER))
   @RequestApi({
@@ -208,6 +248,10 @@ export class MovieController {
   }
 
   @Delete(':id/like')
+  @ApiOperation({
+    summary: '[서비스] 영화 좋아요 삭제',
+    description: '영화 좋아요를 삭제합니다. 유저만 사용 가능합니다.',
+  })
   @Auth(JwtAuthGuard)
   @UseInterceptors(RoleInterceptorAPI(Role.USER))
   @RequestApi({
@@ -223,6 +267,10 @@ export class MovieController {
   }
 
   @Post('category')
+  @ApiOperation({
+    summary: '[CMS] 영화 카테고리 생성',
+    description: '영화 카테고리를 생성합니다. 관리자만 사용 가능합니다.',
+  })
   @Auth(JwtAuthGuard)
   @UseInterceptors(RoleInterceptorAPI(Role.ADMIN), ResponseWithIdInterceptor)
   @RequestApi({
@@ -236,6 +284,10 @@ export class MovieController {
   }
 
   @Delete('category/:id')
+  @ApiOperation({
+    summary: '[CMS] 영화 카테고리 삭제',
+    description: '영화 카테고리를 삭제합니다. 관리자만 사용 가능합니다.',
+  })
   @Auth(JwtAuthGuard)
   @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
   @RequestApi({
