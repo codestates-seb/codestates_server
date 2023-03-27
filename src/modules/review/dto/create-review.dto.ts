@@ -12,10 +12,10 @@ export class CreateReviewDTO {
   @Property({ apiProperty: { type: 'number' } })
   score: number;
 
-  @Property({ apiProperty: { type: 'string', isArray: true } })
+  @Property({ apiProperty: { type: 'string', isArray: true, nullable: true } })
   enjoyPoints?: string[];
 
-  @Property({ apiProperty: { type: 'string', isArray: true } })
+  @Property({ apiProperty: { type: 'string', isArray: true, nullable: true } })
   tensions: string[];
 
   constructor(props?: CreateReviewDTOProps) {

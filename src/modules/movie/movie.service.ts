@@ -40,6 +40,11 @@ export class MovieService {
             staff: true,
           },
         },
+        movieCategories: {
+          include: {
+            category: true,
+          },
+        },
         reviews: true,
         movieLikes: true,
       },
@@ -80,6 +85,11 @@ export class MovieService {
         movieStaffs: {
           include: {
             staff: true,
+          },
+        },
+        movieCategories: {
+          include: {
+            category: true,
           },
         },
         reviews: true,
@@ -309,13 +319,16 @@ export class MovieService {
       throw new NotFoundException('카테고리를 찾을 수 없습니다.');
     }
 
-    return new CategoryDTO(category);
+    return new CategoryDTO({
+      category: category,
+      categoryId: category.id,
+    });
   }
 
   async findCategories() {
     const categories = await this.database.category.findMany();
 
-    return categories.map((category) => new CategoryDTO(category));
+    return categories.map((category) => new CategoryDTO({ category: category, categoryId: category.id }));
   }
 
   async findCategoryByName(name: string) {
@@ -329,7 +342,7 @@ export class MovieService {
       throw new NotFoundException('카테고리를 찾을 수 없습니다.');
     }
 
-    return new CategoryDTO(category);
+    return new CategoryDTO({ category: category, categoryId: category.id });
   }
 
   async createCategory(props: CreateCategoryDTO) {
