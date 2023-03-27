@@ -8,7 +8,7 @@ import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptor
 import { CreateUserDTO, UpdateUserDTO, UserCountDTO, UserDTO, UserInfoDTO } from './dto';
 import { FindUsersQuery } from './dto/query';
 import { UserService } from './user.service';
-
+//TODO: 유저 정보 / 수정 테스트
 @ApiTags('유저')
 @Controller('users')
 export class UserController {
@@ -42,7 +42,13 @@ export class UserController {
   })
   async findMe(@ReqUser() user: User) {
     const me = await this.userService.findUser(user.id);
-    return new UserDTO(me);
+    return new UserDTO({
+      ...me,
+      preferredGenres: me.preferredGenres.map((genre) => ({
+        genre: genre,
+        genreId: genre.id,
+      })),
+    });
   }
 
   @Get('me/info')
@@ -100,7 +106,12 @@ export class UserController {
   })
   async findUser(@Param('id') id: string) {
     const user = await this.userService.findUser(id);
-    return new UserDTO(user);
+    return new UserDTO({
+      ...user,
+      preferredGenres: user.preferredGenres.map((genre) => {
+        return { genre: genre, genreId: genre.id };
+      }),
+    });
   }
 
   @Get()

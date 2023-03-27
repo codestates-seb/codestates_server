@@ -1,6 +1,11 @@
 import { User, UserGender } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { Property } from 'kyoongdev-nestjs';
+import { GenreDTO, GenreDTOProps } from 'modules/movie/dto';
+
+interface UserDetailDTOProps extends Partial<User> {
+  preferredGenres?: GenreDTOProps[];
+}
 export class UserDetailDTO {
   @Property({ apiProperty: { type: 'string' } })
   id: string;
@@ -26,13 +31,16 @@ export class UserDetailDTO {
   @Property({ apiProperty: { type: 'string', nullable: true, enum: UserGender, example: Object.keys(UserGender) } })
   gender: UserGender;
 
+  @Property({ apiProperty: { type: GenreDTO, isArray: true, nullable: true } })
+  preferredGenres?: GenreDTO[];
+
   @Property({ apiProperty: { type: 'string', format: 'date-time', nullable: true } })
   createdAt?: Date;
 
   @Property({ apiProperty: { type: 'string', format: 'date-time', nullable: true } })
   updatedAt?: Date;
 
-  constructor(props: Partial<User>) {
+  constructor(props: UserDetailDTOProps) {
     this.id = props.id;
     this.name = props.name;
     this.birth = props.birth;
@@ -43,6 +51,7 @@ export class UserDetailDTO {
     this.profileImage = props.profileImage;
     this.createdAt = props.createdAt;
     this.updatedAt = props.updatedAt;
+    this.preferredGenres = props.preferredGenres?.map((genre) => new GenreDTO(genre));
   }
 
   async comparePassword(password: string) {

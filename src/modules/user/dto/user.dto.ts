@@ -1,5 +1,10 @@
 import { User, UserGender } from '@prisma/client';
 import { Property } from 'kyoongdev-nestjs';
+import { GenreDTO, GenreDTOProps } from 'modules/movie/dto';
+
+export interface UserDTOProps extends Partial<User> {
+  preferredGenres?: GenreDTOProps[];
+}
 export class UserDTO {
   @Property({ apiProperty: { type: 'string' } })
   id: string;
@@ -25,13 +30,16 @@ export class UserDTO {
   @Property({ apiProperty: { type: 'string', nullable: true, enum: UserGender, example: Object.keys(UserGender) } })
   gender: UserGender;
 
+  @Property({ apiProperty: { type: GenreDTO, isArray: true, nullable: true } })
+  preferredGenres?: GenreDTO[];
+
   @Property({ apiProperty: { type: 'string', format: 'date-time' } })
   createdAt: Date;
 
   @Property({ apiProperty: { type: 'string', format: 'date-time' } })
   updatedAt: Date;
 
-  constructor(props: Partial<User>) {
+  constructor(props: UserDTOProps) {
     this.id = props.id;
     this.name = props.name;
     this.email = props.email;
@@ -40,5 +48,8 @@ export class UserDTO {
     this.description = props.description;
     this.createdAt = props.createdAt;
     this.updatedAt = props.updatedAt;
+    this.birth = props.birth;
+    this.profileImage = props.profileImage;
+    this.preferredGenres = props.preferredGenres?.map((genre) => new GenreDTO(genre));
   }
 }

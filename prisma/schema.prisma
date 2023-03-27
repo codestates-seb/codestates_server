@@ -19,6 +19,7 @@ model User{
   gender UserGender? 
   description  String? @db.LongText
   profileImage String? 
+  isPublic Boolean? @default(true)
   userType  UserType? @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -33,6 +34,15 @@ model User{
   reviewHates ReviewHate[]
   faqs FAQ[]
   faqComments FAQComment[]
+  userGenres UserGenre[]
+}
+
+model UserGenre{
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  genreId String
+  genre Genre @relation(fields: [genreId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@id([userId, genreId])
 }
 
 model MovieLike{
@@ -71,6 +81,7 @@ model Genre {
   id        String      @id @default(uuid())
   name      String
   movieGenres MovieGenre[]
+  userGenres UserGenre[]
 }
 
 model MovieGenre {

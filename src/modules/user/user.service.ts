@@ -48,13 +48,30 @@ export class UserService {
       ...args,
       skip,
       take,
+      include: {
+        userGenres: {
+          select: {
+            genreId: true,
+            genre: true,
+          },
+        },
+      },
       orderBy: {
         createdAt: 'desc',
       },
     });
 
     return new PaginationDTO(
-      users.map((user) => new UserDTO(user)),
+      users.map(
+        (user) =>
+          new UserDTO({
+            ...user,
+            preferredGenres: user.userGenres.map((genre) => ({
+              genreId: genre.genreId,
+              genre: genre.genre,
+            })),
+          })
+      ),
       { count, paging }
     );
   }
@@ -64,10 +81,25 @@ export class UserService {
       where: {
         id,
       },
+      include: {
+        userGenres: {
+          select: {
+            genreId: true,
+            genre: true,
+          },
+        },
+      },
     });
+
     this.exception.userNotFound(user);
 
-    return new UserDetailDTO(user);
+    return new UserDetailDTO({
+      ...user,
+      preferredGenres: user.userGenres.map((genre) => ({
+        genreId: genre.genreId,
+        genre: genre.genre,
+      })),
+    });
   }
 
   async createUser(props: CreateUserDTO) {
@@ -89,13 +121,23 @@ export class UserService {
     if (props.password) {
       await props.hashPassword(Number(this.config.get('PASSWORD_SALT')));
     }
+    const { preferredGenres, ...rest } = props;
+
+    await this.database.userGenre.deleteMany({
+      where: {
+        userId: user.id,
+      },
+    });
 
     await this.database.user.update({
       where: {
         id: user.id,
       },
       data: {
-        ...props,
+        ...rest,
+        userGenres: {
+          create: preferredGenres.map((genre) => ({ genreId: genre })),
+        },
       },
     });
   }

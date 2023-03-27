@@ -1,9 +1,9 @@
 import { FAQComment } from '@prisma/client';
 import { Property } from 'kyoongdev-nestjs';
-import { UserDTO } from 'modules/user/dto';
+import { UserDTO, UserDTOProps } from 'modules/user/dto';
 
 export interface FaqCommentDTOProps extends Partial<FAQComment> {
-  user: Partial<UserDTO>;
+  user: UserDTOProps;
 }
 
 export class FaqCommentDto {

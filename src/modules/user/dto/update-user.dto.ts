@@ -10,6 +10,8 @@ interface Props {
   description?: string;
   profileImage?: string;
   gender?: UserGender;
+  isPublic?: boolean;
+  preferredGenres?: string[];
 }
 
 export class UpdateUserDTO {
@@ -34,6 +36,12 @@ export class UpdateUserDTO {
   @Property({ apiProperty: { type: 'string', nullable: true } })
   profileImage?: string;
 
+  @Property({ apiProperty: { type: 'boolean', nullable: true } })
+  isPublic?: boolean;
+
+  @Property({ apiProperty: { type: 'string', isArray: true, nullable: true } })
+  preferredGenres?: string[];
+
   @Property({ apiProperty: { type: 'string', nullable: true, enum: UserGender, example: Object.keys(UserGender) } })
   gender: UserGender;
 
@@ -47,6 +55,8 @@ export class UpdateUserDTO {
       this.description = props.description;
       this.profileImage = props.profileImage;
       this.gender = props.gender;
+      this.isPublic = props.isPublic;
+      this.preferredGenres = props.preferredGenres;
     }
   }
 

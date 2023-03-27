@@ -2,7 +2,7 @@ import { Genre } from '@prisma/client';
 import { Property } from 'kyoongdev-nestjs';
 
 export interface GenreDTOProps {
-  movieId: string;
+  movieId?: string;
   genreId: string;
   genre: Genre;
 }
