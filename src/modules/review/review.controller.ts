@@ -84,6 +84,44 @@ export class ReviewController {
   async getReviewsByMovieId(@Param('movieId') movieId: string, @ReqUser() user?: User) {
     return await this.reviewService.findReviewsByMovieId(movieId, user?.id);
   }
+  @Get('movie/:movieId/paging')
+  @ApiOperation({
+    summary: '[서비스] 영화 리뷰 목록 조회 - 페이징',
+    description: '영화의 리뷰 목록을 조회합니다. 유저가 사용할 경우, 유저의 리뷰 정보를 함께 반환합니다.',
+  })
+  @RequestApi({
+    params: {
+      name: 'movieId',
+      type: 'string',
+      required: true,
+      description: '영화의 id',
+    },
+    query: {
+      type: PagingDTO,
+    },
+  })
+  @ResponseApi(
+    {
+      type: ReviewDto,
+      isPaging: true,
+    },
+    200
+  )
+  async getReviewsByMovieIdWithPaging(
+    @Paging() paging: PagingDTO,
+    @Param('movieId') movieId: string,
+    @ReqUser() user?: User
+  ) {
+    return await this.reviewService.findReviews(
+      paging,
+      {
+        where: {
+          movieId,
+        },
+      },
+      user.id
+    );
+  }
 
   @Get(':id/detail')
   @ApiOperation({

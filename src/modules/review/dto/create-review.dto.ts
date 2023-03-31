@@ -6,8 +6,8 @@ interface CreateReviewDTOProps extends Partial<MovieReview> {
 }
 
 export class CreateReviewDTO {
-  @Property({ apiProperty: { type: 'string' } })
-  content: string;
+  @Property({ apiProperty: { type: 'string', nullable: true } })
+  content?: string;
 
   @Property({ apiProperty: { type: 'number' } })
   score: number;

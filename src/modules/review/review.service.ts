@@ -74,7 +74,7 @@ export class ReviewService {
     });
   }
 
-  async findReviews(paging: PagingDTO, args = {} as Prisma.MovieReviewFindManyArgs) {
+  async findReviews(paging: PagingDTO, args = {} as Prisma.MovieReviewFindManyArgs, userId?: string) {
     const { skip, take } = paging.getSkipTake();
     const count = await this.database.movieReview.count({
       where: args.where,
@@ -82,6 +82,9 @@ export class ReviewService {
     const reviews = await this.database.movieReview.findMany({
       where: {
         ...args.where,
+        content: {
+          not: null,
+        },
       },
       include: {
         user: true,
@@ -103,7 +106,7 @@ export class ReviewService {
 
     const reviewDTOs = await Promise.all(
       reviews.map(async (review) => {
-        const addition = await this.getReviewAdditionInfo(review.id);
+        const addition = await this.getReviewAdditionInfo(review.id, userId);
 
         const { reviewComments, ...rest } = review;
 
@@ -124,6 +127,9 @@ export class ReviewService {
     const reviews = await this.database.movieReview.findMany({
       where: {
         movieId,
+        content: {
+          not: null,
+        },
       },
       include: {
         user: true,
@@ -161,6 +167,9 @@ export class ReviewService {
     const reviews = await this.database.movieReview.findMany({
       where: {
         userId,
+        content: {
+          not: null,
+        },
       },
     });
 
