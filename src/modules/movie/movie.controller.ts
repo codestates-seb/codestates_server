@@ -33,9 +33,35 @@ export class MovieController {
       {
         where: {
           ...(query.title && {
-            title: {
-              contains: query.title,
-            },
+            OR: [
+              {
+                title: {
+                  contains: query.title,
+                },
+              },
+              {
+                movieStaffs: {
+                  some: {
+                    staff: {
+                      name: {
+                        contains: query.title,
+                      },
+                    },
+                  },
+                },
+              },
+              {
+                movieActors: {
+                  some: {
+                    actor: {
+                      name: {
+                        contains: query.title,
+                      },
+                    },
+                  },
+                },
+              },
+            ],
           }),
         },
       },

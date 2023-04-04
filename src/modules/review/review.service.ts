@@ -1,4 +1,10 @@
-import { ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'database/prisma.service';
 import { PaginationDTO, PagingDTO } from 'kyoongdev-nestjs';
@@ -63,6 +69,36 @@ export class ReviewService {
     });
 
     if (!review) throw new NotFoundException('리뷰가 존재하지 않습니다.');
+
+    const addition = await this.getReviewAdditionInfo(review.id, userId);
+    const { reviewComments, ...rest } = review;
+
+    return new ReviewDto({
+      ...rest,
+      comments: reviewComments,
+      ...addition,
+    });
+  }
+  async findReviewByMovieAndUser(movieId: string, userId: string) {
+    const review = await this.database.movieReview.findFirst({
+      where: {
+        movieId,
+        userId,
+      },
+      include: {
+        user: true,
+        reviewComments: {
+          include: {
+            user: true,
+          },
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+      },
+    });
+
+    if (!review) return null;
 
     const addition = await this.getReviewAdditionInfo(review.id, userId);
     const { reviewComments, ...rest } = review;
@@ -202,8 +238,11 @@ export class ReviewService {
   }
 
   async createReview(movieId: string, userId: string, props: CreateReviewDTO) {
-    this.userService.findUser(userId);
-    this.movieService.findMovie(movieId);
+    await this.userService.findUser(userId);
+    await this.movieService.findMovie(movieId);
+    const isExist = await this.findReviewByMovieAndUser(movieId, userId);
+
+    if (isExist) throw new BadRequestException('이미 리뷰를 작성하셨습니다.');
 
     const review = await this.database.movieReview.create({
       data: {

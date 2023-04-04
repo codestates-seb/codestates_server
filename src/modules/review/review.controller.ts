@@ -84,6 +84,31 @@ export class ReviewController {
   async getReviewsByMovieId(@Param('movieId') movieId: string, @ReqUser() user?: User) {
     return await this.reviewService.findReviewsByMovieId(movieId, user?.id);
   }
+  @Get('movie/:movieId/me')
+  @ApiOperation({
+    summary: '[서비스] 나의 영화 리뷰 조회',
+    description: '나의 영화 리뷰를 조회합니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER))
+  @RequestApi({
+    params: {
+      name: 'movieId',
+      type: 'string',
+      required: true,
+      description: '영화의 id',
+    },
+  })
+  @ResponseApi(
+    {
+      type: ReviewDto,
+    },
+    200
+  )
+  async getMyReviewByMovieId(@Param('movieId') movieId: string, @ReqUser() user: User) {
+    return await this.reviewService.findReviewByMovieAndUser(movieId, user.id);
+  }
+
   @Get('movie/:movieId/paging')
   @ApiOperation({
     summary: '[서비스] 영화 리뷰 목록 조회 - 페이징',
