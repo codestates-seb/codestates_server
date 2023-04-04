@@ -7,6 +7,7 @@ import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptor
 import { CreateReviewCommentDTO, CreateReviewDTO, ReviewCountDTO, ReviewDto, ReviewsDto, UpdateReviewDTO } from './dto';
 import { FindReviewsQuery } from './dto/query';
 import { ReviewService } from './review.service';
+import { JwtNullableAuthGuard } from 'utils/guards/jwt-nullable.guard';
 
 @ApiTags('리뷰')
 @Controller('reviews')
@@ -153,7 +154,8 @@ export class ReviewController {
     summary: '[서비스] 영화 리뷰 상세 조회',
     description: '영화의 리뷰를 상세 조회합니다. 유저가 사용할 경우, 유저의 리뷰 정보를 함께 반환합니다.',
   })
-  @UseInterceptors(DataInterceptor)
+  @Auth(JwtNullableAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER, true))
   @RequestApi({
     params: {
       name: 'id',
@@ -178,8 +180,7 @@ export class ReviewController {
     description: '영화의 리뷰를 생성합니다. 유저만 사용이 가능합니다.',
   })
   @Auth(JwtAuthGuard)
-  @UseInterceptors(RoleInterceptorAPI(Role.USER))
-  @UseInterceptors(ResponseWithIdInterceptor)
+  @UseInterceptors(ResponseWithIdInterceptor, RoleInterceptorAPI(Role.USER))
   @RequestApi({
     params: {
       name: 'movieId',
