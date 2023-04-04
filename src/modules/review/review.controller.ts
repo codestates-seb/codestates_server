@@ -67,6 +67,8 @@ export class ReviewController {
     summary: '[서비스] 영화 리뷰 목록 조회',
     description: '영화의 리뷰 목록을 조회합니다. 유저가 사용할 경우, 유저의 리뷰 정보를 함께 반환합니다.',
   })
+  @Auth(JwtNullableAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER, true))
   @RequestApi({
     params: {
       name: 'movieId',
@@ -115,6 +117,8 @@ export class ReviewController {
     summary: '[서비스] 영화 리뷰 목록 조회 - 페이징',
     description: '영화의 리뷰 목록을 조회합니다. 유저가 사용할 경우, 유저의 리뷰 정보를 함께 반환합니다.',
   })
+  @Auth(JwtNullableAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER, true))
   @RequestApi({
     params: {
       name: 'movieId',

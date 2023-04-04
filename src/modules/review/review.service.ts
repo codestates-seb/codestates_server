@@ -414,6 +414,7 @@ export class ReviewService {
         },
       },
     });
+    console.log({ like });
 
     return like ? true : false;
   }
