@@ -14,8 +14,9 @@ export class BookmarkDTO {
   @Property({ apiProperty: { type: MovieDTO } })
   movie: MovieDTO;
 
-  constructor(props: BookmarkDTOProps) {
+  constructor(props: BookmarkDTOProps, userId?: string) {
     this.user = new UserDTO(props.user);
-    this.movie = new MovieDTO(props.movie);
+
+    this.movie = new MovieDTO(props.movie, userId);
   }
 }

@@ -38,7 +38,7 @@ export class BookmarkService {
       throw new NotFoundException('북마크가 존재하지 않습니다.');
     }
 
-    return new BookmarkDTO(bookmark);
+    return new BookmarkDTO(bookmark, userId);
   }
 
   async findBookmarkByUserIdWithPaging(
@@ -69,8 +69,28 @@ export class BookmarkService {
       },
     })) as BookmarkDTOProps[];
 
+    // const movies = await Promise.all(
+    //   bookmarks.map(async (bookmark) => {
+    //     const isLiked = await this.database.movieLike.findUnique({
+    //       where: {
+    //         movieId_userId: {
+    //           movieId: bookmark.movie.id,
+    //           userId,
+    //         },
+    //       },
+    //     });
+    //     return new BookmarkDTO({
+    //       ...bookmark,
+    //       movie: {
+    //         ...bookmark.movie,
+
+    //       }
+    //     })
+    //   })
+    // );
+
     return new PaginationDTO<BookmarkDTO>(
-      bookmarks.map((bookmark) => new BookmarkDTO(bookmark)),
+      bookmarks.map((bookmark) => new BookmarkDTO(bookmark, userId)),
       { count, paging }
     );
   }
@@ -90,7 +110,7 @@ export class BookmarkService {
       },
     })) as BookmarkDTOProps[];
 
-    return bookmarks.map((bookmark) => new BookmarkDTO(bookmark));
+    return bookmarks.map((bookmark) => new BookmarkDTO(bookmark, userId));
   }
 
   async createBookmark(userId: string, movieId: string) {
