@@ -161,7 +161,7 @@ export class ReviewController {
       name: 'id',
       type: 'string',
       required: true,
-      description: '영화의 id',
+      description: '리뷰의 id',
     },
   })
   @ResponseApi(
