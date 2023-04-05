@@ -188,6 +188,28 @@ export class UserController {
     await this.userService.updateUser(id, body);
   }
 
+  @Patch('')
+  @ApiOperation({
+    summary: '[서비스] 나의 정보 수정하기',
+    description: '나의 정보를 수정합니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER))
+  @RequestApi({
+    body: {
+      type: UpdateUserDTO,
+    },
+  })
+  @ResponseApi(
+    {
+      type: EmptyResponseDTO,
+    },
+    204
+  )
+  async updateMe(@ReqUser() user: User, @Body() body: UpdateUserDTO) {
+    await this.userService.updateUser(user.id, body);
+  }
+
   @Delete(':id')
   @ApiOperation({
     summary: '[CMS] 유저 삭제하기',
