@@ -199,6 +199,45 @@ export class ReviewService {
     return reviewDtos;
   }
 
+  async findReviewsByUserId(userId: string) {
+    const reviews = await this.database.movieReview.findMany({
+      where: {
+        content: {
+          not: null,
+        },
+      },
+      include: {
+        user: true,
+        reviewComments: {
+          include: {
+            user: true,
+          },
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    const reviewDtos = await Promise.all(
+      reviews.map(async (review) => {
+        const addition = await this.getReviewAdditionInfo(review.id, userId);
+        const { reviewComments, ...rest } = review;
+
+        return new ReviewDto({
+          ...rest,
+          comments: reviewComments,
+          ...addition,
+        });
+      })
+    );
+
+    return reviewDtos;
+  }
+
   async getUserReviewInfo(userId: string) {
     const reviews = await this.database.movieReview.findMany({
       where: {

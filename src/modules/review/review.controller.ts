@@ -43,7 +43,7 @@ export class ReviewController {
   @ResponseApi(
     {
       type: ReviewDto,
-      isArray: true,
+      isPaging: true,
     },
     200
   )
@@ -60,6 +60,24 @@ export class ReviewController {
         },
       },
     });
+  }
+  @Get('me')
+  @ApiOperation({
+    summary: '[서비스] 내 리뷰 목록 조회',
+    description: '내 리뷰 목록을 조회합니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER))
+  @RequestApi({})
+  @ResponseApi(
+    {
+      type: ReviewDto,
+      isArray: true,
+    },
+    200
+  )
+  async getMyReviews(@ReqUser() user: User) {
+    return await this.reviewService.findReviewsByUserId(user.id);
   }
 
   @Get('movie/:movieId')
