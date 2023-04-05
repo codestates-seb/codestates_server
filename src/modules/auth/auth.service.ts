@@ -44,6 +44,8 @@ export class AuthService {
         email: props.email,
         password: await bcrypt.hash(props.password, Number(this.configService.get('PASSWORD_SALT'))),
         name: props.name,
+        birth: props.birth,
+        nickname: props.nickname,
       },
     });
 

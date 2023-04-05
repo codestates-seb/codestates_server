@@ -3,7 +3,7 @@ import { Prisma } from '@prisma/client';
 import { PrismaService } from 'database/prisma.service';
 import { PaginationDTO, PagingDTO } from 'kyoongdev-nestjs';
 import { UserService } from 'modules/user/user.service';
-import { CategoryDTO, MovieDTO, UpdateMovieDTO, CreateCategoryDTO, MovieDTOProps } from './dto';
+import { CategoryDTO, MovieDTO, UpdateMovieDTO, CreateCategoryDTO, MovieDTOProps, GenreDTO } from './dto';
 import { MovieCountDTO } from './dto/movie-count.dto';
 import { movieIncludeOption } from './query';
 
@@ -48,6 +48,17 @@ export class MovieService {
     })) as MovieDTOProps[];
 
     return movies.map((movie) => new MovieDTO(movie));
+  }
+  async findMovieGenres() {
+    const genres = await this.database.genre.findMany({});
+
+    return genres.map(
+      (genre) =>
+        new GenreDTO({
+          genre: genre,
+          genreId: genre.id,
+        })
+    );
   }
 
   async findMovies(paging: PagingDTO, args = {} as Prisma.MovieFindManyArgs, userId?: string) {

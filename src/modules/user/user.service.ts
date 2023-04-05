@@ -123,11 +123,24 @@ export class UserService {
     }
     const { preferredGenres, ...rest } = props;
 
-    await this.database.userGenre.deleteMany({
-      where: {
-        userId: user.id,
-      },
-    });
+    if (preferredGenres) {
+      await this.database.userGenre.deleteMany({
+        where: {
+          userId: user.id,
+        },
+      });
+
+      await this.database.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          userGenres: {
+            create: preferredGenres.map((genre) => ({ genreId: genre })),
+          },
+        },
+      });
+    }
 
     await this.database.user.update({
       where: {
@@ -135,9 +148,6 @@ export class UserService {
       },
       data: {
         ...rest,
-        userGenres: {
-          create: preferredGenres.map((genre) => ({ genreId: genre })),
-        },
       },
     });
   }

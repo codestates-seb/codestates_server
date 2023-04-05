@@ -79,6 +79,32 @@ export class ReviewController {
   async getMyReviews(@ReqUser() user: User) {
     return await this.reviewService.findReviewsByUserId(user.id);
   }
+  @Get('me/paging')
+  @ApiOperation({
+    summary: '[서비스] 내 리뷰 목록 조회 - 페이징',
+    description: '내 리뷰 목록을 조회합니다. - 페이징',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER))
+  @RequestApi({
+    query: {
+      type: PagingDTO,
+    },
+  })
+  @ResponseApi(
+    {
+      type: ReviewDto,
+      isPaging: true,
+    },
+    200
+  )
+  async getMyReviewsWithPaging(@Paging() paging: PagingDTO, @ReqUser() user: User) {
+    return await this.reviewService.findReviews(paging, {
+      where: {
+        userId: user.id,
+      },
+    });
+  }
 
   @Get('movie/:movieId')
   @ApiOperation({

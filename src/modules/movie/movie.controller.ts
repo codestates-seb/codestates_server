@@ -5,7 +5,7 @@ import { EmptyResponseDTO, ResponseWithIdDTO } from 'common';
 import { Auth, Paging, PagingDTO, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
 import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptorAPI } from 'utils';
 import { JwtNullableAuthGuard } from 'utils/guards/jwt-nullable.guard';
-import { CategoryDTO, CreateCategoryDTO, MovieDTO, UpdateMovieDTO } from './dto';
+import { CategoryDTO, CreateCategoryDTO, GenreDTO, MovieDTO, UpdateMovieDTO } from './dto';
 import { MovieCountDTO } from './dto/movie-count.dto';
 import { DeleteMovieQuery, FindMovieByCategoryQuery, FindMovieByGenreQuery, FindMovieQuery } from './dto/query';
 import { MovieService } from './movie.service';
@@ -256,6 +256,21 @@ export class MovieController {
   })
   async getCategories() {
     return await this.movieService.findCategories();
+  }
+  @Get('/genres')
+  @ApiOperation({
+    summary: '[서비스 / CMS] 영화 카테고리 불러오기 ',
+    description: '영화의 카테고리를 불러옵니다. 로그인 없이 사용 가능합니다.',
+  })
+  @Auth(JwtNullableAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER, true))
+  @RequestApi({})
+  @ResponseApi({
+    type: GenreDTO,
+    isArray: true,
+  })
+  async getGenres() {
+    return await this.movieService.findMovieGenres();
   }
 
   @Patch(':id')
