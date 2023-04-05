@@ -7,7 +7,7 @@ import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptor
 import { JwtNullableAuthGuard } from 'utils/guards/jwt-nullable.guard';
 import { CategoryDTO, CreateCategoryDTO, MovieDTO, UpdateMovieDTO } from './dto';
 import { MovieCountDTO } from './dto/movie-count.dto';
-import { FindMovieByCategoryQuery, FindMovieByGenreQuery, FindMovieQuery } from './dto/query';
+import { DeleteMovieQuery, FindMovieByCategoryQuery, FindMovieByGenreQuery, FindMovieQuery } from './dto/query';
 import { MovieService } from './movie.service';
 
 @ApiTags('영화')
@@ -302,6 +302,19 @@ export class MovieController {
   @ResponseApi({ type: EmptyResponseDTO }, 204)
   async deleteMovie(@Param('id') id: string) {
     await this.deleteMovie(id);
+  }
+
+  @Delete('')
+  @ApiOperation({
+    summary: '[CMS] 영화 다수 삭제하기',
+    description: '영화를 다수 삭제합니다. 관리자만 사용 가능합니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
+  @RequestApi({})
+  @ResponseApi({ type: EmptyResponseDTO }, 204)
+  async deleteMovies(@Query() query: DeleteMovieQuery) {
+    await Promise.all(query.movieIds.split(',').map((id) => this.movieService.deleteMovie(id)));
   }
 
   @Post(':id/like')

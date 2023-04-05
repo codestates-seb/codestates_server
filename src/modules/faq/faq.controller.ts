@@ -7,6 +7,7 @@ import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptor
 import { CreateFaqCommentDTO, CreateFaqDTO, FAQDto, FAQsDto, UpdateFaqCommentDTO, UpdateFaqDTO } from './dto';
 import { FindFaqQuery } from './dto/query';
 import { FaqService } from './faq.service';
+import { DeleteFaqQuery } from './dto/query';
 
 @Controller('faqs')
 @ApiTags('FAQ')
@@ -173,6 +174,23 @@ export class FaqController {
   )
   async adminDeleteFaq(@Param('id') id: string) {
     return this.faqService.deleteFaq(id);
+  }
+  @Delete('')
+  @ApiOperation({
+    summary: '[CMS] faq 다수 삭제하기 ',
+    description: ' faq를 다수 삭제합니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
+  @RequestApi({})
+  @ResponseApi(
+    {
+      type: EmptyResponseDTO,
+    },
+    204
+  )
+  async adminDeleteFaqs(@Query() query: DeleteFaqQuery) {
+    await Promise.all(query.faqIds.split(',').map(async (id) => this.faqService.deleteFaq(id)));
   }
 
   @Post(':id/comments')

@@ -7,6 +7,7 @@ import { FindReportsQuery } from './dto/query/find-reports.query';
 import { ReportsDTO, UpdateReviewReportDTO, ReportDTO, AdminUpdateReviewReportDTO } from './dto';
 import { ReportService } from './report.service';
 import { EmptyResponseDTO } from 'common';
+import { DeleteReportQuery } from './dto/query';
 
 @ApiTags('신고')
 @Controller('reports')
@@ -189,5 +190,23 @@ export class ReportController {
   )
   async adminDeleteReport(@Param('id') id: string) {
     await this.reportService.deleteReport(id);
+  }
+
+  @Delete('admin/many')
+  @ApiOperation({
+    summary: '[CMS] 신고 다수 삭제',
+    description: '신고를 다수 삭제합니다. 관리자만 사용할 수 있습니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
+  @RequestApi({})
+  @ResponseApi(
+    {
+      type: EmptyResponseDTO,
+    },
+    204
+  )
+  async adminDeleteReports(@Query() query: DeleteReportQuery) {
+    await Promise.all(query.reportIds.split(',').map((id) => this.reportService.deleteReport(id)));
   }
 }

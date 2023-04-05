@@ -6,7 +6,7 @@ import { Auth, Paging, PagingDTO, RequestApi, ResponseApi } from 'kyoongdev-nest
 import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptorAPI } from 'utils';
 
 import { CreateUserDTO, UpdateUserDTO, UserCountDTO, UserDTO, UserInfoDTO } from './dto';
-import { FindUsersQuery } from './dto/query';
+import { DeleteUsersQuery, FindUsersQuery } from './dto/query';
 import { UserService } from './user.service';
 //TODO: 유저 정보 / 수정 테스트
 @ApiTags('유저')
@@ -210,5 +210,27 @@ export class UserController {
   )
   async deleteUser(@Param('id') id: string) {
     await this.userService.deleteUser(id);
+  }
+
+  @Delete('')
+  @ApiOperation({
+    summary: '[CMS] 유저 다수 삭제하기',
+    description: '유저를 다수 삭제합니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
+  @RequestApi({})
+  @ResponseApi(
+    {
+      type: EmptyResponseDTO,
+    },
+    204
+  )
+  async deleteUsers(@Query() query: DeleteUsersQuery) {
+    await Promise.all(
+      query.userIds.split(',').map(async (id: string) => {
+        await this.userService.deleteUser(id);
+      })
+    );
   }
 }
