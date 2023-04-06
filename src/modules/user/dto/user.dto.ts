@@ -33,6 +33,15 @@ export class UserDTO {
   @Property({ apiProperty: { type: 'boolean', nullable: true } })
   isPublic?: boolean;
 
+  @Property({ apiProperty: { type: 'boolean', nullable: true } })
+  isLikeView?: boolean;
+
+  @Property({ apiProperty: { type: 'boolean', nullable: true } })
+  isReviewView?: boolean;
+
+  @Property({ apiProperty: { type: 'boolean', nullable: true } })
+  isPreferenceView?: boolean;
+
   @Property({ apiProperty: { type: GenreDTO, isArray: true, nullable: true } })
   preferredGenres?: GenreDTO[];
 
@@ -52,6 +61,9 @@ export class UserDTO {
     this.createdAt = props.createdAt;
     this.updatedAt = props.updatedAt;
     this.isPublic = props.isPublic;
+    this.isLikeView = props.isLikeView;
+    this.isReviewView = props.isReviewView;
+    this.isPreferenceView = props.isPreferenceView;
     this.birth = props.birth;
     this.profileImage = props.profileImage;
     this.preferredGenres = props.preferredGenres?.map((genre) => new GenreDTO(genre));
