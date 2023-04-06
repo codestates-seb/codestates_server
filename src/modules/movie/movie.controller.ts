@@ -259,8 +259,8 @@ export class MovieController {
   }
   @Get('/genres')
   @ApiOperation({
-    summary: '[서비스 / CMS] 영화 카테고리 불러오기 ',
-    description: '영화의 카테고리를 불러옵니다. 로그인 없이 사용 가능합니다.',
+    summary: '[서비스 / CMS] 영화 장르 불러오기 ',
+    description: '영화의 장르를 불러옵니다. 로그인 없이 사용 가능합니다.',
   })
   @Auth(JwtNullableAuthGuard)
   @UseInterceptors(RoleInterceptorAPI(Role.USER, true))

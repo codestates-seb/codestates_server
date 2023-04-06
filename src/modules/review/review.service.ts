@@ -336,10 +336,10 @@ export class ReviewService {
     return review.id;
   }
 
-  async updateReview(id: string, userId: string, props: UpdateReviewDTO) {
+  async updateReview(id: string, props: UpdateReviewDTO, userId?: string) {
     const review = await this.findReview(id);
 
-    if (review.user.id !== userId) throw new ForbiddenException('리뷰를 수정할 권한이 없습니다.');
+    if (userId && review.user.id !== userId) throw new ForbiddenException('리뷰를 수정할 권한이 없습니다.');
 
     await this.database.movieReview.update({
       where: {
@@ -352,10 +352,10 @@ export class ReviewService {
     });
   }
 
-  async deleteReview(id: string, userId: string) {
+  async deleteReview(id: string, userId?: string) {
     const review = await this.findReview(id);
 
-    if (review.user.id !== userId) throw new ForbiddenException('리뷰를 삭제할 권한이 없습니다.');
+    if (userId && review.user.id !== userId) throw new ForbiddenException('리뷰를 삭제할 권한이 없습니다.');
 
     await this.database.movieReview.delete({
       where: {

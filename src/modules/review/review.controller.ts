@@ -5,7 +5,7 @@ import { EmptyResponseDTO, ResponseWithIdDTO } from 'common';
 import { Auth, Paging, PagingDTO, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
 import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptorAPI, DataInterceptor } from 'utils';
 import { CreateReviewCommentDTO, CreateReviewDTO, ReviewCountDTO, ReviewDto, ReviewsDto, UpdateReviewDTO } from './dto';
-import { FindReviewsQuery } from './dto/query';
+import { DeleteReviewsQuery, FindReviewsQuery } from './dto/query';
 import { ReviewService } from './review.service';
 import { JwtNullableAuthGuard } from 'utils/guards/jwt-nullable.guard';
 
@@ -276,7 +276,35 @@ export class ReviewController {
     204
   )
   async updateReview(@Param('id') id: string, @ReqUser() user: User, @Body() body: UpdateReviewDTO) {
-    await this.reviewService.updateReview(id, user.id, body);
+    await this.reviewService.updateReview(id, body, user.id);
+  }
+
+  @Patch(':id/admin')
+  @ApiOperation({
+    summary: '[CMS] 리뷰 수정',
+    description: '리뷰를 수정합니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
+  @RequestApi({
+    params: {
+      name: 'id',
+      type: 'string',
+      required: true,
+      description: '리뷰의 id',
+    },
+    body: {
+      type: UpdateReviewDTO,
+    },
+  })
+  @ResponseApi(
+    {
+      type: EmptyResponseDTO,
+    },
+    204
+  )
+  async updateReviewAdmin(@Param('id') id: string, @Body() body: UpdateReviewDTO) {
+    await this.reviewService.updateReview(id, body);
   }
 
   @Delete(':id')
@@ -297,12 +325,55 @@ export class ReviewController {
   })
   @ResponseApi(
     {
-      type: ResponseWithIdDTO,
+      type: EmptyResponseDTO,
     },
     204
   )
   async deleteReview(@Param('id') id: string, @ReqUser() user: User) {
     return await this.reviewService.deleteReview(id, user.id);
+  }
+
+  @Delete(':id/admin')
+  @ApiOperation({
+    summary: '[CMS] 리뷰 삭제',
+    description: '리뷰를 삭제합니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
+  @RequestApi({
+    params: {
+      name: 'id',
+      type: 'string',
+      required: true,
+      description: '리뷰의 id',
+    },
+  })
+  @ResponseApi(
+    {
+      type: EmptyResponseDTO,
+    },
+    204
+  )
+  async deleteReviewAdmin(@Param('id') id: string) {
+    await this.reviewService.deleteReview(id);
+  }
+
+  @Delete('many/admin')
+  @ApiOperation({
+    summary: '[CMS] 리뷰 다수 삭제',
+    description: '리뷰를 다수 삭제합니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
+  @RequestApi({})
+  @ResponseApi(
+    {
+      type: EmptyResponseDTO,
+    },
+    204
+  )
+  async deleteReviewsAdmin(@Query() query: DeleteReviewsQuery) {
+    await Promise.all(query.reviewIds.split(',').map(async (id) => this.reviewService.deleteReview(id)));
   }
 
   @Post(':id/comments')
