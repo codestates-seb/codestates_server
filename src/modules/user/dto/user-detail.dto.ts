@@ -31,6 +31,9 @@ export class UserDetailDTO {
   @Property({ apiProperty: { type: 'string', nullable: true, enum: UserGender, example: Object.keys(UserGender) } })
   gender: UserGender;
 
+  @Property({ apiProperty: { type: 'boolean', nullable: true } })
+  isPublic?: boolean;
+
   @Property({ apiProperty: { type: GenreDTO, isArray: true, nullable: true } })
   preferredGenres?: GenreDTO[];
 
@@ -49,6 +52,7 @@ export class UserDetailDTO {
     this.password = props.password;
     this.description = props.description;
     this.profileImage = props.profileImage;
+    this.isPublic = props.isPublic;
     this.createdAt = props.createdAt;
     this.updatedAt = props.updatedAt;
     this.preferredGenres = props.preferredGenres?.map((genre) => new GenreDTO(genre));

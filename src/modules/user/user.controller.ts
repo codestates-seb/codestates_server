@@ -8,6 +8,7 @@ import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptor
 import { CreateUserDTO, UpdateUserDTO, UserCountDTO, UserDTO, UserInfoDTO } from './dto';
 import { DeleteUsersQuery, FindUsersQuery } from './dto/query';
 import { UserService } from './user.service';
+import { JwtNullableAuthGuard } from 'utils/guards/jwt-nullable.guard';
 //TODO: 유저 정보 / 수정 테스트
 @ApiTags('유저')
 @Controller('users')
@@ -89,11 +90,11 @@ export class UserController {
 
   @Get(':id/detail')
   @ApiOperation({
-    summary: '[CMS] 유저 자세히 불러오기',
+    summary: '[CMS / 서비스] 유저 자세히 불러오기',
     description: '유저의 자세한 정보를 불러옵니다.',
   })
-  @Auth(JwtAuthGuard)
-  @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
+  @Auth(JwtNullableAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER, true))
   @RequestApi({
     params: {
       name: 'id',
