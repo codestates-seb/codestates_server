@@ -9,6 +9,9 @@ export class CreateReviewDTO {
   @Property({ apiProperty: { type: 'string', nullable: true } })
   content?: string;
 
+  @Property({ apiProperty: { type: 'string', nullable: true } })
+  title?: string;
+
   @Property({ apiProperty: { type: 'number' } })
   score: number;
 
@@ -20,6 +23,7 @@ export class CreateReviewDTO {
 
   constructor(props?: CreateReviewDTOProps) {
     if (props) {
+      this.title = props.title;
       this.content = props.content;
       this.score = props.score;
       this.enjoyPoints = props.enjoyPoints;

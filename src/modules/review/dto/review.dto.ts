@@ -17,6 +17,9 @@ export class ReviewDto {
   @Property({ apiProperty: { type: 'string' } })
   id: string;
 
+  @Property({ apiProperty: { type: 'string', nullable: true } })
+  title?: string;
+
   @Property({ apiProperty: { type: 'string' } })
   content: string;
 
@@ -55,6 +58,7 @@ export class ReviewDto {
 
   constructor(props: ReviewDTOProps) {
     this.id = props.id;
+    this.title = props.title;
     this.content = props.content;
     this.score = props.score;
     this.createdAt = props.createdAt;
