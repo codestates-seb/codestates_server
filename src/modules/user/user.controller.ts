@@ -137,6 +137,22 @@ export class UserController {
           contains: query.name,
         },
       },
+      orderBy: {
+        ...(query.orderBy === 'COMMENT_COUNT' && {
+          reviewComment: {
+            _count: query.sortBy ? query.sortBy : 'desc',
+          },
+        }),
+        ...(query.orderBy === 'CREATED_AT' && {
+          createdAt: query.sortBy ? query.sortBy : 'desc',
+        }),
+        ...(query.orderBy === 'EMAIL' && {
+          email: query.sortBy ? query.sortBy : 'desc',
+        }),
+        ...(query.orderBy === 'NAME' && {
+          name: query.sortBy ? query.sortBy : 'desc',
+        }),
+      },
     });
   }
 

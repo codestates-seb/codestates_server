@@ -40,6 +40,9 @@ export class MovieDTO {
   isLiked: boolean;
 
   @Property({ apiProperty: { type: 'number' } })
+  likeCount: number;
+
+  @Property({ apiProperty: { type: 'number' } })
   averageScore: number;
 
   @Property({ apiProperty: { type: GenreDTO, isArray: true } })
@@ -63,6 +66,7 @@ export class MovieDTO {
     this.runtime = props.runtime;
     this.company = props.company;
     this.isLiked = userId ? props.movieLikes.findIndex((like) => like.userId === userId) !== -1 : false;
+    this.likeCount = props.movieLikes.length;
     this.averageScore = props.reviews.reduce<number>((acc, next) => (acc += next.score || 0), 0) / props.reviews.length;
     this.genres = props.movieGenres.map((genre) => new GenreDTO(genre));
     this.actors = props.movieActors.map((actor) => new ActorDTO(actor));

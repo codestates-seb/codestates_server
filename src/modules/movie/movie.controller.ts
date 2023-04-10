@@ -65,8 +65,8 @@ export class MovieController {
           }),
         },
         orderBy: {
-          ...(query.orderBy === 'CREATED_AT' && {
-            createdAt: query.sortBy ? query.sortBy : 'desc',
+          ...(query.orderBy === 'RELEASED_AT' && {
+            releasedAt: query.sortBy ? query.sortBy : 'desc',
           }),
           ...(query.orderBy === 'NAME' && {
             title: query.sortBy ? query.sortBy : 'asc',

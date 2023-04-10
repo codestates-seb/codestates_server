@@ -56,6 +56,16 @@ export class FaqController {
           },
         },
       },
+      orderBy: {
+        ...(query.orderBy === 'CONTENT' && { content: query.sortBy ? query.sortBy : 'desc' }),
+        ...(query.orderBy === 'CREATED_AT' && { createdAt: query.sortBy ? query.sortBy : 'desc' }),
+        ...(query.orderBy === 'TITLE' && { title: query.sortBy ? query.sortBy : 'desc' }),
+        ...(query.orderBy === 'USERNAME' && {
+          user: {
+            name: query.sortBy ? query.sortBy : 'desc',
+          },
+        }),
+      },
     });
   }
 

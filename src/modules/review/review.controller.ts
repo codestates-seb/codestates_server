@@ -67,6 +67,12 @@ export class ReviewController {
           },
         },
       },
+      orderBy: {
+        ...(query.orderBy === 'NAME' && { movie: { title: query.sortBy ? query.sortBy : 'desc' } }),
+        ...(query.orderBy === 'CREATED_AT' && { createdAt: query.sortBy ? query.sortBy : 'desc' }),
+        ...(query.orderBy === 'LIKE' && { reviewLikes: { _count: query.sortBy ? query.sortBy : 'desc' } }),
+        ...(query.orderBy === 'USERNAME' && { user: { name: query.sortBy ? query.sortBy : 'desc' } }),
+      },
     });
   }
   @Get('me')
