@@ -279,9 +279,6 @@ export class ReviewService {
   async createReview(movieId: string, userId: string, props: CreateReviewDTO) {
     await this.userService.findUser(userId);
     await this.movieService.findMovie(movieId);
-    const isExist = await this.findReviewByMovieAndUser(movieId, userId);
-
-    if (isExist) throw new BadRequestException('이미 리뷰를 작성하셨습니다.');
 
     const review = await this.database.movieReview.create({
       data: {

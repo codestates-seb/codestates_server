@@ -13,9 +13,9 @@ export const RoleInterceptorAPI = (role?: keyof typeof Role, nullable?: boolean)
 
       if (!req.user && !nullable) throw new UnauthorizedException('로그인을 진행해주세요.');
 
-      if (role && !nullable && role !== req.user.userType) {
-        throw new UnauthorizedException('권한이 없습니다.');
-      }
+      // if (role && !nullable && role !== req.user.userType) {
+      //   throw new UnauthorizedException('권한이 없습니다.');
+      // }
 
       if (role && !nullable) {
         if (role === Role.ADMIN) {
