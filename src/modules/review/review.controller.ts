@@ -4,7 +4,15 @@ import { User } from '@prisma/client';
 import { EmptyResponseDTO, ResponseWithIdDTO } from 'common';
 import { Auth, Paging, PagingDTO, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
 import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptorAPI, DataInterceptor } from 'utils';
-import { CreateReviewCommentDTO, CreateReviewDTO, ReviewCountDTO, ReviewDto, ReviewsDto, UpdateReviewDTO } from './dto';
+import {
+  CreateReviewCommentDTO,
+  CreateReviewDTO,
+  ReviewCommentDTO,
+  ReviewCountDTO,
+  ReviewDto,
+  ReviewsDto,
+  UpdateReviewDTO,
+} from './dto';
 import { DeleteReviewsQuery, FindReviewsQuery } from './dto/query';
 import { ReviewService } from './review.service';
 import { JwtNullableAuthGuard } from 'utils/guards/jwt-nullable.guard';
@@ -376,6 +384,45 @@ export class ReviewController {
     await Promise.all(query.reviewIds.split(',').map(async (id) => this.reviewService.deleteReview(id)));
   }
 
+  @Get(':id/comments/me')
+  @ApiOperation({
+    summary: '[서비스] 내가 특정 리뷰에 작성한 리뷰 댓글 조회',
+    description: '내가 특정 리뷰에  작성한 리뷰 댓글을 조회합니다. 유저만 사용할 수 있습니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER))
+  @RequestApi({
+    params: {
+      name: 'id',
+      type: 'string',
+      required: true,
+      description: '리뷰의 id',
+    },
+  })
+  @ResponseApi({
+    type: ReviewCommentDTO,
+    isArray: true,
+  })
+  async getMyReviewCommentsByReview(@Param('id') id: string, @ReqUser() user: User) {
+    return await this.reviewService.findReviewCommentsByUserId(id, user.id);
+  }
+
+  @Get('comments/me')
+  @ApiOperation({
+    summary: '[서비스] 내가 작성한 리뷰 댓글 조회',
+    description: '내가 작성한 리뷰 댓글을 조회합니다. 유저만 사용할 수 있습니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER))
+  @RequestApi({})
+  @ResponseApi({
+    type: ReviewCommentDTO,
+    isArray: true,
+  })
+  async getMyReviewComments(@ReqUser() user: User) {
+    return await this.reviewService.findUserReviewComments(user.id);
+  }
+
   @Post(':id/comments')
   @ApiOperation({
     summary: '[서비스] 리뷰 댓글 생성',
@@ -458,6 +505,37 @@ export class ReviewController {
   )
   async deleteReviewComment(@Param('id') id: string, @ReqUser() user: User) {
     await this.reviewService.deleteReviewComment(id, user.id);
+  }
+
+  @Get('user/:userId/likes')
+  @ApiOperation({
+    summary: '[서비스] 유저가 좋아요한 리뷰 조회',
+    description: '유저가 좋아요한 리뷰를 조회합니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER))
+  @RequestApi({
+    params: {
+      name: 'userId',
+      type: 'string',
+      required: true,
+      description: '유저의 id',
+    },
+  })
+  @ResponseApi({
+    type: ReviewDto,
+    isArray: true,
+  })
+  async getReviewLikesByUserId(@Param('userId') userId: string) {
+    return await this.reviewService.findReviewsWithNoPaging({
+      where: {
+        reviewLikes: {
+          some: {
+            userId,
+          },
+        },
+      },
+    });
   }
 
   @Post(':id/like')

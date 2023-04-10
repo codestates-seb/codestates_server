@@ -273,6 +273,36 @@ export class MovieController {
     return await this.movieService.findMovieGenres();
   }
 
+  @Get('/user/:userId/like')
+  @ApiOperation({
+    summary: '[서비스 / CMS] 다른 사람이 좋아요한 영화 불러오기 ',
+    description: '다른 사람이 좋아요한 영화를 불러옵니다. 로그인 없이 사용 가능합니다.',
+  })
+  @Auth(JwtNullableAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER, true))
+  @RequestApi({
+    params: {
+      name: 'userId',
+      type: 'string',
+      required: true,
+    },
+  })
+  @ResponseApi({
+    type: GenreDTO,
+    isArray: true,
+  })
+  async getUserMovieLike(@Param('userId') userId: string) {
+    return await this.movieService.findMoviesWithNoPaging({
+      where: {
+        movieLikes: {
+          some: {
+            userId,
+          },
+        },
+      },
+    });
+  }
+
   @Patch(':id')
   @ApiOperation({
     summary: '[CMS] 영화 수정하기',

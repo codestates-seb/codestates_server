@@ -156,6 +156,46 @@ export class ReviewService {
 
     return new PaginationDTO(reviewDTOs, { count, paging });
   }
+  async findReviewsWithNoPaging(args = {} as Prisma.MovieReviewFindManyArgs, userId?: string) {
+    const reviews = await this.database.movieReview.findMany({
+      where: {
+        ...args.where,
+        content: {
+          not: null,
+        },
+      },
+      include: {
+        user: true,
+        reviewComments: {
+          include: {
+            user: true,
+          },
+          orderBy: {
+            createdAt: 'desc',
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    const reviewDTOs = await Promise.all(
+      reviews.map(async (review) => {
+        const addition = await this.getReviewAdditionInfo(review.id, userId);
+
+        const { reviewComments, ...rest } = review;
+
+        return new ReviewDto({
+          ...rest,
+          comments: reviewComments,
+          ...addition,
+        });
+      })
+    );
+
+    return reviewDTOs;
+  }
 
   async findReviewsByMovieId(movieId: string, userId?: string) {
     await this.movieService.findMovie(movieId);
@@ -382,6 +422,34 @@ export class ReviewService {
     const comments = await this.database.reviewComment.findMany({
       where: {
         reviewId,
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    return comments.map((comment) => new ReviewCommentDTO(comment));
+  }
+
+  async findReviewCommentsByUserId(reviewId: string, userId: string) {
+    await this.findReview(reviewId);
+
+    const comments = await this.database.reviewComment.findMany({
+      where: {
+        reviewId,
+        userId,
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    return comments.map((comment) => new ReviewCommentDTO(comment));
+  }
+  async findUserReviewComments(userId: string) {
+    const comments = await this.database.reviewComment.findMany({
+      where: {
+        userId,
       },
       include: {
         user: true,
