@@ -507,6 +507,33 @@ export class ReviewController {
     await this.reviewService.deleteReviewComment(id, user.id);
   }
 
+  @Get('users/:userId')
+  @ApiOperation({
+    summary: '[서비스] 유저가 남긴 리뷰 조회',
+    description: '유저가 남긴 리뷰를 조회합니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER))
+  @RequestApi({
+    params: {
+      name: 'userId',
+      type: 'string',
+      required: true,
+      description: '유저의 id',
+    },
+  })
+  @ResponseApi({
+    type: ReviewDto,
+    isArray: true,
+  })
+  async getReviewsByUserId(@Param('userId') userId: string) {
+    return await this.reviewService.findReviewsWithNoPaging({
+      where: {
+        userId,
+      },
+    });
+  }
+
   @Get('users/:userId/likes')
   @ApiOperation({
     summary: '[서비스] 유저가 좋아요한 리뷰 조회',
