@@ -507,7 +507,7 @@ export class ReviewController {
     await this.reviewService.deleteReviewComment(id, user.id);
   }
 
-  @Get('user/:userId/likes')
+  @Get('users/:userId/likes')
   @ApiOperation({
     summary: '[서비스] 유저가 좋아요한 리뷰 조회',
     description: '유저가 좋아요한 리뷰를 조회합니다.',

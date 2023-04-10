@@ -273,7 +273,7 @@ export class MovieController {
     return await this.movieService.findMovieGenres();
   }
 
-  @Get('/user/:userId/like')
+  @Get('/users/:userId/likes')
   @ApiOperation({
     summary: '[서비스 / CMS] 다른 사람이 좋아요한 영화 불러오기 ',
     description: '다른 사람이 좋아요한 영화를 불러옵니다. 로그인 없이 사용 가능합니다.',
