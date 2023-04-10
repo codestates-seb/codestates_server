@@ -64,6 +64,19 @@ export class MovieController {
             ],
           }),
         },
+        orderBy: {
+          ...(query.orderBy === 'CREATED_AT' && {
+            createdAt: query.sortBy ? query.sortBy : 'desc',
+          }),
+          ...(query.orderBy === 'NAME' && {
+            title: query.sortBy ? query.sortBy : 'asc',
+          }),
+          ...(query.orderBy === 'LIKE' && {
+            movieLikes: {
+              _count: query.sortBy ? query.sortBy : 'desc',
+            },
+          }),
+        },
       },
       user?.id
     );
@@ -133,6 +146,19 @@ export class MovieController {
               some: {
                 OR: query.genreIds.split(',').map((genreId) => ({ genreId })),
               },
+            },
+          }),
+        },
+        orderBy: {
+          ...(query.orderBy === 'CREATED_AT' && {
+            createdAt: query.sortBy ? query.sortBy : 'desc',
+          }),
+          ...(query.orderBy === 'NAME' && {
+            title: query.sortBy ? query.sortBy : 'asc',
+          }),
+          ...(query.orderBy === 'LIKE' && {
+            movieLikes: {
+              _count: query.sortBy ? query.sortBy : 'desc',
             },
           }),
         },

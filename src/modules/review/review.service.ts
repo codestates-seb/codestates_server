@@ -65,6 +65,7 @@ export class ReviewService {
             createdAt: 'desc',
           },
         },
+        movie: true,
       },
     });
 
@@ -95,6 +96,7 @@ export class ReviewService {
             createdAt: 'desc',
           },
         },
+        movie: true,
       },
     });
 
@@ -132,6 +134,7 @@ export class ReviewService {
             createdAt: 'desc',
           },
         },
+        movie: true,
       },
       orderBy: {
         createdAt: 'desc',
@@ -174,6 +177,7 @@ export class ReviewService {
             createdAt: 'desc',
           },
         },
+        movie: true,
       },
       orderBy: {
         createdAt: 'desc',
@@ -217,6 +221,7 @@ export class ReviewService {
             createdAt: 'desc',
           },
         },
+        movie: true,
       },
       orderBy: {
         createdAt: 'desc',
@@ -245,6 +250,7 @@ export class ReviewService {
         content: {
           not: null,
         },
+        userId,
       },
       include: {
         user: true,
@@ -256,6 +262,7 @@ export class ReviewService {
             createdAt: 'desc',
           },
         },
+        movie: true,
       },
       orderBy: {
         createdAt: 'desc',

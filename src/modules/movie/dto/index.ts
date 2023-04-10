@@ -6,3 +6,4 @@ export * from './update-movie.dto';
 export * from './create-category.dto';
 export * from './create-staff.dto';
 export * from './category.dto';
+export * from './movies.dto';
