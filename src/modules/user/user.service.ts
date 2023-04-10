@@ -57,7 +57,7 @@ export class UserService {
         },
       },
       orderBy: {
-        createdAt: 'desc',
+        ...args.orderBy,
       },
     });
 

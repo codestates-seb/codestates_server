@@ -41,6 +41,9 @@ export class FaqService {
       include: {
         user: true,
       },
+      orderBy: {
+        ...args.orderBy,
+      },
     });
 
     return new PaginationDTO(

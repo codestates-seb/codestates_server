@@ -137,7 +137,7 @@ export class ReviewService {
         movie: true,
       },
       orderBy: {
-        createdAt: 'desc',
+        ...args.orderBy,
       },
       skip,
       take,
