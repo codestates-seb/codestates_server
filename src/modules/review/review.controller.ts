@@ -13,7 +13,7 @@ import {
   ReviewsDto,
   UpdateReviewDTO,
 } from './dto';
-import { DeleteReviewsQuery, FindReviewsQuery } from './dto/query';
+import { DeleteReviewsQuery, FindReviewsQuery, FindReviewsWithMovieQuery } from './dto/query';
 import { ReviewService } from './review.service';
 import { JwtNullableAuthGuard } from 'utils/guards/jwt-nullable.guard';
 
@@ -142,8 +142,18 @@ export class ReviewController {
     },
     200
   )
-  async getReviewsByMovieId(@Param('movieId') movieId: string, @ReqUser() user?: User) {
-    return await this.reviewService.findReviewsByMovieId(movieId, user?.id);
+  async getReviewsByMovieId(
+    @Param('movieId') movieId: string,
+    @Query() query: FindReviewsWithMovieQuery,
+    @ReqUser() user?: User
+  ) {
+    return await this.reviewService.findReviewsByMovieId(movieId, user?.id, {
+      orderBy: {
+        ...(query.orderBy === 'CREATED_AT' && { createdAt: 'desc' }),
+        ...(query.orderBy === 'LIKE_HIGH' && { reviewLikes: { _count: 'desc' } }),
+        ...(query.orderBy === 'LIKE_LOW' && { reviewLikes: { _count: 'asc' } }),
+      },
+    });
   }
   @Get('movie/:movieId/me')
   @ApiOperation({

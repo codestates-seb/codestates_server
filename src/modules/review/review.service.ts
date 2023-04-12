@@ -201,7 +201,7 @@ export class ReviewService {
     return reviewDTOs;
   }
 
-  async findReviewsByMovieId(movieId: string, userId?: string) {
+  async findReviewsByMovieId(movieId: string, userId?: string, args = {} as Prisma.MovieReviewFindManyArgs) {
     await this.movieService.findMovie(movieId);
 
     const reviews = await this.database.movieReview.findMany({
@@ -224,7 +224,7 @@ export class ReviewService {
         movie: true,
       },
       orderBy: {
-        createdAt: 'desc',
+        ...args.orderBy,
       },
     });
 
