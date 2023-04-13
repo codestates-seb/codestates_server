@@ -4,6 +4,8 @@ import { GenreDTO, GenreDTOProps } from 'modules/movie/dto';
 
 export interface UserDTOProps extends Partial<User> {
   preferredGenres?: GenreDTOProps[];
+  reviewCount?: number;
+  likeCount?: number;
 }
 export class UserDTO {
   @Property({ apiProperty: { type: 'string' } })
@@ -45,6 +47,12 @@ export class UserDTO {
   @Property({ apiProperty: { type: GenreDTO, isArray: true, nullable: true } })
   preferredGenres?: GenreDTO[];
 
+  @Property({ apiProperty: { type: 'number' } })
+  reviewCount: number;
+
+  @Property({ apiProperty: { type: 'number' } })
+  likeCount: number;
+
   @Property({ apiProperty: { type: 'string', format: 'date-time' } })
   createdAt: Date;
 
@@ -65,6 +73,8 @@ export class UserDTO {
     this.isReviewView = props.isReviewView;
     this.isPreferenceView = props.isPreferenceView;
     this.birth = props.birth;
+    this.reviewCount = props.reviewCount;
+    this.likeCount = props.likeCount;
     this.profileImage = props.profileImage;
     this.preferredGenres = props.preferredGenres?.map((genre) => new GenreDTO(genre));
   }

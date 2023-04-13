@@ -27,6 +27,29 @@ export class BookmarkController {
     return await this.bookmarkService.findBookmarksByUserId(user.id);
   }
 
+  @Get('users/:userId')
+  @ApiOperation({
+    summary: '[서비스] 나의 북마크 조회',
+    description: '내가 북마크한 영화를 조회합니다. 유저만 사용할 수 있습니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER))
+  @RequestApi({
+    params: {
+      name: 'userId',
+      type: 'string',
+      required: true,
+      description: '유저의 id',
+    },
+  })
+  @ResponseApi({
+    type: BookmarkDTO,
+    isArray: true,
+  })
+  async getUserBookmarks(@Param('userId') userId: string) {
+    return await this.bookmarkService.findBookmarksByUserId(userId);
+  }
+
   @Get('me/paging')
   @ApiOperation({
     summary: '[서비스] 나의 북마크 조회',

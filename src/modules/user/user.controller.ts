@@ -85,7 +85,7 @@ export class UserController {
     type: UserInfoDTO,
   })
   async getUserInfo(@Param('userId') userId: string) {
-    return await this.userService.findUser(userId);
+    return await this.userService.getUserInfo(userId);
   }
 
   @Get(':id/detail')
@@ -151,6 +151,16 @@ export class UserController {
         }),
         ...(query.orderBy === 'NAME' && {
           name: query.sortBy ? query.sortBy : 'desc',
+        }),
+        ...(query.orderBy === 'REVIEW_COUNT' && {
+          Reviews: {
+            _count: query.sortBy ? query.sortBy : 'desc',
+          },
+        }),
+        ...(query.orderBy === 'LIKE_COUNT' && {
+          likes: {
+            _count: query.sortBy ? query.sortBy : 'desc',
+          },
         }),
       },
     });

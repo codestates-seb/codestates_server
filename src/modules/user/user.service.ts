@@ -55,6 +55,8 @@ export class UserService {
             genre: true,
           },
         },
+        Reviews: true,
+        likes: true,
       },
       orderBy: {
         ...args.orderBy,
@@ -70,6 +72,8 @@ export class UserService {
               genreId: genre.genreId,
               genre: genre.genre,
             })),
+            reviewCount: user.Reviews.length,
+            likeCount: user.likes.length,
           })
       ),
       { count, paging }
