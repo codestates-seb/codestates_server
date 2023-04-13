@@ -43,5 +43,6 @@ export class MoviesDTO {
     this.runtime = props.runtime;
     this.company = props.company;
     this.averageScore = props.reviews.reduce<number>((acc, next) => (acc += next.score || 0), 0) / props.reviews.length;
+    this.genres = props.movieGenres.map((genre) => new GenreDTO(genre));
   }
 }
