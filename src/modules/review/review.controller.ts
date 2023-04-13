@@ -150,8 +150,8 @@ export class ReviewController {
     return await this.reviewService.findReviewsByMovieId(movieId, user?.id, {
       orderBy: {
         ...(query.orderBy === 'CREATED_AT' && { createdAt: 'desc' }),
-        ...(query.orderBy === 'LIKE_HIGH' && { reviewLikes: { _count: 'desc' } }),
-        ...(query.orderBy === 'LIKE_LOW' && { reviewLikes: { _count: 'asc' } }),
+        ...(query.orderBy === 'SCORE_HIGH' && { score: 'desc' }),
+        ...(query.orderBy === 'SCORE_LOW' && { score: 'asc' }),
       },
     });
   }
