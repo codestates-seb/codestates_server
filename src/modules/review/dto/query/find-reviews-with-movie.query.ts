@@ -3,7 +3,7 @@ import { PagingDTO, Property } from 'kyoongdev-nestjs';
 
 type SortType = 'LIKE_HIGH' | 'LIKE_LOW' | 'CREATED_AT';
 
-export class FindReviewsWithMovieQuery extends PagingDTO {
+export class FindReviewsWithMovieQuery {
   @Property({
     apiProperty: {
       type: 'string',
