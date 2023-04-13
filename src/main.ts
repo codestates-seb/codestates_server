@@ -40,8 +40,8 @@ async function bootstrap() {
   );
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('Kyoongdev Village API')
-    .setDescription('Kyoongdev Village - 블로그 전용 api 입니다.')
+    .setTitle('[ABC-Lab] Server API')
+    .setDescription('ABC-Lab API 문서입니다.')
     .setVersion('0.1')
     .addBearerAuth(
       {

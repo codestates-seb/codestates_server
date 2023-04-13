@@ -27,7 +27,7 @@ export class AuthService {
 
     const isMatch = await bcrypt.compare(props.password, user.password);
     if (!isMatch) throw new BadRequestException('비밀번호가 일치하지 않습니다.');
-
+    console.log(user, role);
     if (user.userType.toLowerCase() !== role.toLowerCase()) throw new BadRequestException('권한이 일치하지 않습니다.');
 
     return this.createToken(user.id, role);
@@ -48,6 +48,7 @@ export class AuthService {
         name: props.name,
         birth: props.birth,
         nickname: props.nickname,
+        userType: role,
       },
     });
 
