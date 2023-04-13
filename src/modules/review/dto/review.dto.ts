@@ -2,7 +2,7 @@ import { Movie, MovieReview, User } from '@prisma/client';
 import { Property } from 'kyoongdev-nestjs';
 import { UserDTO } from 'modules/user/dto';
 import { ReviewCommentDTO, ReviewCommentDTOProps } from './review-comment.dto';
-import { MoviesDTO } from 'modules/movie/dto';
+import { MoviesDTO, MoviesDTOProps } from 'modules/movie/dto';
 
 export interface ReviewDTOProps extends Partial<MovieReview> {
   user: Partial<User>;
@@ -13,7 +13,7 @@ export interface ReviewDTOProps extends Partial<MovieReview> {
   isHated?: boolean;
   tensions: string[];
   enjoyPoints: string[];
-  movie: Partial<Movie>;
+  movie: MoviesDTOProps;
 }
 export class ReviewDto {
   @Property({ apiProperty: { type: 'string' } })

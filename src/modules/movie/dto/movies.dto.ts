@@ -1,6 +1,11 @@
-import { Movie } from '@prisma/client';
+import { Movie, MovieReview } from '@prisma/client';
 import { Property } from 'kyoongdev-nestjs';
-export interface MoviesDTOProps extends Partial<Movie> {}
+import { GenreDTO, GenreDTOProps } from './genre.dto';
+export interface MoviesDTOProps extends Partial<Movie> {
+  reviews: Partial<MovieReview>[];
+  movieGenres: GenreDTOProps[];
+}
+
 export class MoviesDTO {
   @Property({ apiProperty: { type: 'string' } })
   id: string;
@@ -22,6 +27,13 @@ export class MoviesDTO {
 
   @Property({ apiProperty: { type: 'string' } })
   company: string;
+
+  @Property({ apiProperty: { type: 'number' } })
+  averageScore: number;
+
+  @Property({ apiProperty: { type: GenreDTO, isArray: true } })
+  genres: GenreDTO[];
+
   constructor(props: MoviesDTOProps) {
     this.id = props.id;
     this.title = props.title;
@@ -30,5 +42,6 @@ export class MoviesDTO {
     this.releasedAt = props.releasedAt;
     this.runtime = props.runtime;
     this.company = props.company;
+    this.averageScore = props.reviews.reduce<number>((acc, next) => (acc += next.score || 0), 0) / props.reviews.length;
   }
 }

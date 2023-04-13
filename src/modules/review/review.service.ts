@@ -65,7 +65,16 @@ export class ReviewService {
             createdAt: 'desc',
           },
         },
-        movie: true,
+        movie: {
+          include: {
+            reviews: true,
+            movieGenres: {
+              include: {
+                genre: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -96,7 +105,16 @@ export class ReviewService {
             createdAt: 'desc',
           },
         },
-        movie: true,
+        movie: {
+          include: {
+            reviews: true,
+            movieGenres: {
+              include: {
+                genre: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -134,7 +152,16 @@ export class ReviewService {
             createdAt: 'desc',
           },
         },
-        movie: true,
+        movie: {
+          include: {
+            reviews: true,
+            movieGenres: {
+              include: {
+                genre: true,
+              },
+            },
+          },
+        },
       },
       orderBy: {
         ...args.orderBy,
@@ -177,7 +204,16 @@ export class ReviewService {
             createdAt: 'desc',
           },
         },
-        movie: true,
+        movie: {
+          include: {
+            reviews: true,
+            movieGenres: {
+              include: {
+                genre: true,
+              },
+            },
+          },
+        },
       },
       orderBy: {
         createdAt: 'desc',
@@ -221,7 +257,16 @@ export class ReviewService {
             createdAt: 'desc',
           },
         },
-        movie: true,
+        movie: {
+          include: {
+            reviews: true,
+            movieGenres: {
+              include: {
+                genre: true,
+              },
+            },
+          },
+        },
       },
       orderBy: {
         ...args.orderBy,
@@ -262,7 +307,16 @@ export class ReviewService {
             createdAt: 'desc',
           },
         },
-        movie: true,
+        movie: {
+          include: {
+            reviews: true,
+            movieGenres: {
+              include: {
+                genre: true,
+              },
+            },
+          },
+        },
       },
       orderBy: {
         createdAt: 'desc',
