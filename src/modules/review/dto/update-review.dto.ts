@@ -1,5 +1,10 @@
 import { MovieReview } from '@prisma/client';
 import { Property } from 'kyoongdev-nestjs';
+
+interface UpdateReviewDTOProps extends Partial<MovieReview> {
+  enjoyPoints?: string[];
+  tensions: string[];
+}
 export class UpdateReviewDTO {
   @Property({ apiProperty: { type: 'string', nullable: true } })
   content: string;
@@ -10,11 +15,19 @@ export class UpdateReviewDTO {
   @Property({ apiProperty: { type: 'number', nullable: true } })
   score: number;
 
-  constructor(props?: Partial<MovieReview>) {
+  @Property({ apiProperty: { type: 'string', isArray: true, nullable: true } })
+  enjoyPoints?: string[];
+
+  @Property({ apiProperty: { type: 'string', isArray: true, nullable: true } })
+  tensions: string[];
+
+  constructor(props?: UpdateReviewDTOProps) {
     if (props) {
       this.title = props.title;
       this.content = props.content;
       this.score = props.score;
+      this.enjoyPoints = props.enjoyPoints;
+      this.tensions = props.tensions;
     }
   }
 }

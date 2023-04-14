@@ -439,6 +439,49 @@ export class ReviewService {
 
     if (userId && review.user.id !== userId) throw new ForbiddenException('리뷰를 수정할 권한이 없습니다.');
 
+    if (props.enjoyPoints) {
+      await this.database.reviewEnjoyPoint.deleteMany({
+        where: {
+          reviewId: id,
+        },
+      });
+      await Promise.all(
+        props.enjoyPoints.map(async (point) => {
+          await this.database.reviewEnjoyPoint.create({
+            data: {
+              review: {
+                connect: {
+                  id: review.id,
+                },
+              },
+              name: point,
+            },
+          });
+        })
+      );
+    }
+    if (props.tensions) {
+      await this.database.reviewTension.deleteMany({
+        where: {
+          reviewId: id,
+        },
+      });
+      await Promise.all(
+        props.tensions.map(async (tension) => {
+          await this.database.reviewTension.create({
+            data: {
+              review: {
+                connect: {
+                  id: review.id,
+                },
+              },
+              name: tension,
+            },
+          });
+        })
+      );
+    }
+
     await this.database.movieReview.update({
       where: {
         id,
