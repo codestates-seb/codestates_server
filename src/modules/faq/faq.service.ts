@@ -27,6 +27,7 @@ export class FaqService {
 
   async findFaqs(paging: PagingDTO, args = {} as Prisma.FAQFindManyArgs) {
     const { skip, take } = paging.getSkipTake();
+    console.log(args);
     const count = await this.database.fAQ.count({
       where: {
         ...args.where,

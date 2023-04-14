@@ -76,12 +76,17 @@ export class FaqController {
   })
   @Auth(JwtAuthGuard)
   @UseInterceptors(RoleInterceptorAPI(Role.USER))
-  @RequestApi({})
+  @RequestApi({
+    query: {
+      type: PagingDTO,
+    },
+  })
   @ResponseApi({
     type: FAQsDto,
     isPaging: true,
   })
   async findMyFaqs(@Paging() paging: PagingDTO, @ReqUser() user: User) {
+    console.log({ user });
     return this.faqService.findFaqs(paging, {
       where: {
         userId: user.id,
