@@ -40,6 +40,11 @@ export class FaqService {
       },
       include: {
         user: true,
+        faqComments: {
+          include: {
+            user: true,
+          },
+        },
       },
       orderBy: {
         ...args.orderBy,

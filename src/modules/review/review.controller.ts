@@ -583,7 +583,7 @@ export class ReviewController {
 
   @Post(':id/like')
   @ApiOperation({
-    summary: '[서비스] 리뷰 좋아요',
+    summary: '[서비스] 리뷰 좋아요  ',
     description: '리뷰에 좋아요를 누릅니다. 유저만 사용할 수 있습니다.',
   })
   @Auth(JwtAuthGuard)

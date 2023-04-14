@@ -239,11 +239,11 @@ export class UserController {
 
   @Delete(':id')
   @ApiOperation({
-    summary: '[CMS] 유저 /관리자 삭제하기',
+    summary: '[CMS] 유저/관리자 삭제하기',
     description: '유저/관리자를 삭제합니다.',
   })
   @Auth(JwtAuthGuard)
-  @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
+  @UseInterceptors(RoleInterceptorAPI(Role.USER))
   @RequestApi({
     params: {
       name: 'id',
