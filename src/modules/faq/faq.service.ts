@@ -136,7 +136,7 @@ export class FaqService {
     const isExist = await this.findFaqCommentByFAQ(faqId);
     if (isExist) throw new ForbiddenException('이미 댓글이 존재합니다.');
 
-    await this.database.fAQComment.create({
+    const comment = await this.database.fAQComment.create({
       data: {
         ...props,
         faq: {
@@ -151,6 +151,7 @@ export class FaqService {
         },
       },
     });
+    return comment.id;
   }
 
   async updateFaqComment(id: string, userId: string, props: UpdateFaqCommentDTO) {
