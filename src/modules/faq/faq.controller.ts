@@ -232,7 +232,7 @@ export class FaqController {
     },
     201
   )
-  async createFaqComment(@Param('id') id: string, @Body() props: CreateFaqDTO, @ReqUser() user: User) {
+  async createFaqComment(@Param('id') id: string, @Body() props: CreateFaqCommentDTO, @ReqUser() user: User) {
     return this.faqService.createFaqComment(id, user.id, props);
   }
 
