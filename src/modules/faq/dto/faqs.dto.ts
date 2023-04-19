@@ -5,7 +5,7 @@ import { FaqCommentDTOProps, FaqCommentDto } from './faq-comment.dto';
 
 interface FAQsDTOProps extends Partial<FAQ> {
   user: Partial<User>;
-  faqComments: FaqCommentDTOProps[];
+  faqComment?: FaqCommentDTOProps;
 }
 
 export class FAQsDto {
@@ -24,8 +24,8 @@ export class FAQsDto {
   @Property({ apiProperty: { type: 'string', format: 'date-time' } })
   updatedAt: Date;
 
-  @Property({ apiProperty: { type: FaqCommentDto, isArray: true } })
-  faqComments: FaqCommentDto[];
+  @Property({ apiProperty: { type: FaqCommentDto, nullable: true } })
+  faqComment?: FaqCommentDto;
 
   @Property({ apiProperty: { type: UserDTO } })
   user: UserDTO;
@@ -37,6 +37,6 @@ export class FAQsDto {
     this.createdAt = props.createdAt;
     this.updatedAt = props.updatedAt;
     this.user = new UserDTO(props.user);
-    this.faqComments = props.faqComments.map((faqComment) => new FaqCommentDto(faqComment));
+    this.faqComment = props.faqComment && new FaqCommentDto(props.faqComment);
   }
 }

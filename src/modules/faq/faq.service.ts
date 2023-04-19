@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'database/prisma.service';
 import { PaginationDTO, PagingDTO } from 'kyoongdev-nestjs';
@@ -14,7 +14,7 @@ export class FaqService {
       where: { id },
       include: {
         user: true,
-        faqComments: {
+        faqComment: {
           include: {
             user: true,
           },
@@ -41,7 +41,7 @@ export class FaqService {
       },
       include: {
         user: true,
-        faqComments: {
+        faqComment: {
           include: {
             user: true,
           },
@@ -105,9 +105,36 @@ export class FaqService {
     });
   }
 
+  async findFaqComment(id: string) {
+    const faqComment = await this.database.fAQComment.findUnique({
+      where: { id },
+      include: {
+        user: true,
+      },
+    });
+
+    return faqComment;
+  }
+
+  async findFaqCommentByFAQ(faqId: string) {
+    const faqComment = await this.database.fAQComment.findUnique({
+      where: {
+        faqId,
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    return faqComment;
+  }
+
   async createFaqComment(faqId: string, userId: string, props: CreateFaqCommentDTO) {
     await this.findFaq(faqId);
     await this.userService.findUser(userId);
+
+    const isExist = await this.findFaqCommentByFAQ(faqId);
+    if (isExist) throw new ForbiddenException('이미 댓글이 존재합니다.');
 
     await this.database.fAQComment.create({
       data: {
@@ -134,9 +161,7 @@ export class FaqService {
       },
     });
 
-    if (faqComment.user.id !== userId) {
-      throw new ForbiddenException('본인의 댓글만 수정할 수 있습니다.');
-    }
+    if (!faqComment) throw new NotFoundException('존재하지 않는 댓글입니다.');
 
     await this.database.fAQComment.update({
       where: { id },
@@ -147,9 +172,9 @@ export class FaqService {
   }
 
   async deleteFaqComment(id: string) {
-    await this.database.fAQComment.findUnique({
-      where: { id },
-    });
+    const isExist = await this.findFaqComment(id);
+
+    if (!isExist) throw new NotFoundException('존재하지 않는 댓글입니다.');
 
     await this.database.fAQComment.delete({
       where: { id },
