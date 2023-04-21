@@ -11,6 +11,9 @@ export class UserDetailDTO {
   id: string;
 
   @Property({ apiProperty: { type: 'string', nullable: true } })
+  email?: string;
+
+  @Property({ apiProperty: { type: 'string', nullable: true } })
   name?: string;
 
   @Property({ apiProperty: { type: 'string', nullable: true } })
@@ -55,6 +58,7 @@ export class UserDetailDTO {
   constructor(props: UserDetailDTOProps) {
     this.id = props.id;
     this.name = props.name;
+    this.email = props.email;
     this.birth = props.birth;
     this.gender = props.gender;
     this.nickname = props.nickname;
