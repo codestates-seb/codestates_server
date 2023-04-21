@@ -116,6 +116,9 @@ export class ReviewService {
           },
         },
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
 
     if (!review) return null;
@@ -163,9 +166,7 @@ export class ReviewService {
           },
         },
       },
-      orderBy: {
-        ...args.orderBy,
-      },
+      orderBy: args.orderBy ? args.orderBy : { createdAt: 'desc' },
       skip,
       take,
     });
