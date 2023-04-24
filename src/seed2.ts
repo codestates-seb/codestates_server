@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client';
 import mysql from 'mysql2';
 const connection = mysql.createConnection({
-  host: 'blog-db.cbb6a8d1ki52.ap-northeast-2.rds.amazonaws.com',
-  user: 'kyoong',
-  password: 'cecj8bNpvHAyuObTjOWq',
+  host: 'localhost',
+  user: 'root',
+  password: '1234user',
   database: 'codestates',
   port: 3306,
 });
