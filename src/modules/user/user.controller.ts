@@ -5,7 +5,7 @@ import { EmptyResponseDTO, ResponseWithIdDTO } from 'common';
 import { Auth, Paging, PagingDTO, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
 import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptorAPI } from 'utils';
 
-import { CreateUserDTO, UpdateUserDTO, UserCountDTO, UserDTO, UserInfoDTO } from './dto';
+import { CreateUserDTO, MeDTO, UpdateUserDTO, UserCountDTO, UserDTO, UserInfoDTO } from './dto';
 import { DeleteUsersQuery, FindUsersQuery } from './dto/query';
 import { UserService } from './user.service';
 import { JwtNullableAuthGuard } from 'utils/guards/jwt-nullable.guard';
@@ -39,11 +39,11 @@ export class UserController {
   @UseInterceptors(RoleInterceptorAPI(Role.USER))
   @RequestApi({})
   @ResponseApi({
-    type: UserDTO,
+    type: MeDTO,
   })
   async findMe(@ReqUser() user: User) {
     const me = await this.userService.findUser(user.id);
-    return new UserDTO({
+    return new MeDTO({
       ...me,
       preferredGenres: me.preferredGenres.map((genre) => ({
         genre: genre,
