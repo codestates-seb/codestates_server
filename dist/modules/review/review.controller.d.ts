@@ -1,0 +1,34 @@
+import { User } from '@prisma/client';
+import { PagingDTO } from 'kyoongdev-nestjs';
+import { CreateReviewCommentDTO, CreateReviewDTO, ReviewCommentDTO, ReviewCountDTO, ReviewDto, UpdateReviewDTO } from './dto';
+import { DeleteReviewsQuery, FindReviewsQuery, FindReviewsWithMovieQuery } from './dto/query';
+import { ReviewService } from './review.service';
+export declare class ReviewController {
+    private readonly reviewService;
+    constructor(reviewService: ReviewService);
+    getReviewCount(): Promise<ReviewCountDTO>;
+    getReviews(paging: PagingDTO, query: FindReviewsQuery): Promise<import("kyoongdev-nestjs").PaginationDTO<ReviewDto>>;
+    getMyReviews(user: User): Promise<ReviewDto[]>;
+    getMyReviewsWithPaging(paging: PagingDTO, user: User): Promise<import("kyoongdev-nestjs").PaginationDTO<ReviewDto>>;
+    getReviewsByMovieId(movieId: string, query: FindReviewsWithMovieQuery, user?: User): Promise<ReviewDto[]>;
+    getMyReviewByMovieId(movieId: string, user: User): Promise<ReviewDto>;
+    getReviewsByMovieIdWithPaging(paging: PagingDTO, movieId: string, user?: User): Promise<import("kyoongdev-nestjs").PaginationDTO<ReviewDto>>;
+    getReview(id: string, user?: User): Promise<ReviewDto>;
+    createReview(movieId: string, user: User, body: CreateReviewDTO): Promise<string>;
+    updateReview(id: string, user: User, body: UpdateReviewDTO): Promise<void>;
+    updateReviewAdmin(id: string, body: UpdateReviewDTO): Promise<void>;
+    deleteReview(id: string, user: User): Promise<void>;
+    deleteReviewAdmin(id: string): Promise<void>;
+    deleteReviewsAdmin(query: DeleteReviewsQuery): Promise<void>;
+    getMyReviewCommentsByReview(id: string, user: User): Promise<ReviewCommentDTO[]>;
+    getMyReviewComments(user: User): Promise<ReviewCommentDTO[]>;
+    createReviewComment(id: string, user: User, body: CreateReviewCommentDTO): Promise<string>;
+    updateReviewComment(id: string, user: User, body: CreateReviewCommentDTO): Promise<void>;
+    deleteReviewComment(id: string, user: User): Promise<void>;
+    getReviewsByUserId(userId: string): Promise<ReviewDto[]>;
+    getReviewLikesByUserId(userId: string): Promise<ReviewDto[]>;
+    createReviewLike(id: string, user: User): Promise<void>;
+    deleteReviewLike(id: string, user: User): Promise<void>;
+    createReviewHate(id: string, user: User): Promise<void>;
+    deleteReviewHate(id: string, user: User): Promise<void>;
+}

@@ -5,6 +5,7 @@ const connection = mysql.createConnection({
   user: 'kyoong',
   password: 'cecj8bNpvHAyuObTjOWq',
   database: 'codestates',
+  port: 3306,
 });
 
 const database = new PrismaClient();

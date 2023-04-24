@@ -1,0 +1,998 @@
+{
+    "Query": "",
+    "KMAQuery": "극 영화 극영화",
+    "TotalCount": 476,
+    "Data": [
+        {
+            "CollName": "kmdb_new2",
+            "TotalCount": 476,
+            "Count": 1,
+            "Result": [
+                {
+                    "DOCID": "K24426",
+                    "movieId": "K",
+                    "movieSeq": "24426",
+                    "title": "아이윌 송",
+                    "titleEng": "I Will, Song (Aiwil song)",
+                    "titleOrg": "",
+                    "titleEtc": "아이윌송^아이윌 송^아이윌, 송, 아이 윌 송, 아이 윌, 송, 아이윌,송, IWill Song^I Will, Song (Aiwil song)",
+                    "prodYear": "2021",
+                    "directors": {
+                        "director": [{ "directorNm": "이상훈", "directorEnNm": "LeeSang-hun", "directorId": "00048691" }]
+                    },
+                    "actors": {
+                        "actor": [
+                            { "actorNm": "함은정", "actorEnNm": "HamEunjeong", "actorId": "00018984" },
+                            { "actorNm": "김태형", "actorEnNm": "KimTaehyeong", "actorId": "00170405" },
+                            { "actorNm": "노행하", "actorEnNm": "NoHaengha", "actorId": "00048213" },
+                            { "actorNm": "박현진", "actorEnNm": "", "actorId": "" },
+                            { "actorNm": "김민체", "actorEnNm": "KimMim-che", "actorId": "00195349" },
+                            { "actorNm": "이상훈", "actorEnNm": "LeeSang-hun", "actorId": "00048691" },
+                            { "actorNm": "서예안", "actorEnNm": "", "actorId": "" },
+                            { "actorNm": "정재용", "actorEnNm": "JeongJaeyong", "actorId": "00218407" },
+                            { "actorNm": "김정인", "actorEnNm": "", "actorId": "" },
+                            { "actorNm": "권훈", "actorEnNm": "HoonKwon", "actorId": "00204098" },
+                            { "actorNm": "채민강", "actorEnNm": "", "actorId": "" },
+                            { "actorNm": "구하림", "actorEnNm": "", "actorId": "" },
+                            { "actorNm": "정하율", "actorEnNm": "", "actorId": "" },
+                            { "actorNm": "이상봉", "actorEnNm": "", "actorId": "" },
+                            { "actorNm": "이정미", "actorEnNm": "LeeJeongmi", "actorId": "00221343" },
+                            { "actorNm": "박한동", "actorEnNm": "", "actorId": "" },
+                            { "actorNm": "김구현", "actorEnNm": "KimGuhyeon", "actorId": "00174239" },
+                            { "actorNm": "정우일", "actorEnNm": "", "actorId": "" },
+                            { "actorNm": "성모", "actorEnNm": "SungMo", "actorId": "00202667" },
+                            { "actorNm": "송영재", "actorEnNm": "SongYeong-jae", "actorId": "00042889" }
+                        ]
+                    },
+                    "nation": "대한민국",
+                    "company": "(주)오예스",
+                    "plots": {
+                        "plot": [
+                            {
+                                "plotLang": "한국어",
+                                "plotText": "더이상 노래를 할 수 없게 된 무명가수 ‘물결’은 주체할 수 없는 슬픔을 안고 무작정 안동으로 떠난다.여행지에서 우연히 ‘물결’을 만난 영화감독 ‘바람’은 어째선지 그녀가 못내 신경이 쓰여 자꾸만 주위를맴돈다.그렇게, 소중한꿈만 좇아 바쁘게만 달려온 이들은 어느덧 서로의 상처와 아픔을 공유하며 마음을 열기 시작하는데…꿈을 포기하는 순간 모든 것을 잃을까그 어떤 용기도 낼 수 없었던 두 청춘은 다시 찬란한 희망의멜로디를 만들어 갈 수있을까?♬"
+                            }
+                        ]
+                    },
+                    "runtime": "99",
+                    "rating": "12세관람가",
+                    "genre": "드라마",
+                    "kmdbUrl": "https://www.kmdb.or.kr/db/kor/detail/movie/K/24426",
+                    "type": "극영화",
+                    "use": "극장용",
+                    "episodes": "",
+                    "ratedYn": "Y",
+                    "repRatDate": "20210531",
+                    "repRlsDate": "20210701",
+                    "ratings": {
+                        "rating": [
+                            {
+                                "ratingMain": "Y",
+                                "ratingDate": "20210531",
+                                "ratingNo": "2021-MF01421",
+                                "ratingGrade": "12세관람가",
+                                "releaseDate": "20210701",
+                                "runtime": "99"
+                            }
+                        ]
+                    },
+                    "keywords": "",
+                    "posters": "http://file.koreafilm.or.kr/thm/02/99/17/30/tn_DPK017120.jpg|http://file.koreafilm.or.kr/thm/02/99/17/32/tn_DPK017221.jpg|http://file.koreafilm.or.kr/thm/02/99/17/30/tn_DPK017112.jpg",
+                    "stlls": "http://file.koreafilm.or.kr/thm/01/copy/00/56/66/tn_DST718840.jpg|http://file.koreafilm.or.kr/thm/01/copy/00/56/66/tn_DST718841.jpg|http://file.koreafilm.or.kr/thm/01/copy/00/56/66/tn_DST718842.jpg|http://file.koreafilm.or.kr/thm/01/copy/00/56/66/tn_DST718843.jpg|http://file.koreafilm.or.kr/thm/01/copy/00/56/66/tn_DST718844.jpg|http://file.koreafilm.or.kr/thm/01/copy/00/56/66/tn_DST718845.jpg|http://file.koreafilm.or.kr/thm/01/copy/00/56/66/tn_DST718846.jpg|http://file.koreafilm.or.kr/thm/01/copy/00/57/07/tn_DST722951.jpg|http://file.koreafilm.or.kr/thm/01/copy/00/57/07/tn_DST722952.jpg",
+                    "staffs": {
+                        "staff": [
+                            {
+                                "staffNm": "이상훈",
+                                "staffEnNm": "LeeSang-hun",
+                                "staffRoleGroup": "감독",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": "00048691"
+                            },
+                            {
+                                "staffNm": "이상훈",
+                                "staffEnNm": "LeeSang-hun",
+                                "staffRoleGroup": "각본",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": "00048691"
+                            },
+                            {
+                                "staffNm": "함은정",
+                                "staffEnNm": "HamEunjeong",
+                                "staffRoleGroup": "출연",
+                                "staffRole": "물결",
+                                "staffEtc": "",
+                                "staffId": "00018984"
+                            },
+                            {
+                                "staffNm": "김태형",
+                                "staffEnNm": "KimTaehyeong",
+                                "staffRoleGroup": "출연",
+                                "staffRole": "바람",
+                                "staffEtc": "",
+                                "staffId": "00170405"
+                            },
+                            {
+                                "staffNm": "노행하",
+                                "staffEnNm": "NoHaengha",
+                                "staffRoleGroup": "출연",
+                                "staffRole": "소원",
+                                "staffEtc": "",
+                                "staffId": "00048213"
+                            },
+                            {
+                                "staffNm": "박현진",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "출연",
+                                "staffRole": "미정",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "김민체",
+                                "staffEnNm": "KimMim-che",
+                                "staffRoleGroup": "출연",
+                                "staffRole": "물결모",
+                                "staffEtc": "",
+                                "staffId": "00195349"
+                            },
+                            {
+                                "staffNm": "이상훈",
+                                "staffEnNm": "LeeSang-hun",
+                                "staffRoleGroup": "출연",
+                                "staffRole": "대주",
+                                "staffEtc": "",
+                                "staffId": "00048691"
+                            },
+                            {
+                                "staffNm": "서예안",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "출연",
+                                "staffRole": "예지",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "정재용",
+                                "staffEnNm": "JeongJaeyong",
+                                "staffRoleGroup": "출연",
+                                "staffRole": "준수",
+                                "staffEtc": "",
+                                "staffId": "00218407"
+                            },
+                            {
+                                "staffNm": "김정인",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "출연",
+                                "staffRole": "약사",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "권훈",
+                                "staffEnNm": "HoonKwon",
+                                "staffRoleGroup": "출연",
+                                "staffRole": "프로듀서",
+                                "staffEtc": "",
+                                "staffId": "00204098"
+                            },
+                            {
+                                "staffNm": "채민강",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "출연",
+                                "staffRole": "기타여중생",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "구하림",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "출연",
+                                "staffRole": "안경사",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "정하율",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "출연",
+                                "staffRole": "소속사연습생",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "이상봉",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "출연",
+                                "staffRole": "관람객1",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "이정미",
+                                "staffEnNm": "LeeJeongmi",
+                                "staffRoleGroup": "출연",
+                                "staffRole": "관람객2",
+                                "staffEtc": "",
+                                "staffId": "00221343"
+                            },
+                            {
+                                "staffNm": "박한동",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "출연",
+                                "staffRole": "관람객3",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "김구현",
+                                "staffEnNm": "KimGuhyeon",
+                                "staffRoleGroup": "출연",
+                                "staffRole": "관람객4",
+                                "staffEtc": "",
+                                "staffId": "00174239"
+                            },
+                            {
+                                "staffNm": "정우일",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "출연",
+                                "staffRole": "의사목소리",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "성모",
+                                "staffEnNm": "SungMo",
+                                "staffRoleGroup": "출연",
+                                "staffRole": "호진",
+                                "staffEtc": "특별출연",
+                                "staffId": "00202667"
+                            },
+                            {
+                                "staffNm": "송영재",
+                                "staffEnNm": "SongYeong-jae",
+                                "staffRoleGroup": "출연",
+                                "staffRole": "명철",
+                                "staffEtc": "특별출연",
+                                "staffId": "00042889"
+                            },
+                            {
+                                "staffNm": "이현택",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "제작자",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "이현택",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "투자자",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "이유진",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "투자자",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "온정준",
+                                "staffEnNm": "OnJeong-jun",
+                                "staffRoleGroup": "프로듀서",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": "00148854"
+                            },
+                            {
+                                "staffNm": "이의종",
+                                "staffEnNm": "LeeUijong",
+                                "staffRoleGroup": "프로듀서",
+                                "staffRole": "라인프로듀서",
+                                "staffEtc": "",
+                                "staffId": "00217724"
+                            },
+                            {
+                                "staffNm": "이성국",
+                                "staffEnNm": "LeeSeong-guk",
+                                "staffRoleGroup": "촬영",
+                                "staffRole": "",
+                                "staffEtc": "디오피",
+                                "staffId": "00043138"
+                            },
+                            {
+                                "staffNm": "황윤성",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "촬영",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "이준일",
+                                "staffEnNm": "LeeJun-il",
+                                "staffRoleGroup": "조명",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": "00081114"
+                            },
+                            {
+                                "staffNm": "최현숙",
+                                "staffEnNm": "Choi hyunsook",
+                                "staffRoleGroup": "편집",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": "00007581"
+                            },
+                            {
+                                "staffNm": "이기준",
+                                "staffEnNm": "LeeKi-jun",
+                                "staffRoleGroup": "음악",
+                                "staffRole": "MusicSupervisor/음악감독",
+                                "staffEtc": "KINOPOST",
+                                "staffId": "00174730"
+                            },
+                            {
+                                "staffNm": "허유라",
+                                "staffEnNm": "HeoYoo-ra",
+                                "staffRoleGroup": "음악",
+                                "staffRole": "음악감독",
+                                "staffEtc": "KINOPOST",
+                                "staffId": "00179865"
+                            },
+                            {
+                                "staffNm": "강영주",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "소품",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "이민희",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "의상",
+                                "staffRole": "",
+                                "staffEtc": "감",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "김상은",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "분장",
+                                "staffRole": "분장/헤어",
+                                "staffEtc": "샐리분장",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "최수용",
+                                "staffEnNm": "ChoiSu-yong",
+                                "staffRoleGroup": "동시녹음",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": "00195286"
+                            },
+                            {
+                                "staffNm": "이기준",
+                                "staffEnNm": "LeeKi-jun",
+                                "staffRoleGroup": "사운드(음향)",
+                                "staffRole": "",
+                                "staffEtc": "KINOPOST",
+                                "staffId": "00174730"
+                            },
+                            {
+                                "staffNm": "황윤성",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "시각효과",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "강현석",
+                                "staffEnNm": "KangHyeonseok",
+                                "staffRoleGroup": "조감독",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": "00204197"
+                            },
+                            {
+                                "staffNm": "황윤성",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "색보정",
+                                "staffRole": "ExecutiveDirector/DISupervisor",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "라이크콘텐츠",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "마케팅(홍보)",
+                                "staffRole": "마케팅총괄",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "이소의",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "스크립터",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "김우미",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "연출부",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "이재경",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "연출부",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "신주섭",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "제작부",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "이상완",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "제작부",
+                                "staffRole": "제작지원",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "김희찬",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "제작부",
+                                "staffRole": "제작지원",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "방성훈",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "제작부",
+                                "staffRole": "제작지원",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "나윤정",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "제작부",
+                                "staffRole": "회계",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "윤성원",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "촬영팀",
+                                "staffRole": "Focuspuller",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "윤혜림",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "촬영팀",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "강현석",
+                                "staffEnNm": "KangHyeonseok",
+                                "staffRoleGroup": "촬영팀",
+                                "staffRole": "데이터매니저",
+                                "staffEtc": "",
+                                "staffId": "00204197"
+                            },
+                            {
+                                "staffNm": "지한나",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "의상/분장팀",
+                                "staffRole": "바람역메이크업",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "박성원",
+                                "staffEnNm": "ParkSeong-won",
+                                "staffRoleGroup": "편집팀",
+                                "staffRole": "편집어시스턴트",
+                                "staffEtc": "",
+                                "staffId": "00022857"
+                            },
+                            {
+                                "staffNm": "허유라",
+                                "staffEnNm": "HeoYoo-ra",
+                                "staffRoleGroup": "사운드팀",
+                                "staffRole": "SoundDesigner",
+                                "staffEtc": "KINOPOST",
+                                "staffId": "00179865"
+                            },
+                            {
+                                "staffNm": "이기준",
+                                "staffEnNm": "LeeKi-jun",
+                                "staffRoleGroup": "사운드팀",
+                                "staffRole": "Dialouge Editor/Ambience Editor/Music Operating/RerecordingMixer",
+                                "staffEtc": "KINOPOST",
+                                "staffId": "00174730"
+                            },
+                            {
+                                "staffNm": "이영준",
+                                "staffEnNm": "LeeYeongjoon",
+                                "staffRoleGroup": "사운드팀",
+                                "staffRole": "Sound Effect/Foley/Ambience Editor/RerecordingMixer",
+                                "staffEtc": "KINOPOST",
+                                "staffId": "00214530"
+                            },
+                            {
+                                "staffNm": "오한중",
+                                "staffEnNm": "OhHan-jung",
+                                "staffRoleGroup": "사운드팀",
+                                "staffRole": "SoundEffect/Foley",
+                                "staffEtc": "KINOPOST",
+                                "staffId": "00191910"
+                            },
+                            {
+                                "staffNm": "Kinopost 영통 Dolby ARoom",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "사운드팀",
+                                "staffRole": "Final MixStage",
+                                "staffEtc": "KINOPOST",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "허유라",
+                                "staffEnNm": "HeoYoo-ra",
+                                "staffRoleGroup": "사운드팀",
+                                "staffRole": "Post productionmanager",
+                                "staffEtc": "KINOPOST",
+                                "staffId": "00179865"
+                            },
+                            {
+                                "staffNm": "황정현",
+                                "staffEnNm": "HwangJeong-hyeon",
+                                "staffRoleGroup": "예고편",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": "00169411"
+                            },
+                            {
+                                "staffNm": "서병환",
+                                "staffEnNm": "Seobyung hwan",
+                                "staffRoleGroup": "예고편",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": "00078028"
+                            },
+                            {
+                                "staffNm": "강진경",
+                                "staffEnNm": "KangJingyeong",
+                                "staffRoleGroup": "예고편",
+                                "staffRole": "",
+                                "staffEtc": "TOMM",
+                                "staffId": "00186064"
+                            },
+                            {
+                                "staffNm": "김윤선",
+                                "staffEnNm": "KimYunseon",
+                                "staffRoleGroup": "예고편",
+                                "staffRole": "",
+                                "staffEtc": "TOMM",
+                                "staffId": "00216406"
+                            },
+                            {
+                                "staffNm": "박종민",
+                                "staffEnNm": "ParkJong-min",
+                                "staffRoleGroup": "예고편",
+                                "staffRole": "2D",
+                                "staffEtc": "빌럽",
+                                "staffId": "00169412"
+                            },
+                            {
+                                "staffNm": "김영숙",
+                                "staffEnNm": "KimYoung-sook",
+                                "staffRoleGroup": "포스터",
+                                "staffRole": "포스터디자인",
+                                "staffEtc": "디자인그리다",
+                                "staffId": "00172290"
+                            },
+                            {
+                                "staffNm": "배종우",
+                                "staffEnNm": "BaeJong-u",
+                                "staffRoleGroup": "포스터",
+                                "staffRole": "포스터디자인",
+                                "staffEtc": "디자인그리다",
+                                "staffId": "00218410"
+                            },
+                            {
+                                "staffNm": "이은주",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "포스터",
+                                "staffRole": "포스터디자인",
+                                "staffEtc": "디자인그리다",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "김유경",
+                                "staffEnNm": "KimYugyeong",
+                                "staffRoleGroup": "포스터",
+                                "staffRole": "포스터디자인",
+                                "staffEtc": "디자인그리다",
+                                "staffId": "00223329"
+                            },
+                            {
+                                "staffNm": "가온에스씨엠",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "기타스탭",
+                                "staffRole": "인쇄",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "아이랩",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "기타스탭",
+                                "staffRole": "배송",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "와이모션",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "기타스탭",
+                                "staffRole": "촬영장비",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "씨네스토리",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "기타스탭",
+                                "staffRole": "촬영장비",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "DIVESOUND",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "기타스탭",
+                                "staffRole": "녹음장비",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "LUCETE",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "기타스탭",
+                                "staffRole": "발전차",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "최대성",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "기타스탭",
+                                "staffRole": "보험",
+                                "staffEtc": "KB손해보험",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "곽도형",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "기타스탭",
+                                "staffRole": "차량대여",
+                                "staffEtc": "SK렌터카",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "심지아",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "기타스탭",
+                                "staffRole": "로케이션지원",
+                                "staffEtc": "경상북도콘텐츠진흥원",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "하나통신",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "기타스탭",
+                                "staffRole": "무전기",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "허유라",
+                                "staffEnNm": "HeoYoo-ra",
+                                "staffRoleGroup": "음악팀",
+                                "staffRole": "Compose",
+                                "staffEtc": "KINOPOST",
+                                "staffId": "00179865"
+                            },
+                            {
+                                "staffNm": "이기준",
+                                "staffEnNm": "LeeKi-jun",
+                                "staffRoleGroup": "음악팀",
+                                "staffRole": "Compose",
+                                "staffEtc": "KINOPOST",
+                                "staffId": "00174730"
+                            },
+                            {
+                                "staffNm": "서미미",
+                                "staffEnNm": "SeoMimi",
+                                "staffRoleGroup": "음악팀",
+                                "staffRole": "Compose",
+                                "staffEtc": "KINOPOST",
+                                "staffId": "00214543"
+                            },
+                            {
+                                "staffNm": "인트엔터테인먼트",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "음악팀",
+                                "staffRole": "편곡",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "김민정",
+                                "staffEnNm": "KimMinjeong",
+                                "staffRoleGroup": "색보정팀",
+                                "staffRole": "Colorist",
+                                "staffEtc": "",
+                                "staffId": "00216703"
+                            },
+                            {
+                                "staffNm": "윤혜림",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "색보정팀",
+                                "staffRole": "DigitalImageMastering",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "윤세영",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "색보정팀",
+                                "staffRole": "ProductionSupervisor",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "김지현",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "색보정팀",
+                                "staffRole": "MarketingManager",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "유승학",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "색보정팀",
+                                "staffRole": "ProductionManager",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "유은아",
+                                "staffEnNm": "YooEun-a",
+                                "staffRoleGroup": "마케팅/홍보팀",
+                                "staffRole": "홍보마케팅",
+                                "staffEtc": "콘텐츠다봄",
+                                "staffId": "00180553"
+                            },
+                            {
+                                "staffNm": "황윤미",
+                                "staffEnNm": "HwangYoon-mi",
+                                "staffRoleGroup": "마케팅/홍보팀",
+                                "staffRole": "홍보마케팅",
+                                "staffEtc": "콘텐츠다봄",
+                                "staffId": "00188489"
+                            },
+                            {
+                                "staffNm": "김나라",
+                                "staffEnNm": "KimNa-ra",
+                                "staffRoleGroup": "마케팅/홍보팀",
+                                "staffRole": "홍보마케팅",
+                                "staffEtc": "콘텐츠다봄",
+                                "staffId": "00218408"
+                            },
+                            {
+                                "staffNm": "김진현",
+                                "staffEnNm": "KimJin-hyeon",
+                                "staffRoleGroup": "마케팅/홍보팀",
+                                "staffRole": "홍보마케팅",
+                                "staffEtc": "콘텐츠다봄",
+                                "staffId": "00218409"
+                            },
+                            {
+                                "staffNm": "김호진",
+                                "staffEnNm": "Kim Ho-jin",
+                                "staffRoleGroup": "마케팅/홍보팀",
+                                "staffRole": "온라인마케팅",
+                                "staffEtc": "하이라이트",
+                                "staffId": "00170134"
+                            },
+                            {
+                                "staffNm": "조윤서",
+                                "staffEnNm": "JoYunseo",
+                                "staffRoleGroup": "마케팅/홍보팀",
+                                "staffRole": "온라인마케팅",
+                                "staffEtc": "하이라이트",
+                                "staffId": "00211565"
+                            },
+                            {
+                                "staffNm": "김보라",
+                                "staffEnNm": "KimBora",
+                                "staffRoleGroup": "마케팅/홍보팀",
+                                "staffRole": "온라인마케팅",
+                                "staffEtc": "하이라이트",
+                                "staffId": "00211566"
+                            },
+                            {
+                                "staffNm": "우세현",
+                                "staffEnNm": "WooSehyeon",
+                                "staffRoleGroup": "마케팅/홍보팀",
+                                "staffRole": "온라인마케팅",
+                                "staffEtc": "하이라이트",
+                                "staffId": "00214263"
+                            },
+                            {
+                                "staffNm": "김혜원",
+                                "staffEnNm": "KimHye-won",
+                                "staffRoleGroup": "마케팅/홍보팀",
+                                "staffRole": "온라인마케팅",
+                                "staffEtc": "하이라이트",
+                                "staffId": "00218011"
+                            },
+                            {
+                                "staffNm": "임세영",
+                                "staffEnNm": "ImSe-young",
+                                "staffRoleGroup": "마케팅/홍보팀",
+                                "staffRole": "온라인마케팅",
+                                "staffEtc": "하이라이트",
+                                "staffId": "00218012"
+                            },
+                            {
+                                "staffNm": "이은정",
+                                "staffEnNm": "LeeEun-jeong",
+                                "staffRoleGroup": "마케팅/홍보팀",
+                                "staffRole": "온라인마케팅",
+                                "staffEtc": "하이라이트",
+                                "staffId": "00218013"
+                            },
+                            {
+                                "staffNm": "최진희",
+                                "staffEnNm": "ChoeJin-hui",
+                                "staffRoleGroup": "마케팅/홍보팀",
+                                "staffRole": "광고디자인",
+                                "staffEtc": "하이라이트",
+                                "staffId": "00212111"
+                            },
+                            {
+                                "staffNm": "이강희",
+                                "staffEnNm": "LeeKanghee",
+                                "staffRoleGroup": "마케팅/홍보팀",
+                                "staffRole": "광고디자인",
+                                "staffEtc": "하이라이트",
+                                "staffId": "00211570"
+                            },
+                            {
+                                "staffNm": "(주)오예스",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "제작사",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "연결고리컴퍼니",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "공동제작사",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "와이모션",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "공동제작사",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "키노포스트",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "공동제작사",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "(주)오예스",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "투자사",
+                                "staffRole": "제공",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "(주)라이크콘텐츠",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "투자사",
+                                "staffRole": "공동제공",
+                                "staffEtc": "",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "이중연",
+                                "staffEnNm": "",
+                                "staffRoleGroup": "투자사",
+                                "staffRole": "공동제공",
+                                "staffEtc": "KTNF",
+                                "staffId": ""
+                            },
+                            {
+                                "staffNm": "(주)라이크콘텐츠",
+                                "staffEnNm": "LikeContentsInc.",
+                                "staffRoleGroup": "배급사",
+                                "staffRole": "",
+                                "staffEtc": "",
+                                "staffId": ""
+                            }
+                        ]
+                    },
+                    "vods": {
+                        "vod": [
+                            {
+                                "vodClass": "엔딩크레딧(엔딩크레딧)",
+                                "vodUrl": "https://www.kmdb.or.kr/db/kor/detail/movie/K/24426/own/videoData"
+                            }
+                        ]
+                    },
+                    "openThtr": "",
+                    "stat": [
+                        { "screenArea": "", "screenCnt": "", "salesAcc": "", "audiAcc": "", "statSouce": "", "statDate": "" }
+                    ],
+                    "screenArea": "",
+                    "screenCnt": "",
+                    "salesAcc": "",
+                    "audiAcc": "",
+                    "statSouce": "",
+                    "statDate": "",
+                    "themeSong": "",
+                    "soundtrack": "괜찮지않아 - 작사 : 이상훈, 작곡 : 이기준/최수안/허유라, 편곡 : 이기준/최수안/허유라 레인보우 - 작사 : 이상훈, 작곡 : 이기준/최수안/허유라, 편곡 : 한조/최수안 토닥토닥 - 작사 : 이상훈, 작곡 :이기준, 편곡 : 이기준/최수안/허유라 버킷리스트 - 작사 : 김구현, 작곡 : 최지영/김구현, 기타 : YOUNG 후회 - 작사 : 이상훈, 작곡 : 허유라/이기준, 편곡 : 허유라/김재호/이기준 I will -작사 : 이상훈, 작곡 : 이기준/최수안/허유라, 편곡 : 이기준 봄여름가을겨울해 - 작사 : 이상훈, 작곡 : 허유라/이기준, 편곡 : 허유라/이기준/한조, 코러스 :공루아",
+                    "fLocation": "구담정사,경상북도콘텐츠진흥원,안동역,천년숲,안동 민속촌,권정생생가,안동 월영교,하회마을 부용대,예끼마을,안동 물포럼센터,인피니티사운드,태화지성약국,경대이비인후과의원,길풍,충북식당,아이엠미디어,델라까사옥동,1001안경콘택트 안동점,IK화실,수정발레무용학원,영덕 해파랑공원,영덕 풍력발전단지공원,iMe KOREA",
+                    "Awards1": "",
+                    "Awards2": "",
+                    "regDate": "20210524",
+                    "modDate": "20211021",
+                    "Codes": { "Code": [{ "CodeNm": "FIMS", "CodeNo": "20218194" }] },
+                    "CommCodes": { "CommCode": [{ "CodeNm": "FIMS", "CodeNo": "20218194" }] },
+                    "ALIAS": "srcKmdb2"
+                }
+            ]
+        }
+    ]
+}
