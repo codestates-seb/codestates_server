@@ -19,9 +19,17 @@ const database = new client_1.PrismaClient();
         if (error)
             throw error;
         rows.forEach(async (row) => {
-            await database.movie.create({
-                data: row,
+            const isExist = await database.movie.findFirst({
+                where: {
+                    title: row.title,
+                },
             });
+            if (!isExist) {
+                const id = await database.movie.create({
+                    data: row,
+                });
+                console.log({ id });
+            }
         });
     });
     connection.query('SELECT * from User', async (error, rows, fields) => {

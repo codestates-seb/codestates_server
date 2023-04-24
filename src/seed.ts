@@ -19,9 +19,17 @@ const database = new PrismaClient();
     if (error) throw error;
 
     (rows as any).forEach(async (row: any) => {
-      await database.movie.create({
-        data: row,
+      const isExist = await database.movie.findFirst({
+        where: {
+          title: row.title,
+        },
       });
+      if (!isExist) {
+        const id = await database.movie.create({
+          data: row,
+        });
+        console.log({ id });
+      }
     });
   });
 
