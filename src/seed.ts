@@ -15,6 +15,7 @@ const database = new PrismaClient();
   // connection.query('Delete from Movie');
   // connection.query('Delete from User');
   const genres = [];
+  console.log('genres');
   connection.query('SELECT * from MovieGenre', async (error, rows, fields) => {
     if (error) throw error;
 
