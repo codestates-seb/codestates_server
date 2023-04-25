@@ -15,15 +15,23 @@ const database = new PrismaClient();
   // connection.query('Delete from Movie');
   // connection.query('Delete from User');
   const genres = [];
-  console.log('genres');
-  connection.query('SELECT * from MovieGenre', async (error, rows, fields) => {
-    if (error) throw error;
 
-    (rows as any).forEach(async (row: any) => {
-      genres.push(row);
-    });
+  const [rows] = await connection.promise().query('SELECT * from MovieGenre');
+  (rows as any).map(async (row: any, index: number) => {
+    genres.push(row);
   });
-  console.log(genres);
+
+  const actors = [];
+  const [actorRows] = await connection.promise().query('SELECT * from MovieActor');
+  (actorRows as any).map(async (row: any, index: number) => {
+    actors.push(row);
+  });
+
+  const staffs = [];
+  const [staffRows] = await connection.promise().query('SELECT * from MovieStaff');
+  (staffRows as any).map(async (row: any, index: number) => {
+    staffs.push(row);
+  });
 
   for (const row of genres)
     connection.query(`SELECT * from Genre where id=${row.genreId}`, async (error, genres, fields) => {
@@ -67,15 +75,6 @@ const database = new PrismaClient();
         });
     });
 
-  const actors = [];
-  connection.query('SELECT * from MovieActor', async (error, rows, fields) => {
-    if (error) throw error;
-
-    (rows as any).forEach(async (row: any) => {
-      actors.push(row);
-    });
-  });
-
   for (const row of actors)
     connection.query(`SELECT * from Actor where id=${row.actorId}`, async (error, genres, fields) => {
       if (error) throw error;
@@ -109,15 +108,6 @@ const database = new PrismaClient();
         },
       });
     });
-
-  const staffs = [];
-  connection.query('SELECT * from MovieStaff', async (error, rows, fields) => {
-    if (error) throw error;
-
-    (rows as any).forEach(async (row: any) => {
-      staffs.push(row);
-    });
-  });
 
   for (const row of staffs)
     connection.query(`SELECT * from Staff where id=${row.staffId}`, async (error, genres, fields) => {

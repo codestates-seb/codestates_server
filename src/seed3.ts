@@ -124,6 +124,8 @@ const database = new PrismaClient();
             movieId: movie.id,
           },
         });
+
+        console.log(genreId, isExist);
         if (!isExist)
           await database.movieGenre.create({
             data: {
