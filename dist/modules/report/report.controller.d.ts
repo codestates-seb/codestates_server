@@ -1,13 +1,14 @@
 import { User } from '@prisma/client';
 import { PagingDTO } from 'kyoongdev-nestjs';
 import { FindReportsQuery } from './dto/query/find-reports.query';
-import { ReportsDTO, UpdateReviewReportDTO, ReportDTO, AdminUpdateReviewReportDTO } from './dto';
+import { ReportsDTO, UpdateReviewReportDTO, ReportDTO, AdminUpdateReviewReportDTO, ReportStatusDTO } from './dto';
 import { ReportService } from './report.service';
 import { DeleteReportQuery } from './dto/query';
 export declare class ReportController {
     private readonly reportService;
     constructor(reportService: ReportService);
     getReports(query: FindReportsQuery, paging: PagingDTO): Promise<import("kyoongdev-nestjs").PaginationDTO<ReportsDTO>>;
+    getReportStatus(): Promise<ReportStatusDTO>;
     getMyReports(paging: PagingDTO, user: User): Promise<import("kyoongdev-nestjs").PaginationDTO<ReportsDTO>>;
     getReport(id: string): Promise<ReportDTO>;
     updateReport(id: string, body: UpdateReviewReportDTO, user: User): Promise<void>;

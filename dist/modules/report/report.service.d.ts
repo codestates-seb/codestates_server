@@ -3,7 +3,7 @@ import { PrismaService } from 'database/prisma.service';
 import { PaginationDTO, PagingDTO } from 'kyoongdev-nestjs';
 import { ReviewService } from 'modules/review/review.service';
 import { UserService } from 'modules/user/user.service';
-import { AdminUpdateReviewReportDTO, CreateReviewReportDTO, UpdateReviewReportDTO } from './dto';
+import { AdminUpdateReviewReportDTO, CreateReviewReportDTO, ReportStatusDTO, UpdateReviewReportDTO } from './dto';
 import { ReportDTO } from './dto/report.dto';
 import { ReportsDTO } from './dto/reports.dto';
 export declare class ReportService {
@@ -11,6 +11,7 @@ export declare class ReportService {
     private readonly userService;
     private readonly reviewService;
     constructor(database: PrismaService, userService: UserService, reviewService: ReviewService);
+    getReportStatus(): Promise<ReportStatusDTO>;
     findReport(id: string): Promise<ReportDTO>;
     findReports(paging: PagingDTO, args?: Prisma.ReviewReportFindManyArgs): Promise<PaginationDTO<ReportsDTO>>;
     createReport(userId: string, reviewId: string, props: CreateReviewReportDTO): Promise<string>;

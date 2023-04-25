@@ -37,6 +37,9 @@ let ReportController = class ReportController {
             },
         });
     }
+    async getReportStatus() {
+        return this.reportService.getReportStatus();
+    }
     async getMyReports(paging, user) {
         return this.reportService.findReports(paging, {
             where: {
@@ -84,6 +87,22 @@ __decorate([
     __metadata("design:paramtypes", [find_reports_query_1.FindReportsQuery, kyoongdev_nestjs_1.PagingDTO]),
     __metadata("design:returntype", Promise)
 ], ReportController.prototype, "getReports", null);
+__decorate([
+    (0, common_1.Get)('status'),
+    (0, swagger_1.ApiOperation)({
+        summary: '[CMS] 신고 상태 조회',
+        description: '신고 상태를 조회합니다.',
+    }),
+    (0, kyoongdev_nestjs_1.Auth)(utils_1.JwtAuthGuard),
+    (0, common_1.UseInterceptors)((0, utils_1.RoleInterceptorAPI)(utils_1.Role.ADMIN)),
+    (0, kyoongdev_nestjs_1.RequestApi)({}),
+    (0, kyoongdev_nestjs_1.ResponseApi)({
+        type: dto_1.ReportStatusDTO,
+    }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ReportController.prototype, "getReportStatus", null);
 __decorate([
     (0, common_1.Get)('/me'),
     (0, swagger_1.ApiOperation)({

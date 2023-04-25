@@ -4,7 +4,7 @@ import { PrismaService } from 'database/prisma.service';
 import { PaginationDTO, PagingDTO } from 'kyoongdev-nestjs';
 import { ReviewService } from 'modules/review/review.service';
 import { UserService } from 'modules/user/user.service';
-import { AdminUpdateReviewReportDTO, CreateReviewReportDTO, UpdateReviewReportDTO } from './dto';
+import { AdminUpdateReviewReportDTO, CreateReviewReportDTO, ReportStatusDTO, UpdateReviewReportDTO } from './dto';
 import { ReportDTO } from './dto/report.dto';
 import { ReportsDTO } from './dto/reports.dto';
 
@@ -15,6 +15,31 @@ export class ReportService {
     private readonly userService: UserService,
     private readonly reviewService: ReviewService
   ) {}
+
+  async getReportStatus() {
+    const completed = await this.database.reviewReport.count({
+      where: {
+        OR: [
+          {
+            type: 'USER_DELETE',
+          },
+          {
+            type: 'IGNORE',
+          },
+        ],
+      },
+    });
+    const inProgress = await this.database.reviewReport.count({
+      where: {
+        type: 'PENDING',
+      },
+    });
+
+    return new ReportStatusDTO({
+      completed,
+      inProgress,
+    });
+  }
 
   async findReport(id: string) {
     const report = await this.database.reviewReport.findUnique({

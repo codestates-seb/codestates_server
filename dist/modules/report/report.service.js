@@ -15,6 +15,7 @@ const prisma_service_1 = require("../../database/prisma.service");
 const kyoongdev_nestjs_1 = require("kyoongdev-nestjs");
 const review_service_1 = require("../review/review.service");
 const user_service_1 = require("../user/user.service");
+const dto_1 = require("./dto");
 const report_dto_1 = require("./dto/report.dto");
 const reports_dto_1 = require("./dto/reports.dto");
 let ReportService = class ReportService {
@@ -22,6 +23,29 @@ let ReportService = class ReportService {
         this.database = database;
         this.userService = userService;
         this.reviewService = reviewService;
+    }
+    async getReportStatus() {
+        const completed = await this.database.reviewReport.count({
+            where: {
+                OR: [
+                    {
+                        type: 'USER_DELETE',
+                    },
+                    {
+                        type: 'IGNORE',
+                    },
+                ],
+            },
+        });
+        const inProgress = await this.database.reviewReport.count({
+            where: {
+                type: 'PENDING',
+            },
+        });
+        return new dto_1.ReportStatusDTO({
+            completed,
+            inProgress,
+        });
     }
     async findReport(id) {
         const report = await this.database.reviewReport.findUnique({

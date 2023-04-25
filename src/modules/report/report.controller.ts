@@ -4,7 +4,7 @@ import { User } from '@prisma/client';
 import { Auth, Paging, PagingDTO, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
 import { JwtAuthGuard, ReqUser, Role, RoleInterceptorAPI } from 'utils';
 import { FindReportsQuery } from './dto/query/find-reports.query';
-import { ReportsDTO, UpdateReviewReportDTO, ReportDTO, AdminUpdateReviewReportDTO } from './dto';
+import { ReportsDTO, UpdateReviewReportDTO, ReportDTO, AdminUpdateReviewReportDTO, ReportStatusDTO } from './dto';
 import { ReportService } from './report.service';
 import { EmptyResponseDTO } from 'common';
 import { DeleteReportQuery } from './dto/query';
@@ -36,6 +36,20 @@ export class ReportController {
         },
       },
     });
+  }
+  @Get('status')
+  @ApiOperation({
+    summary: '[CMS] 신고 상태 조회',
+    description: '신고 상태를 조회합니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.ADMIN))
+  @RequestApi({})
+  @ResponseApi({
+    type: ReportStatusDTO,
+  })
+  async getReportStatus() {
+    return this.reportService.getReportStatus();
   }
 
   @Get('/me')

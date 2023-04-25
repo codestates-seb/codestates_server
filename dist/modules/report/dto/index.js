@@ -19,4 +19,5 @@ __exportStar(require("./create-review-report.dto"), exports);
 __exportStar(require("./update-review-report.dto"), exports);
 __exportStar(require("./report.dto"), exports);
 __exportStar(require("./reports.dto"), exports);
+__exportStar(require("./report-status.dto"), exports);
 //# sourceMappingURL=index.js.map
