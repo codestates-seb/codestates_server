@@ -82,7 +82,8 @@ let ReportService = class ReportService {
         await this.reviewService.findReview(reviewId);
         const newReport = await this.database.reviewReport.create({
             data: {
-                ...props,
+                contents: '',
+                reason: props.reason,
                 user: {
                     connect: {
                         id: userId,

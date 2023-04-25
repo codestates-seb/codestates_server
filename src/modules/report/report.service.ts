@@ -89,7 +89,8 @@ export class ReportService {
 
     const newReport = await this.database.reviewReport.create({
       data: {
-        ...props,
+        contents: '',
+        reason: props.reason,
         user: {
           connect: {
             id: userId,

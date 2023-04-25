@@ -10,21 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateReviewReportDTO = void 0;
-const client_1 = require("@prisma/client");
 const kyoongdev_nestjs_1 = require("kyoongdev-nestjs");
 class CreateReviewReportDTO {
 }
 __decorate([
     (0, kyoongdev_nestjs_1.Property)({ apiProperty: { type: 'string' } }),
     __metadata("design:type", String)
-], CreateReviewReportDTO.prototype, "contents", void 0);
-__decorate([
-    (0, kyoongdev_nestjs_1.Property)({ apiProperty: { type: 'string' } }),
-    __metadata("design:type", String)
 ], CreateReviewReportDTO.prototype, "reason", void 0);
-__decorate([
-    (0, kyoongdev_nestjs_1.Property)({ apiProperty: { type: 'string', enum: Object.keys(client_1.ReportType) } }),
-    __metadata("design:type", String)
-], CreateReviewReportDTO.prototype, "type", void 0);
 exports.CreateReviewReportDTO = CreateReviewReportDTO;
 //# sourceMappingURL=create-review-report.dto.js.map
