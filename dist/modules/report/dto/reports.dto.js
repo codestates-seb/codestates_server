@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReportsDTO = void 0;
 const client_1 = require("@prisma/client");
 const kyoongdev_nestjs_1 = require("kyoongdev-nestjs");
+const report_review_dto_1 = require("../../review/dto/report-review.dto");
 const dto_1 = require("../../user/dto");
 class ReportsDTO {
     constructor(props) {
@@ -21,6 +22,7 @@ class ReportsDTO {
         this.type = props.type;
         this.processedAt = props.processedAt;
         this.user = new dto_1.UserDTO(props.user);
+        this.review = new report_review_dto_1.ReportReviewDTO(props.review);
     }
 }
 __decorate([
@@ -47,5 +49,9 @@ __decorate([
     (0, kyoongdev_nestjs_1.Property)({ apiProperty: { type: dto_1.UserDTO } }),
     __metadata("design:type", dto_1.UserDTO)
 ], ReportsDTO.prototype, "user", void 0);
+__decorate([
+    (0, kyoongdev_nestjs_1.Property)({ apiProperty: { type: report_review_dto_1.ReportReviewDTO } }),
+    __metadata("design:type", report_review_dto_1.ReportReviewDTO)
+], ReportsDTO.prototype, "review", void 0);
 exports.ReportsDTO = ReportsDTO;
 //# sourceMappingURL=reports.dto.js.map

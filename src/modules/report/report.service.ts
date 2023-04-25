@@ -7,6 +7,7 @@ import { UserService } from 'modules/user/user.service';
 import { AdminUpdateReviewReportDTO, CreateReviewReportDTO, ReportStatusDTO, UpdateReviewReportDTO } from './dto';
 import { ReportDTO } from './dto/report.dto';
 import { ReportsDTO } from './dto/reports.dto';
+import { ReviewDto } from 'modules/review/dto';
 
 @Injectable()
 export class ReportService {
@@ -67,11 +68,17 @@ export class ReportService {
       where: args.where,
       include: {
         user: true,
+        review: true,
       },
     });
 
     return new PaginationDTO(
-      reports.map((report) => new ReportsDTO(report)),
+      reports.map(
+        (report) =>
+          new ReportsDTO({
+            ...report,
+          })
+      ),
       { paging, count }
     );
   }

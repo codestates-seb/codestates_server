@@ -70,9 +70,12 @@ let ReportService = class ReportService {
             where: args.where,
             include: {
                 user: true,
+                review: true,
             },
         });
-        return new kyoongdev_nestjs_1.PaginationDTO(reports.map((report) => new reports_dto_1.ReportsDTO(report)), { paging, count });
+        return new kyoongdev_nestjs_1.PaginationDTO(reports.map((report) => new reports_dto_1.ReportsDTO({
+            ...report,
+        })), { paging, count });
     }
     async createReport(userId, reviewId, props) {
         await this.userService.findUser(userId);

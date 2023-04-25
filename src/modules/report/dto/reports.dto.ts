@@ -1,9 +1,16 @@
 import { ReportType, ReviewReport, User } from '@prisma/client';
 import { Property } from 'kyoongdev-nestjs';
+import { ReviewDto } from 'modules/review/dto';
+import { ReportReviewDTO } from 'modules/review/dto/report-review.dto';
 import { UserDTO } from 'modules/user/dto';
 
 interface ReportsDTOProps extends Partial<ReviewReport> {
   user: Partial<User>;
+  review: {
+    id: string;
+    title: string;
+    content: string;
+  };
 }
 
 export class ReportsDTO {
@@ -25,6 +32,9 @@ export class ReportsDTO {
   @Property({ apiProperty: { type: UserDTO } })
   user: UserDTO;
 
+  @Property({ apiProperty: { type: ReportReviewDTO } })
+  review: ReportReviewDTO;
+
   constructor(props: ReportsDTOProps) {
     this.id = props.id;
     this.contents = props.contents;
@@ -32,5 +42,6 @@ export class ReportsDTO {
     this.type = props.type;
     this.processedAt = props.processedAt;
     this.user = new UserDTO(props.user);
+    this.review = new ReportReviewDTO(props.review);
   }
 }
