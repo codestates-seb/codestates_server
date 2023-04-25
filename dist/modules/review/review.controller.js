@@ -97,6 +97,7 @@ let ReviewController = class ReviewController {
         await this.reviewService.deleteReview(id);
     }
     async deleteReviewsAdmin(query) {
+        console.log({ query });
         await Promise.all(query.reviewIds.split(',').map(async (id) => this.reviewService.deleteReview(id)));
     }
     async getMyReviewCommentsByReview(id, user) {
@@ -466,7 +467,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ReviewController.prototype, "deleteReviewAdmin", null);
 __decorate([
-    (0, common_1.Delete)('many/admin'),
+    (0, common_1.Delete)('many'),
     (0, swagger_1.ApiOperation)({
         summary: '[CMS] 리뷰 다수 삭제',
         description: '리뷰를 다수 삭제합니다.',

@@ -15,51 +15,52 @@ const connection = mysql2_1.default.createConnection({
 const database = new client_1.PrismaClient();
 (async () => {
     connection.connect();
-    connection.query('SELECT * from Movie', async (error, rows, fields) => {
-        if (error)
-            throw error;
-        rows.forEach(async (row) => {
-            const isExist = await database.movie.findFirst({
-                where: {
-                    title: row.title,
-                },
-            });
-            if (!isExist) {
-                const id = await database.movie.create({
-                    data: row,
-                });
-                console.log({ id });
-            }
-        });
+    const genres = [];
+    const [rows] = await connection.promise().query('SELECT * from MovieGenre');
+    rows.map(async (row, index) => {
+        genres.push(row);
     });
-    connection.query('SELECT * from User', async (error, rows, fields) => {
-        if (error)
-            throw error;
-        rows.forEach(async (row) => {
-            await database.user.create({
+    for (const row of genres) {
+        const [genreData] = await connection.promise().query(`SELECT * from Genre where id='${row.genreId}'`);
+        const genre = genreData[0];
+        console.log({ genre });
+        let isExist = await database.genre.findFirst({
+            where: {
+                name: genre.name,
+            },
+        });
+        if (!isExist) {
+            isExist = await database.genre.create({
                 data: {
-                    id: row.id,
-                    name: row.name,
-                    birth: row.birth,
-                    email: row.email,
-                    nickname: row.nickname,
-                    password: row.password,
-                    description: row.description,
-                    gender: row.gender,
-                    userType: row.userType,
-                    isPublic: row.isPublic === 1 ? true : false,
-                    isLikeView: row.isLikeView === 1 ? true : false,
-                    isReviewView: row.isReviewView === 1 ? true : false,
-                    isPreferenceView: row.isPreferenceView === 1 ? true : false,
-                    profileImage: row.profileImage,
-                    createdAt: row.createdAt,
-                    updatedAt: row.updatedAt,
+                    name: genre.name,
                 },
             });
+        }
+        const genreExist = await database.movieGenre.findUnique({
+            where: {
+                movieId_genreId: {
+                    movieId: row.movieId,
+                    genreId: isExist.id,
+                },
+            },
         });
-    });
-    const users = await database.user.findMany();
-    const movies = await database.movie.findMany();
+        console.log({ genreExist });
+        if (!genreExist)
+            await database.movieGenre.create({
+                data: {
+                    movie: {
+                        connect: {
+                            id: row.movieId,
+                        },
+                    },
+                    genre: {
+                        connect: {
+                            id: isExist.id,
+                        },
+                    },
+                },
+            });
+    }
     connection.end();
 })();
 //# sourceMappingURL=seed.js.map

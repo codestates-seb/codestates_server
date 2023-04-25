@@ -382,7 +382,7 @@ export class ReviewController {
     await this.reviewService.deleteReview(id);
   }
 
-  @Delete('many/admin')
+  @Delete('many')
   @ApiOperation({
     summary: '[CMS] 리뷰 다수 삭제',
     description: '리뷰를 다수 삭제합니다.',
@@ -397,6 +397,7 @@ export class ReviewController {
     204
   )
   async deleteReviewsAdmin(@Query() query: DeleteReviewsQuery) {
+    console.log({ query });
     await Promise.all(query.reviewIds.split(',').map(async (id) => this.reviewService.deleteReview(id)));
   }
 

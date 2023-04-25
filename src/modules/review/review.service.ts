@@ -495,6 +495,7 @@ export class ReviewService {
   }
 
   async deleteReview(id: string, userId?: string) {
+    console.log({ id });
     const review = await this.findReview(id);
 
     if (userId && review.user.id !== userId) throw new ForbiddenException('리뷰를 삭제할 권한이 없습니다.');
