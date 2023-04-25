@@ -19,7 +19,7 @@ const database = new PrismaClient();
     if (error) throw error;
 
     (rows as any).forEach(async (row: any) => {
-      connection.query(`SELECT * from Genre where id=${row.genreId}`, async (error, genres, fields) => {
+      connection.query(`SELECT * from Genre where id=${row.actorId}`, async (error, genres, fields) => {
         if (error) throw error;
         const genre = genres[0];
 
@@ -36,14 +36,101 @@ const database = new PrismaClient();
           });
         }
 
-        await database.movieGenre.create({
+        const genreExist = await database.movieGenre.findFirst({
+          where: {
+            movieId: row.movieId,
+            genreId: isExist.id,
+          },
+        });
+
+        if (!genreExist)
+          await database.movieGenre.create({
+            data: {
+              movie: {
+                connect: {
+                  id: row.movieId,
+                },
+              },
+              genre: {
+                connect: {
+                  id: isExist.id,
+                },
+              },
+            },
+          });
+      });
+    });
+  });
+
+  connection.query('SELECT * from MovieActor', async (error, rows, fields) => {
+    if (error) throw error;
+
+    (rows as any).forEach(async (row: any) => {
+      connection.query(`SELECT * from Actor where id=${row.actorId}`, async (error, genres, fields) => {
+        if (error) throw error;
+        const genre = genres[0];
+
+        let isExist = await database.actor.findFirst({
+          where: {
+            name: genre.name,
+          },
+        });
+        if (!isExist) {
+          isExist = await database.actor.create({
+            data: {
+              name: genre.name,
+            },
+          });
+        }
+
+        await database.movieActor.create({
           data: {
             movie: {
               connect: {
                 id: row.movieId,
               },
             },
-            genre: {
+            actor: {
+              connect: {
+                id: isExist.id,
+              },
+            },
+          },
+        });
+      });
+    });
+  });
+
+  connection.query('SELECT * from MovieStaff', async (error, rows, fields) => {
+    if (error) throw error;
+
+    (rows as any).forEach(async (row: any) => {
+      connection.query(`SELECT * from Staff where id=${row.staffId}`, async (error, genres, fields) => {
+        if (error) throw error;
+        const genre = genres[0];
+
+        let isExist = await database.staff.findFirst({
+          where: {
+            name: genre.name,
+          },
+        });
+        if (!isExist) {
+          isExist = await database.staff.create({
+            data: {
+              name: genre.name,
+              role: genre.role,
+            },
+          });
+        }
+
+        await database.movieStaff.create({
+          data: {
+            movie: {
+              connect: {
+                id: row.movieId,
+              },
+            },
+            staff: {
               connect: {
                 id: isExist.id,
               },
