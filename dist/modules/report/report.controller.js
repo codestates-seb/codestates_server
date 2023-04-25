@@ -52,6 +52,9 @@ let ReportController = class ReportController {
     async getReport(id) {
         return this.reportService.findReport(id);
     }
+    async createReport(reviewId, body, user) {
+        return await this.reportService.createReport(user.id, reviewId, body);
+    }
     async updateReport(id, body, user) {
         await this.reportService.updateReport(id, body, user.id);
     }
@@ -150,6 +153,35 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], ReportController.prototype, "getReport", null);
+__decorate([
+    (0, common_1.Post)(':reviewId'),
+    (0, swagger_1.ApiOperation)({
+        summary: '[서비스] 신고 생성',
+        description: '신고를 생성합니다.',
+    }),
+    (0, kyoongdev_nestjs_1.Auth)(utils_1.JwtAuthGuard),
+    (0, common_1.UseInterceptors)((0, utils_1.RoleInterceptorAPI)(utils_1.Role.USER), utils_1.ResponseWithIdInterceptor),
+    (0, kyoongdev_nestjs_1.RequestApi)({
+        params: {
+            name: 'reviewId',
+            type: 'string',
+            required: true,
+            description: 'report id',
+        },
+        body: {
+            type: dto_1.CreateReviewReportDTO,
+        },
+    }),
+    (0, kyoongdev_nestjs_1.ResponseApi)({
+        type: common_2.EmptyResponseDTO,
+    }, 204),
+    __param(0, (0, common_1.Param)('reviewId')),
+    __param(1, (0, common_1.Body)()),
+    __param(2, (0, utils_1.ReqUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, dto_1.CreateReviewReportDTO, Object]),
+    __metadata("design:returntype", Promise)
+], ReportController.prototype, "createReport", null);
 __decorate([
     (0, common_1.Patch)(':id'),
     (0, swagger_1.ApiOperation)({

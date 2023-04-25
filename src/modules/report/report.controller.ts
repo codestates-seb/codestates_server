@@ -2,9 +2,16 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseIntercepto
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 import { Auth, Paging, PagingDTO, RequestApi, ResponseApi } from 'kyoongdev-nestjs';
-import { JwtAuthGuard, ReqUser, Role, RoleInterceptorAPI } from 'utils';
+import { JwtAuthGuard, ReqUser, ResponseWithIdInterceptor, Role, RoleInterceptorAPI } from 'utils';
 import { FindReportsQuery } from './dto/query/find-reports.query';
-import { ReportsDTO, UpdateReviewReportDTO, ReportDTO, AdminUpdateReviewReportDTO, ReportStatusDTO } from './dto';
+import {
+  ReportsDTO,
+  UpdateReviewReportDTO,
+  ReportDTO,
+  AdminUpdateReviewReportDTO,
+  ReportStatusDTO,
+  CreateReviewReportDTO,
+} from './dto';
 import { ReportService } from './report.service';
 import { EmptyResponseDTO } from 'common';
 import { DeleteReportQuery } from './dto/query';
@@ -97,6 +104,34 @@ export class ReportController {
   })
   async getReport(@Param('id') id: string) {
     return this.reportService.findReport(id);
+  }
+
+  @Post(':reviewId')
+  @ApiOperation({
+    summary: '[서비스] 신고 생성',
+    description: '신고를 생성합니다.',
+  })
+  @Auth(JwtAuthGuard)
+  @UseInterceptors(RoleInterceptorAPI(Role.USER), ResponseWithIdInterceptor)
+  @RequestApi({
+    params: {
+      name: 'reviewId',
+      type: 'string',
+      required: true,
+      description: 'report id',
+    },
+    body: {
+      type: CreateReviewReportDTO,
+    },
+  })
+  @ResponseApi(
+    {
+      type: EmptyResponseDTO,
+    },
+    204
+  )
+  async createReport(@Param('reviewId') reviewId: string, @Body() body: CreateReviewReportDTO, @ReqUser() user: User) {
+    return await this.reportService.createReport(user.id, reviewId, body);
   }
 
   @Patch(':id')
