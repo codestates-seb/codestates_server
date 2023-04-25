@@ -22,6 +22,8 @@ const database = new PrismaClient();
       genres.push(row);
     });
   });
+  console.log(genres);
+
   for (const row of genres)
     connection.query(`SELECT * from Genre where id=${row.genreId}`, async (error, genres, fields) => {
       if (error) throw error;
