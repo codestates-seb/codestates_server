@@ -20,11 +20,11 @@ class AdminUpdateReviewReportDTO {
     }
 }
 __decorate([
-    (0, kyoongdev_nestjs_1.Property)({ apiProperty: { type: 'string' } }),
+    (0, kyoongdev_nestjs_1.Property)({ apiProperty: { type: 'string', nullable: true } }),
     __metadata("design:type", String)
 ], AdminUpdateReviewReportDTO.prototype, "contents", void 0);
 __decorate([
-    (0, kyoongdev_nestjs_1.Property)({ apiProperty: { type: 'string' } }),
+    (0, kyoongdev_nestjs_1.Property)({ apiProperty: { type: 'string', nullable: true } }),
     __metadata("design:type", String)
 ], AdminUpdateReviewReportDTO.prototype, "reason", void 0);
 __decorate([
