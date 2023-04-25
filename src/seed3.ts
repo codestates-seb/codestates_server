@@ -8,6 +8,13 @@ const database = new PrismaClient();
     'http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&ServiceKey=8Z3T9WBWD7IMW1MW3HG9&detail=Y&startCount=0&listCount=200&nation=대한민국&ratedYn=Y&releaseDts=20200101&type=극영화',
     {}
   );
+  await database.movie.deleteMany({});
+  await database.movieActor.deleteMany({});
+  await database.movieStaff.deleteMany({});
+  await database.movieGenre.deleteMany({});
+  await database.actor.deleteMany({});
+  await database.staff.deleteMany({});
+  await database.genre.deleteMany({});
 
   for (const row of movie.data.Data) {
     for (const item of row.Result) {
@@ -17,43 +24,43 @@ const database = new PrismaClient();
         },
       });
 
-      // const actors = await Promise.all(
-      //   item.actors.actor.slice(0, 10).map(async (actor: any) => {
-      //     const isExist = await database.actor.findFirst({
-      //       where: {
-      //         name: actor.actorNm,
-      //       },
-      //     });
-      //     if (!isExist) {
-      //       const newActor = await database.actor.create({
-      //         data: {
-      //           name: actor.actorNm,
-      //         },
-      //       });
-      //       return newActor.id;
-      //     }
-      //     return isExist.id;
-      //   })
-      // );
-      // const staffs = await Promise.all(
-      //   item.staffs.staff.slice(0, 10).map(async (staff: any) => {
-      //     const isExist = await database.staff.findFirst({
-      //       where: {
-      //         name: staff.staffNm,
-      //       },
-      //     });
-      //     if (!isExist) {
-      //       const newStaff = await database.staff.create({
-      //         data: {
-      //           name: staff.staffNm,
-      //           role: staff.staffRoleGroup,
-      //         },
-      //       });
-      //       return newStaff.id;
-      //     }
-      //     return isExist.id;
-      //   })
-      // );
+      const actors = await Promise.all(
+        item.actors.actor.slice(0, 10).map(async (actor: any) => {
+          const isExist = await database.actor.findFirst({
+            where: {
+              name: actor.actorNm,
+            },
+          });
+          if (!isExist) {
+            const newActor = await database.actor.create({
+              data: {
+                name: actor.actorNm,
+              },
+            });
+            return newActor.id;
+          }
+          return isExist.id;
+        })
+      );
+      const staffs = await Promise.all(
+        item.staffs.staff.slice(0, 10).map(async (staff: any) => {
+          const isExist = await database.staff.findFirst({
+            where: {
+              name: staff.staffNm,
+            },
+          });
+          if (!isExist) {
+            const newStaff = await database.staff.create({
+              data: {
+                name: staff.staffNm,
+                role: staff.staffRoleGroup,
+              },
+            });
+            return newStaff.id;
+          }
+          return isExist.id;
+        })
+      );
 
       const genres = await Promise.all(
         item.genre.split(',').map(async (genre: any) => {
@@ -87,36 +94,36 @@ const database = new PrismaClient();
               runtime: item.runtime,
             },
           });
-      // for (const actorId of actors) {
-      //   const isExist = await database.movieActor.findFirst({
-      //     where: {
-      //       actorId,
-      //       movieId: movie.id,
-      //     },
-      //   });
-      //   if (!isExist)
-      //     await database.movieActor.create({
-      //       data: {
-      //         actorId,
-      //         movieId: movie.id,
-      //       },
-      //     });
-      // }
-      // for (const staffId of staffs) {
-      //   const isExist = await database.movieStaff.findFirst({
-      //     where: {
-      //       staffId,
-      //       movieId: movie.id,
-      //     },
-      //   });
-      //   if (!isExist)
-      //     await database.movieStaff.create({
-      //       data: {
-      //         staffId,
-      //         movieId: movie.id,
-      //       },
-      //     });
-      // }
+      for (const actorId of actors) {
+        const isExist = await database.movieActor.findFirst({
+          where: {
+            actorId,
+            movieId: movie.id,
+          },
+        });
+        if (!isExist)
+          await database.movieActor.create({
+            data: {
+              actorId,
+              movieId: movie.id,
+            },
+          });
+      }
+      for (const staffId of staffs) {
+        const isExist = await database.movieStaff.findFirst({
+          where: {
+            staffId,
+            movieId: movie.id,
+          },
+        });
+        if (!isExist)
+          await database.movieStaff.create({
+            data: {
+              staffId,
+              movieId: movie.id,
+            },
+          });
+      }
       for (const genreId of genres) {
         const isExist = await database.movieGenre.findFirst({
           where: {
@@ -125,7 +132,6 @@ const database = new PrismaClient();
           },
         });
 
-        console.log(genreId, isExist);
         if (!isExist)
           await database.movieGenre.create({
             data: {

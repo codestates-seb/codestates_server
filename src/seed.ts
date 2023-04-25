@@ -33,48 +33,51 @@ const database = new PrismaClient();
   //   staffs.push(row);
   // });
 
-  console.log(genres);
-  for (const row of genres)
-    connection.query(`SELECT * from Genre where id='${row.genreId}'`, async (error, genres, fields) => {
-      if (error) throw error;
-      const genre = genres[0];
+  // console.log(genres);
+  for (const row of genres) {
+    const [genreData] = await connection.promise().query(`SELECT * from Genre where id='${row.genreId}'`);
+    const genre = genreData[0];
+    console.log({ genre });
 
-      let isExist = await database.genre.findFirst({
-        where: {
+    let isExist = await database.genre.findFirst({
+      where: {
+        name: genre.name,
+      },
+    });
+    if (!isExist) {
+      isExist = await database.genre.create({
+        data: {
           name: genre.name,
         },
       });
-      if (!isExist) {
-        isExist = await database.genre.create({
-          data: {
-            name: genre.name,
-          },
-        });
-      }
+    }
 
-      const genreExist = await database.movieGenre.findFirst({
-        where: {
+    const genreExist = await database.movieGenre.findUnique({
+      where: {
+        movieId_genreId: {
           movieId: row.movieId,
           genreId: isExist.id,
         },
-      });
+      },
+    });
+    console.log({ genreExist });
 
-      if (!genreExist)
-        await database.movieGenre.create({
-          data: {
-            movie: {
-              connect: {
-                id: row.movieId,
-              },
-            },
-            genre: {
-              connect: {
-                id: isExist.id,
-              },
+    if (!genreExist)
+      await database.movieGenre.create({
+        data: {
+          movie: {
+            connect: {
+              id: row.movieId,
             },
           },
-        });
-    });
+          genre: {
+            connect: {
+              id: isExist.id,
+            },
+          },
+        },
+      });
+  }
 
   // for (const row of actors)
   //   connection.query(`SELECT * from Actor where id='${row.actorId}'`, async (error, genres, fields) => {
