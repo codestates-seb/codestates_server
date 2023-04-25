@@ -34,7 +34,7 @@ const database = new PrismaClient();
   });
 
   for (const row of genres)
-    connection.query(`SELECT * from Genre where id=${row.genreId}`, async (error, genres, fields) => {
+    connection.query(`SELECT * from Genre where id='${row.genreId}'`, async (error, genres, fields) => {
       if (error) throw error;
       const genre = genres[0];
 
@@ -76,7 +76,7 @@ const database = new PrismaClient();
     });
 
   for (const row of actors)
-    connection.query(`SELECT * from Actor where id=${row.actorId}`, async (error, genres, fields) => {
+    connection.query(`SELECT * from Actor where id='${row.actorId}'`, async (error, genres, fields) => {
       if (error) throw error;
       const genre = genres[0];
 
@@ -110,7 +110,7 @@ const database = new PrismaClient();
     });
 
   for (const row of staffs)
-    connection.query(`SELECT * from Staff where id=${row.staffId}`, async (error, genres, fields) => {
+    connection.query(`SELECT * from Staff where id='${row.staffId}'`, async (error, genres, fields) => {
       if (error) throw error;
       const genre = genres[0];
 
