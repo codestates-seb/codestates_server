@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE `ReviewReport` MODIFY `type` ENUM('PENDING', 'IGNORE', 'USER_DELETE') NULL DEFAULT 'PENDING';

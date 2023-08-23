@@ -1,274 +1,280 @@
-
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model User{ 
-  id        String      @id @default(uuid())
-  name      String?
-  email     String?   @unique
-  birth     String?
-  nickname  String?
-  password  String?
-  gender UserGender? 
-  description  String? @db.LongText
-  profileImage String? 
-  isPublic Boolean? @default(true)
-  isLikeView Boolean? @default(true)
-  isReviewView Boolean? @default(true)
-  isPreferenceView Boolean? @default(true)
-  userType  UserType? @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model User {
+  id               String      @id @default(uuid())
+  name             String?
+  email            String?     @unique
+  birth            String?
+  nickname         String?
+  password         String?
+  gender           UserGender?
+  description      String?     @db.Text
+  profileImage     String?
+  isPublic         Boolean?    @default(true)
+  isLikeView       Boolean?    @default(true)
+  isReviewView     Boolean?    @default(true)
+  isPreferenceView Boolean?    @default(true)
+  userType         UserType?   @default(USER)
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
 
-  Reviews MovieReview[]
-  bookmarks MovieBookmark[]
-  likes MovieLike[]
-  scores MovieScore[]
-  reports ReviewReport[]
+  Reviews       MovieReview[]
+  bookmarks     MovieBookmark[]
+  likes         MovieLike[]
+  scores        MovieScore[]
+  reports       ReviewReport[]
   reviewComment ReviewComment[]
-  reviewLikes ReviewLike[]
-  reviewHates ReviewHate[]
-  faqs FAQ[]
-  faqComments FAQComment[]
-  userGenres UserGenre[]
+  reviewLikes   ReviewLike[]
+  reviewHates   ReviewHate[]
+  faqs          FAQ[]
+  faqComments   FAQComment[]
+  userGenres    UserGenre[]
 }
 
-model UserGenre{
-  userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+model UserGenre {
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   genreId String
-  genre Genre @relation(fields: [genreId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  genre   Genre  @relation(fields: [genreId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
   @@id([userId, genreId])
 }
 
-model MovieLike{
+model MovieLike {
   movieId String
-  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  movie   Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
   @@id([movieId, userId])
 }
 
-model ReviewLike{
+model ReviewLike {
   reviewId String
-  review MovieReview @relation(fields: [reviewId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  review   MovieReview @relation(fields: [reviewId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId   String
+  user     User        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
   @@id([reviewId, userId])
 }
 
-
-model ReviewHate{
+model ReviewHate {
   reviewId String
-  review MovieReview @relation(fields: [reviewId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  review   MovieReview @relation(fields: [reviewId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId   String
+  user     User        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
   @@id([reviewId, userId])
 }
 
-model MovieBookmark{
+model MovieBookmark {
   movieId String
-  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  movie   Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
   @@id([movieId, userId])
 }
+
 model Genre {
-  id        String      @id @default(uuid())
-  name      String
+  id          String       @id @default(uuid())
+  name        String
   movieGenres MovieGenre[]
-  userGenres UserGenre[]
+  userGenres  UserGenre[]
 }
 
 model MovieGenre {
   movieId String
-  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  movie   Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   genreId String
-  genre Genre @relation(fields: [genreId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  genre   Genre  @relation(fields: [genreId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
   @@id([movieId, genreId])
 }
 
 model Category {
-  id        String      @id @default(uuid())
-  name      String
+  id              String          @id @default(uuid())
+  name            String
   movieCategories MovieCategory[]
 }
 
 model MovieCategory {
-  movieId String
-  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  movieId    String
+  movie      Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   categoryId String
-  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
   @@id([movieId, categoryId])
 }
 
 model ReviewReport {
-  id       String      @id @default(uuid())
-  contents String
-  reason   String
-  type ReportType @default(PENDING)
+  id          String     @id @default(uuid())
+  contents    String
+  reason      String
+  type        ReportType @default(PENDING)
   processedAt DateTime?
 
   reviewId String
-  review MovieReview @relation(fields: [reviewId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  review   MovieReview @relation(fields: [reviewId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId   String
+  user     User        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
-model Movie{
-  id        String      @id @default(uuid())
-  title     String
-  postImage String
-  plot     String  @db.LongText
-  releasedAt  String
-  rating String
-  runtime String
-  company String
+model Movie {
+  id         String @id @default(uuid())
+  title      String
+  postImage  String
+  plot       String @db.Text
+  releasedAt String
+  rating     String
+  runtime    String
+  company    String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  reviews MovieReview[]
-  bookmarks MovieBookmark[]
-  movieLikes MovieLike[]
-  movieScores MovieScore[]
-  movieStaffs MovieStaff[]
-  movieActors MovieActor[]
-  movieGenres MovieGenre[]
+  reviews         MovieReview[]
+  bookmarks       MovieBookmark[]
+  movieLikes      MovieLike[]
+  movieScores     MovieScore[]
+  movieStaffs     MovieStaff[]
+  movieActors     MovieActor[]
+  movieGenres     MovieGenre[]
   movieCategories MovieCategory[]
 }
 
-model MovieStaff{
+model MovieStaff {
   movieId String
-  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  movie   Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   staffId String
-  staff Staff @relation(fields: [staffId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  staff   Staff  @relation(fields: [staffId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
   @@id([movieId, staffId])
 }
 
-model MovieActor{
+model MovieActor {
   movieId String
-  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  movie   Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   actorId String
-  actor Actor @relation(fields: [actorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  actor   Actor  @relation(fields: [actorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
   @@id([movieId, actorId])
 }
 
 model Staff {
-  id       String      @id @default(uuid())
-  name     String
-  role    String
+  id          String       @id @default(uuid())
+  name        String
+  role        String
   movieStaffs MovieStaff[]
-
 }
 
-model Actor{
-  id       String      @id @default(uuid())
-  name     String
+model Actor {
+  id          String       @id @default(uuid())
+  name        String
   movieActors MovieActor[]
 }
 
-model MovieScore{
-  id        String      @id @default(uuid())
-  score     Float
+model MovieScore {
+  id      String @id @default(uuid())
+  score   Float
   movieId String
-  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade) 
+  movie   Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
-model MovieReview{ 
-  id  String @id @default(uuid())
+model MovieReview {
+  id String @id @default(uuid())
 
-  score Float
-  title String? 
-  content String? @db.LongText
+  score     Float
+  title     String?
+  content   String?  @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   movieId String
-  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  movie   Movie  @relation(fields: [movieId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  reviewReports ReviewReport[]
-  reviewComments ReviewComment[]
-  reviewLikes ReviewLike[]
-  reviewHates ReviewHate[]
-  reviewTensions ReviewTension[]
+  reviewReports     ReviewReport[]
+  reviewComments    ReviewComment[]
+  reviewLikes       ReviewLike[]
+  reviewHates       ReviewHate[]
+  reviewTensions    ReviewTension[]
   reviewEnjoyPoints ReviewEnjoyPoint[]
 }
 
-model ReviewEnjoyPoint{
-  id String @id @default(uuid())
-  name String
+model ReviewEnjoyPoint {
+  id       String      @id @default(uuid())
+  name     String
   reviewId String
-  review MovieReview @relation(fields: [reviewId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  review   MovieReview @relation(fields: [reviewId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
-model ReviewTension{
-  id String @id @default(uuid())
-  name String
+
+model ReviewTension {
+  id       String      @id @default(uuid())
+  name     String
   reviewId String
-  review MovieReview @relation(fields: [reviewId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  review   MovieReview @relation(fields: [reviewId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model ReviewComment {
   id String @id @default(uuid())
 
-  content String @db.LongText
+  content   String   @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   reviewId String
-  review MovieReview @relation(fields: [reviewId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-
+  review   MovieReview @relation(fields: [reviewId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId   String
+  user     User        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
-model FAQ{
-  id String @id @default(uuid())
-  title String
-  content String @db.LongText
+model FAQ {
+  id        String   @id @default(uuid())
+  title     String
+  content   String   @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId     String
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   faqComment FAQComment?
 }
 
-model FAQComment{
-  id String @id @default(uuid())
-  content String @db.LongText
+model FAQComment {
+  id        String   @id @default(uuid())
+  content   String   @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  faqId String @unique
-  faq FAQ @relation(fields: [faqId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  faqId  String @unique
+  faq    FAQ    @relation(fields: [faqId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
-enum UserType{
+enum UserType {
   ADMIN
   USER
 }
 
-enum ReportType{
+enum ReportType {
   PENDING
   IGNORE
   USER_DELETE
 }
 
-enum UserGender{
+enum UserGender {
   MALE
   FEMALE
 }
