@@ -1,3 +1,3 @@
-import { UserModule } from './user/user.module';
-declare const MODULES: (typeof UserModule)[];
+import { AuthModule } from './auth/auth.module';
+declare const MODULES: (typeof AuthModule)[];
 export default MODULES;

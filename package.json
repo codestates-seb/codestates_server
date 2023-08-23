@@ -24,7 +24,8 @@
     "db-prod-migrate": "npx prisma migrate dev",
     "db-prod-seed": "dotenv -e .env npx prisma db seed",
     "db-prod-reset": "npx prisma migrate reset",
-    "db-prod-deploy": "npx prisma migrate deploy" 
+    "db-prod-deploy": "npx prisma migrate deploy",
+    "pm2-start": "pm2 start dist/main.js"
   },
   "dependencies": {
     "@algoan/nestjs-logging-interceptor": "^2.1.17",

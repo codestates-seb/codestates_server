@@ -35,8 +35,8 @@ async function bootstrap() {
         },
     }));
     const swaggerConfig = new swagger_1.DocumentBuilder()
-        .setTitle('[ABC-Lab] Server API')
-        .setDescription('ABC-Lab API 문서입니다.')
+        .setTitle('Movie Review Server API')
+        .setDescription('영화 리뷰 서비스의 API 문서입니다.')
         .setVersion('0.1')
         .addBearerAuth({
         type: 'http',
